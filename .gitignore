@@ -4,4 +4,3 @@
 *.lock
 
 public/bower_components/*
-hello-backbonejs/*

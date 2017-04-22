@@ -1,0 +1,7 @@
+*.sqlite
+*.sass-cache
+*.txt
+*.lock
+
+public/bower_components/*
+hello-backbonejs/*

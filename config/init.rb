@@ -25,7 +25,7 @@ else
   settings.database
 end
 
-DB.create_table? :user do
+DB.create_table? :users do
   primary_key :id
   String :name, :unique=>true
   String :password_digest
@@ -35,47 +35,47 @@ DB.create_table? :user do
   Timestamp :updated_at
 end
 
-DB.create_table? :role do
+DB.create_table? :roles do
   primary_key :id
   String :name, :unique=>true
-  DateTime :created_on
-  DateTime :update_on
+  Timestamp :created_at, null: false
+  Timestamp :updated_at  
 end
 
-DB.create_join_table?(:user_id=>:user, :role_id=>:role) # roles_usernames
+DB.create_join_table?(:role_id=>:roles, :user_id=>:users)
 
-DB.create_table? :snippet do
+DB.create_table? :snippets do
   primary_key :id
   String :filename
   String :body, :size=>100*24
-  DateTime :created_on
-  DateTime :update_on  
-  foreign_key :user_id, :user, :on_delete=>:cascade, :on_update=>:cascade
+  Timestamp :created_at, null: false
+  Timestamp :updated_at
+  foreign_key :user_id, :users, :on_delete=>:cascade, :on_update=>:cascade
 end
 
-DB.create_table? :like_snippet do
+DB.create_table? :like_snippets do
   primary_key :id
-  DateTime :created_on
-  DateTime :update_on    
-  foreign_key :user_id, :user, :on_delete=>:cascade, :on_update=>:cascade
-  foreign_key :snippet_id, :snippet, :on_delete=>:cascade, :on_update=>:cascade 
+  Timestamp :created_at, null: false
+  Timestamp :updated_at  
+  foreign_key :user_id, :users, :on_delete=>:cascade, :on_update=>:cascade
+  foreign_key :snippet_id, :snippets, :on_delete=>:cascade, :on_update=>:cascade 
 end
 
-DB.create_table? :comment_snippet do
+DB.create_table? :comment_snippets do
   primary_key :id
   String :title, :size=>24, :null=>true 
   String :body, :size=>120, :null=>false
   Integer :line_code, :null=>false
-  DateTime :created_on
-  DateTime :update_on
-  foreign_key :user_id, :user, :on_delete=>:cascade, :on_update=>:cascade
-  foreign_key :snippet_id, :snippet, :on_delete=>:cascade, :on_update=>:cascade
+  Timestamp :created_at, null: false
+  Timestamp :updated_at
+  foreign_key :user_id, :users, :on_delete=>:cascade, :on_update=>:cascade
+  foreign_key :snippet_id, :snippets, :on_delete=>:cascade, :on_update=>:cascade
 end
 
 DB.create_table? :followers do
   primary_key :id
-  foreign_key :follower_id, :user, :on_delete=>:cascade, :on_update=>:cascade
-  foreign_key :followed_id, :user, :on_delete=>:cascade, :on_update=>:cascade
+  foreign_key :follower_id, :users, :on_delete=>:cascade, :on_update=>:cascade
+  foreign_key :followed_id, :users, :on_delete=>:cascade, :on_update=>:cascade
 end
 
 # ---- End create tables proccess

@@ -11,21 +11,23 @@ TODO:
 * [x] Create Tables
 * [ ] Implement Capybara for front-end testing
 * [ ] Create Sequel Models
-    * [ ] User
-    * [ ] Role
+    * [x] User
+    * [x] Role
+    * [x] RoleUser
     * [ ] Snippet
     * [ ] LikeSnippet
     * [ ] CommentSnippet
     * [ ] Followers
 * [ ] Unit Test for Sequel Models
-    * [ ] User
-    * [ ] Role
+    * [x] User
+    * [x] Role
+    * [x] RoleUser
     * [ ] Snippet
     * [ ] LikeSnippet
     * [ ] CommentSnippet
     * [ ] Followers
 * [ ] Oauth and Login Sistem
-    * [ ] Implement sequel_secure_password gem
+    * [x] Implement sequel_secure_password gem
     * [ ] Github Oauth
     * [ ] Unit Test for this
 * [ ] Write api that consumes backbone app

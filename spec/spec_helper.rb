@@ -30,6 +30,4 @@ RSpec.configure { |config|
   end
 }
 
-# set test environment
-
 # http://recipes.sinatrarb.com/p/testing/rspec

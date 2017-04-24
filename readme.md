@@ -9,7 +9,6 @@ TODO:
 -----
 
 * [x] Create Tables
-* [ ] Implement Capybara for front-end testing
 * [ ] Create Sequel Models
     * [x] User
     * [x] Role
@@ -33,6 +32,7 @@ TODO:
 * [ ] Write api that consumes backbone app
     * [ ] Unit Test for Models interaction in the API
     * [ ] Front end test with Selenium webdriver
+* [ ] Implement Capybara for front-end testing
 * [ ] Write main front end
   * [ ]  Flash message with help the BMD
   * [ ]  Login Page

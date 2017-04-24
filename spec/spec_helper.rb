@@ -7,6 +7,7 @@ require 'rspec'
 require 'database_cleaner'
 
 module RSpecMixin
+  RSpec::Expectations.configuration.on_potential_false_positives = :nothing
   include Rack::Test::Methods
   def app() Sinatra::Application end
 end

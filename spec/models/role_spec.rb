@@ -42,7 +42,7 @@ describe Role do
       describe 'add role to user' do
         before :each do
            @role = Role.new(:name=>"admin").save
-           @user = User.new(:name => "Audrey", :password=>"123456", :password_confirmation=>"123456").save
+           @user = User.new(:name => "Audrey", :email=>"Audrey@gmail.com", :password=>"123456", :password_confirmation=>"123456").save
         end
         it "should create role~user relation" do
           Role.add_role_to_user(@role, @user)
@@ -53,7 +53,7 @@ describe Role do
       describe 'remove role to user' do
         before :each do
            @role = Role.new(:name=>"admin").save
-           @user = User.new(:name => "Audrey", :password=>"123456", :password_confirmation=>"123456").save
+           @user = User.new(:name => "Audrey", :email=>"Audrey@gmail.com",  :password=>"123456", :password_confirmation=>"123456").save
            @user.add_role(@role)
         end
         it "should create role~user relation" do

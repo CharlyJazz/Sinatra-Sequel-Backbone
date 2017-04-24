@@ -9,10 +9,11 @@ describe User do
     describe "create record and failed proccess" do
       it "should raised because password is not present" do
         expect{User.new(:name => "Maggie").save}.to raise_error(Sequel::ValidationFailed)
+        expect{User.new(:name => "Maggie", :password=>"123456", :password_confirmation=>"123456").save}.to raise_error(Sequel::ValidationFailed)
       end
     describe "create record successfully proccess" do
       before :each do
-        @user = User.new(:name => "Audrey", :password=>"123456", :password_confirmation=>"123456").save
+        @user = User.new(:name => "Audrey", :email=>"Audrey@gmail.com", :password=>"123456", :password_confirmation=>"123456").save
       end
       it "expect create created_at value" do
         expect(@user.id).to eq(1)
@@ -23,7 +24,7 @@ describe User do
     end
     describe "update record successfully proccess" do
       before :each do
-        @user = User.new(:name => "Audrey", :password=>"123456", :password_confirmation=>"123456").save
+        @user = User.new(:name => "Audrey", :email=>"Audrey@gmail.com", :password=>"123456", :password_confirmation=>"123456").save
         @user.update(:name=>"Maxim")
       end
       it "expect create updated_at value" do
@@ -34,7 +35,7 @@ describe User do
     end
     describe "delete record successfully proccess" do
       before :each do
-        @user = User.new(:name => "Audrey", :password=>"123456", :password_confirmation=>"123456").save
+        @user = User.new(:name => "Audrey", :email=>"Audrey@gmail.com", :password=>"123456", :password_confirmation=>"123456").save
       end
       it "expect delete user" do
         @user.delete
@@ -54,7 +55,7 @@ describe User do
     end
     describe "password matches proccess" do
       before :each do
-        @user = User.new(:name => "Audrey", :password=>"123456", :password_confirmation=>"123456").save
+        @user = User.new(:name => "Audrey", :email=>"Audrey@gmail.com", :password=>"123456", :password_confirmation=>"123456").save
       end
       it "expect password matches" do
         expect(@user.password).to eq(123456.to_s) # Passed only string, not integer
@@ -65,7 +66,7 @@ describe User do
     end
     describe "password update proccess" do
       before :each do
-        @user = User.new(:name => "Audrey", :password=>"123456", :password_confirmation=>"123456").save
+        @user = User.new(:name => "Audrey", :email=>"Audrey@gmail.com", :password=>"123456", :password_confirmation=>"123456").save
         @user.update :password=> "654321", :password_confirmation=> "654321"
       end
       it "expect password matches" do

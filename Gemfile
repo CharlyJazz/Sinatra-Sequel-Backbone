@@ -9,6 +9,7 @@ gem 'sequel_secure_password'
 gem "sequel"
 gem 'sqlite3'
 gem "rake"
+gem "language_sniffer", :git => 'git://github.com/grosser/language_sniffer.git', require: false
 
 group :test do #bundle install --without test 
   gem 'factory_girl', '~> 4.0', require: false

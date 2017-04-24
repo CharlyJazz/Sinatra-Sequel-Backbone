@@ -1,8 +1,6 @@
 class Role < Sequel::Model(:roles)
-  # dataset_module for extend class with more methods.
   plugin :timestamps
-  
-  many_to_many :users
+  plugin :validation_helpers
   
   def self.role_exist?(name)
     # Search role, if no exist return false
@@ -22,5 +20,13 @@ class Role < Sequel::Model(:roles)
   def self.remove_role_from_user(role, user)
     user.remove_role(role)
   end
+
+  def validate
+    super
+    validates_presence [:name]
+    validates_format RegexPattern::Username, :name
+  end
+
+  many_to_many :users
 
 end

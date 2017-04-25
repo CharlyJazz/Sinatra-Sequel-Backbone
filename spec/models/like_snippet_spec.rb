@@ -12,19 +12,46 @@ describe LikeSnippet do
       expect(LikeSnippet.simple_table).to eq("`like_snippets`")
     end
   end
-  # describe "create like" do
-  #   it "should create like" do
+  describe "create and remove like" do
+    before :each do
+      @user_like_1.add_like_snippet(:snippet_id=>@snippet.id)
+      @like_snippet = LikeSnippet.first(:user_id=>@user_like_1.id)
+    end
+    it "should create like" do
+      expect(@like_snippet).to be_kind_of(LikeSnippet)
+      expect(@user_like_1.like_snippets.empty?).to eq(false)
+    end
+    it "should remove like" do
+      @like_snippet.destroy
+      expect(@like_snippet).to be_kind_of(LikeSnippet)
+      expect(@user_like_1.like_snippets.empty?).to eq(true)      
+    end
+    describe "check if any user have like in a snippet" do
+      it "should this user not have like" do
+        expect(LikeSnippet.first(:user_id=>@user_like_2.id)).to_not be_kind_of(LikeSnippet)
+      end    
+    end    
+    describe "create several likes" do
+      it "should be two likes" do
+        @user_like_2.add_like_snippet(:snippet_id=>@snippet.id)
+        expect(LikeSnippet.all.length).to eq(2)
+      end    
+    end
+    describe "like snippet special method" do
+      it 'call several times the like add-remove method' do
 
-  #   end
-  # end
-  # describe "remove like" do
-  #   it "should remove like" do
-      
-  #   end    
-  # end
-  # describe "create several likes" do
-  #   it "should be two likes" do
-      
-  #   end    
-  # end
+        LikeSnippet.destroy_or_create(@snippet, @user_like_1) # destroy like
+        expect(LikeSnippet.where(:snippet_id=>@snippet.id, :user_id=>@user_like_1.id).count).to eq(0)
+
+        LikeSnippet.destroy_or_create(@snippet, @user_like_1) # create like
+        expect(LikeSnippet.where(:snippet_id=>@snippet.id, :user_id=>@user_like_1.id).count).to eq(1)
+
+        LikeSnippet.destroy_or_create(@snippet, @user_like_2) # create like
+        expect(LikeSnippet.where(:snippet_id=>@snippet.id, :user_id=>@user_like_2.id).count).to eq(1)
+
+        expect(LikeSnippet.where(:snippet_id=>@snippet.id).count).to eq(2)
+        
+      end
+    end
+  end
 end

@@ -9,9 +9,9 @@ class User < Sequel::Model(:users)
     validates_format RegexPattern::Email, :email
     validates_format RegexPattern::Username, :name
   end
-
+  
   many_to_many :roles
   one_to_many :snippets
   one_to_many :like_snippets
-
+  one_to_many :comment_snippets
 end

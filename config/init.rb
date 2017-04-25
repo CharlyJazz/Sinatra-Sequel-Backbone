@@ -39,7 +39,7 @@ DB.create_table? :roles do
   primary_key :id
   String :name, :unique=>true
   Timestamp :created_at, null: false
-  Timestamp :updated_at  
+  Timestamp :updated_at
 end
 
 DB.create_join_table?(:role_id=>:roles, :user_id=>:users)
@@ -72,10 +72,10 @@ DB.create_table? :comment_snippets do
   foreign_key :snippet_id, :snippets, :on_delete=>:cascade, :on_update=>:cascade
 end
 
-DB.create_table? :followers do
+DB.create_table? :relationships do
   primary_key :id
-  foreign_key :follower_id, :users, :on_delete=>:cascade, :on_update=>:cascade
-  foreign_key :followed_id, :users, :on_delete=>:cascade, :on_update=>:cascade
+  foreign_key :followed_id, :users, :on_update => :cascade, :on_delete => :cascade
+  foreign_key :follower_id, :users, :on_update => :cascade, :on_delete => :cascade
 end
 
 # ---- End create tables proccess
@@ -83,7 +83,6 @@ end
 helpers do
   include Rack::Utils
   alias_method :h, :escape_html
-
   # partial helper taken from Sam Elliot (aka lenary) at http://gist.github.com/119874
   # which itself was based on Chris Schneider's implementation:
   # http://github.com/cschneid/irclogger/blob/master/lib/partials.rb

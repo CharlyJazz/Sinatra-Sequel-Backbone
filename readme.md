@@ -9,22 +9,22 @@ TODO:
 -----
 
 * [x] Create Tables
-* [ ] Create Sequel Models
+* [x] Create Sequel Models
     * [x] User
     * [x] Role
     * [x] RoleUser
-    * [ ] Snippet
-    * [ ] LikeSnippet
-    * [ ] CommentSnippet
-    * [ ] Followers
-* [ ] Unit Test for Sequel Models
+    * [x] Snippet
+    * [x] LikeSnippet
+    * [x] CommentSnippet
+    * [x] Followers
+* [x] Unit Test for Sequel Models
     * [x] User
     * [x] Role
     * [x] RoleUser
-    * [ ] Snippet
-    * [ ] LikeSnippet
-    * [ ] CommentSnippet
-    * [ ] Followers
+    * [x] Snippet
+    * [x] LikeSnippet
+    * [x] CommentSnippet
+    * [x] Followers
 * [ ] Oauth and Login Sistem
     * [x] Implement sequel_secure_password gem
     * [ ] Github Oauth

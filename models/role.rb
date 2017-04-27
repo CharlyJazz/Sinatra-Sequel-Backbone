@@ -8,7 +8,7 @@ class Role < Sequel::Model(:roles)
   end
 
   def self.find_role_or_create(name)
-    # Search role and return Dataset, if no exist crete role and return Dataset
+    # Search role and return Dataset, if no exist create role and return Dataset
     find_or_create(:name=>name)
   end
 

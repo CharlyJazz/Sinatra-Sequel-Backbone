@@ -17,6 +17,7 @@ TODO:
     * [x] LikeSnippet
     * [x] CommentSnippet
     * [x] Followers
+    * [x] Tags    
 * [x] Unit Test for Sequel Models
     * [x] User
     * [x] Role
@@ -25,6 +26,7 @@ TODO:
     * [x] LikeSnippet
     * [x] CommentSnippet
     * [x] Followers
+    * [x] Tags    
 * [ ] Oauth and Login Sistem
     * [x] Implement sequel_secure_password gem
     * [ ] Github Oauth

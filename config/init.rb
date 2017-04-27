@@ -78,6 +78,17 @@ DB.create_table? :relationships do
   foreign_key :follower_id, :users, :on_update => :cascade, :on_delete => :cascade
 end
 
+
+DB.create_table? :tags do
+  primary_key :id
+  String :name, :size=>24
+  String :description, :size=>36
+  Timestamp :created_at, null: false
+  Timestamp :updated_at
+end
+
+DB.create_join_table?(:tag_id=>:tags, :snippet_id=>:snippets)
+
 # ---- End create tables proccess
 
 helpers do

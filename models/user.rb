@@ -12,6 +12,8 @@ class User < Sequel::Model(:users)
   
   many_to_many :roles
   one_to_many :snippets
+  one_to_many :proyects
+  one_to_many :like_proyects
   one_to_many :like_snippets
   one_to_many :comment_snippets
 end

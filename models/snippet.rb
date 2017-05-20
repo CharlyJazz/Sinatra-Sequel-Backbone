@@ -17,6 +17,7 @@ class Snippet < Sequel::Model(:snippets)
 
   many_to_one :users
   many_to_many :tags
+  many_to_one :proyect_has_snippet
   one_to_many :like_snippets
 
 end

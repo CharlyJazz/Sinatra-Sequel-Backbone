@@ -1,3 +1,4 @@
+
 class Role < Sequel::Model(:roles)
   plugin :timestamps
   plugin :validation_helpers

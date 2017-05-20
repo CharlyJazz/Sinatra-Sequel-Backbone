@@ -1,17 +1,17 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe User do
-    describe "should be the literal table name" do
-      it "expect return true" do
-        expect(User.simple_table).to eq("`users`")
-      end
+  describe "should be the literal table name" do
+    it "expect return true" do
+      expect(User.simple_table).to eq("`users`")
     end
-    describe "create record and failed proccess" do
-      it "should raised because password is not present" do
-        expect{User.new(:name => "Maggie").save}.to raise_error(Sequel::ValidationFailed)
-        expect{User.new(:name => "Maggie", :password=>"123456", :password_confirmation=>"123456").save}.to raise_error(Sequel::ValidationFailed)
-      end
-    describe "create record successfully proccess" do
+  end
+  context "create record and failed proccess" do
+    it "should raised because password is not present" do
+      expect{User.new(:name => "Maggie").save}.to raise_error(Sequel::ValidationFailed)
+      expect{User.new(:name => "Maggie", :password=>"123456", :password_confirmation=>"123456").save}.to raise_error(Sequel::ValidationFailed)
+    end
+    context "create record successfully proccess" do
       before :each do
         @user = User.new(:name => "Audrey", :email=>"Audrey@gmail.com", :password=>"123456", :password_confirmation=>"123456").save
       end
@@ -19,10 +19,10 @@ describe User do
         expect(@user.id).to eq(1)
         expect(@user.name).to eq("Audrey")
         expect(@user.created_at).to be_kind_of(Time)
-        expect(@user.updated_at).to be_kind_of(NilClass)        
+        expect(@user.updated_at).to be_kind_of(NilClass)
       end
     end
-    describe "update record successfully proccess" do
+    context "update record successfully proccess" do
       before :each do
         @user = User.new(:name => "Audrey", :email=>"Audrey@gmail.com", :password=>"123456", :password_confirmation=>"123456").save
         @user.update(:name=>"Maxim")
@@ -33,7 +33,7 @@ describe User do
         expect(@user.updated_at).to be_kind_of(Time)
       end
     end
-    describe "delete record successfully proccess" do
+    context "delete record successfully proccess" do
       before :each do
         @user = User.new(:name => "Audrey", :email=>"Audrey@gmail.com", :password=>"123456", :password_confirmation=>"123456").save
       end
@@ -45,15 +45,15 @@ describe User do
       it "expect delete user" do
         User.first(:id=>1).delete
         expect(User.first(:id=>1)).to eq(nil)
-        expect(User.empty?).to eq(true)        
+        expect(User.empty?).to eq(true)
       end
       it "expect delete user" do
-        User.first("name = ? and id=?", "Audrey", 1).delete
+        User.first(:name=>"Audrey", :id=>1).delete
         expect(User.first(:id=>1)).to eq(nil)
-        expect(User.empty?).to eq(true)        
-      end      
+        expect(User.empty?).to eq(true)
+      end
     end
-    describe "password matches proccess" do
+    context "password matches proccess" do
       before :each do
         @user = User.new(:name => "Audrey", :email=>"Audrey@gmail.com", :password=>"123456", :password_confirmation=>"123456").save
       end
@@ -64,7 +64,7 @@ describe User do
         expect(@user.password).to_not eq(123456)
       end
     end
-    describe "password update proccess" do
+    context "password update proccess" do
       before :each do
         @user = User.new(:name => "Audrey", :email=>"Audrey@gmail.com", :password=>"123456", :password_confirmation=>"123456").save
         @user.update :password=> "654321", :password_confirmation=> "654321"
@@ -75,6 +75,6 @@ describe User do
       it "expect password not matches" do
         expect(@user.password).to_not eq(123456) # Old password
       end
-    end 
+    end
   end
 end

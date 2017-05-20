@@ -1,3 +1,4 @@
+Bundler.require(:default)
 require 'sinatra/sequel'
 require 'sqlite3'
 
@@ -19,11 +20,7 @@ Dir["./models/**/*.rb"].each{ |model|
 
 # ---- Begin create tables proccess
 
-DB = if ENV['RACK_ENV'] == 'rake'
-  Sequel.connect('sqlite://tmp/test.sqlite')
-else
-  settings.database
-end
+DB = settings.database
 
 DB.create_table? :users do
   primary_key :id
@@ -56,14 +53,14 @@ end
 DB.create_table? :like_snippets do
   primary_key :id
   Timestamp :created_at, null: false
-  Timestamp :updated_at  
+  Timestamp :updated_at
   foreign_key :user_id, :users, :on_delete=>:cascade, :on_update=>:cascade
-  foreign_key :snippet_id, :snippets, :on_delete=>:cascade, :on_update=>:cascade 
+  foreign_key :snippet_id, :snippets, :on_delete=>:cascade, :on_update=>:cascade
 end
 
 DB.create_table? :comment_snippets do
   primary_key :id
-  String :title, :size=>24, :null=>true 
+  String :title, :size=>24, :null=>true
   String :body, :size=>120, :null=>false
   Integer :line_code, :null=>false
   Timestamp :created_at, null: false
@@ -78,7 +75,6 @@ DB.create_table? :relationships do
   foreign_key :follower_id, :users, :on_update => :cascade, :on_delete => :cascade
 end
 
-
 DB.create_table? :tags do
   primary_key :id
   String :name, :size=>24
@@ -89,7 +85,34 @@ end
 
 DB.create_join_table?(:tag_id=>:tags, :snippet_id=>:snippets)
 
+DB.create_table? :proyects do
+  primary_key :id
+  String :name, :size=>80
+  String :description, :size=>120
+  Timestamp :created_at, null: false
+  Timestamp :updated_at
+  foreign_key :user_id, :users, :on_delete=>:cascade, :on_update=>:cascade
+end
+
+DB.create_table? :proyect_has_snippet do
+  primary_key :id
+  Timestamp :created_at, null: false
+  Timestamp :updated_at
+  foreign_key :proyect_id, :proyects, :on_delete=>:cascade, :on_update=>:cascade
+  foreign_key :snippet_id, :snippets, :on_delete=>:cascade, :on_update=>:cascade
+end
+
+DB.create_table? :like_proyects do
+  primary_key :id
+  Timestamp :created_at, null: false
+  Timestamp :updated_at
+  foreign_key :user_id, :users, :on_delete=>:cascade, :on_update=>:cascade
+  foreign_key :proyect_id, :proyects, :on_delete=>:cascade, :on_update=>:cascade
+end
+
 # ---- End create tables proccess
+
+=begin
 
 helpers do
   include Rack::Utils
@@ -112,3 +135,5 @@ helpers do
     end
   end
 end
+
+=end

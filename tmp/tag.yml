@@ -1,3 +1,4 @@
+---
 javascript: language
 ember: framework
 backbone: framework
@@ -7,6 +8,8 @@ react: framework
 inferno: framework
 python: language
 django: framework
+vue: framework
+capybara: framework
 flask: micro-framework
 nodejs: cross-platform
 docket: software containers

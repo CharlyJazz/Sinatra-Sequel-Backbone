@@ -5,7 +5,7 @@ class RelationShip < Sequel::Model(:relationships)
   end
 
   def self.follow_or_unfollow(follower, followed)
-    if self.following?(follower, followed) then
+    if self.following?(follower, followed)
       first(:followed_id=>followed.id, :follower_id=>follower.id).destroy
     else
       create(:follower_id=>follower.id, :followed_id=>followed.id)

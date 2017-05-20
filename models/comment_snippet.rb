@@ -7,7 +7,7 @@ class CommentSnippet < Sequel::Model(:comment_snippets)
     validates_presence [:body, :line_code]
     validates_max_length 120, :body
     validates_integer :line_code
-  end  
+  end
 
   many_to_one :users
   many_to_one :snippets

@@ -10,14 +10,14 @@ describe 'YAML File' do
   end
 end
 
-describe Tag do
+context Tag do
   it "should return true" do
     expect(Tag.simple_table).to eq("`tags`")
   end
   it "should no have tag javascript" do
     expect(Tag.where(:name=>"javascript").empty?).to eq(true)
   end
-  describe "crud tag" do
+  context "crud tag" do
     before :each do
       YAML.load_file(Dir["tmp"][0] + '/tag.yml').each { |k,v|
         Tag.create(:name=>k, :description=>v)

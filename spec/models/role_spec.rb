@@ -5,8 +5,8 @@ describe Role do
       it "expect return true" do
         expect(Role.simple_table).to eq("`roles`")
       end
-    end  
-    describe 'create role proccess' do
+    end
+    context 'create role proccess' do
       before :each do
         @role = Role.new(:name=>"user").save
       end
@@ -16,7 +16,7 @@ describe Role do
         expect(@role.created_at).to be_kind_of(Time)
       end
     end
-    describe 'search a role' do
+    context 'search a role' do
       before :each do
         @role = Role.new(:name=>"user").save
       end
@@ -27,7 +27,7 @@ describe Role do
         expect(Role.first(:name => "admin")).to_not be_kind_of(Role)
       end
     end
-    describe 'role special methods' do
+    context 'role special methods' do
       it "find or create, should will create" do
         Role.find_role_or_create("user")
         expect(Role.first(:name=>"user")).to be_kind_of(Role)
@@ -39,7 +39,7 @@ describe Role do
         Role.find_role_or_create("admin")
         expect(Role.role_exist?("admin")).to eq(true)
       end
-      describe 'add role to user' do
+      context 'add role to user' do
         before :each do
            @role = Role.new(:name=>"admin").save
            @user = User.new(:name => "Audrey", :email=>"Audrey@gmail.com", :password=>"123456", :password_confirmation=>"123456").save
@@ -50,7 +50,7 @@ describe Role do
           expect(RoleUser.first(:user_id=>@user.id).role_id).to eq(1)
         end
       end
-      describe 'remove role to user' do
+      context 'remove role to user' do
         before :each do
            @role = Role.new(:name=>"admin").save
            @user = User.new(:name => "Audrey", :email=>"Audrey@gmail.com",  :password=>"123456", :password_confirmation=>"123456").save

@@ -10,7 +10,7 @@ Status: **building** :construction:
 
 TODO:
 -----
-* [ ] Read: [RubyMine Keyboard Shortcuts](https://www.jetbrains.com/help/ruby/2017.1/keyboard-shortcuts-you-cannot-miss.html)
+* [ ] Read: [Sequel json plugin](https://stackoverflow.com/questions/9922336/generating-json-for-sinatra?rq=1)
 * [ ] Test delete all models for prevent delete in cascade error
 * [x] Create Tables
 * [ ] Create task
@@ -32,7 +32,6 @@ TODO:
     * [ ] LikeProyect
     * [ ] Comment Proyect
 * [ ] Unit Test for Sequel Models
-    * [ ] Refactor with FactoryGirl
     * [x] User
     * [x] Role
     * [x] RoleUser
@@ -41,13 +40,13 @@ TODO:
     * [x] CommentSnippet
     * [x] Followers
     * [x] Tags
-    * [ ] Proyects
-    * [ ] LikeProyect
+    * [x] Proyects
+    * [x] LikeProyect
     * [ ] Comment Proyect
 * [ ] API REST JSON & Unit Test
     * [ ] Login & Logout
-    * [ ] Change Password
-    * [ ] Register User
+    * [x] Change Password
+    * [x] Register User
     * [ ] CRUD For Snippet
     * [ ] UnLike/Like Snippet
     * [ ] CRUD Comment Snippet
@@ -78,3 +77,9 @@ TODO:
   * [ ]  General Comments snippet
   * [ ]  Like snippet
 * [ ] Backbone App
+
+
+
+https://github.com/jeremyevans/sequel/blob/master/lib/sequel/plugins/json_serializer.rb
+http://sequel.jeremyevans.net/rdoc-plugins/classes/Sequel/Plugins/JsonSerializer.html
+http://sequel.jeremyevans.net/rdoc-plugins/classes/Sequel/Plugins/Serialization.html

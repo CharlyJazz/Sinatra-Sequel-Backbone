@@ -2,14 +2,12 @@ ENV['RACK_ENV'] = 'test'
 
 require File.join(File.dirname(__FILE__), '..', 'app.rb')
 
-require 'rack/test'
-require 'rspec'
-require 'database_cleaner'
+Bundler.require(:test)
 
 module RSpecMixin
   RSpec::Expectations.configuration.on_potential_false_positives = :nothing
   include Rack::Test::Methods
-  def app() Sinatra::Application end
+  def app() App.new end
 end
 
 RSpec.configure { |config|

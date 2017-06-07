@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'rack'
 gem 'sinatra'
 gem 'sinatra-extension'
 gem 'sinatra-flash'
@@ -16,8 +17,6 @@ group :test, :development do #  bundle install --with test development
 end
 
 group :test do #  bundle install --with test 
-  gem 'factory_girl', '~> 4.0', require: false
-  gem 'webmock'
   gem 'rspec'
   gem 'rack-test'
   gem 'capybara', '~>2.12.0'

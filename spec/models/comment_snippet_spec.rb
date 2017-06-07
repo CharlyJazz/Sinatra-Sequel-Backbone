@@ -27,10 +27,19 @@ describe CommentSnippet do
       end
     end
     context "delete comment" do
-      before :each do
-        CommentSnippet.first(:snippet_id=>@snippet.id, :user_id=>@user_comment.id).destroy
+      let(:comment) {CommentSnippet.first(:title=>"The sad code")}
+      it "should delete comment" do
+        @user_comment.remove_comment_snippet(comment)
+        expect(@user_comment.comment_snippets.count).to eq 0
+        comment.destroy
+        expect(CommentSnippet.all.count).to eq 0
+        expect(CommentSnippet.where(:snippet_id=>@snippet.id).count).to eq(0)
       end
-      it 'should create' do
+      it "should delete comment with a way more easy" do
+        CommentSnippet.delete_comment comment.id
+
+        expect(@user_comment.comment_snippets.count).to eq 0
+        expect(CommentSnippet.all.count).to eq 0
         expect(CommentSnippet.where(:snippet_id=>@snippet.id).count).to eq(0)
       end
     end

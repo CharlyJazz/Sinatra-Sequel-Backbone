@@ -5,7 +5,20 @@ module Sinatra
 
     def self.registered(app)
 
-      app.get '/user/' do
+      app.set(:validate) do |*params_array|
+        condition do
+          params_array.any? do |k|
+            unless params.key?(k)
+              halt 404, {:response=>"Any parameter are empty or nule"}.to_json
+            end
+          end
+
+          true # Continue :)
+
+        end
+      end
+
+      app.get '/user' do
         # All users
         User.all.to_json
       end
@@ -16,7 +29,7 @@ module Sinatra
         user.to_json
       end
 
-      app.post '/user/' do
+      app.post '/user', :validate => [:name, :email, :password, :password_confirmation] do
         # Create User
         check_regex(Username, params['name'])
         check_regex(Email, params['email'])
@@ -30,9 +43,9 @@ module Sinatra
         user.to_json
       end
 
-      app.put '/user/:id/' do
+      app.put '/user/:id', :validate => [:name, :email, :password, :password_confirmation] do
         # Update User
-        user =  User.for_update.first(:id=>params['id'])
+        user = User.for_update.first(:id=>params['id'])
         if user.equal?(nil)
           halt 404, {:response=>"Resource no found"}.to_json
         else
@@ -50,13 +63,12 @@ module Sinatra
         end
       end
 
-      app.patch '/user/:id/:attr' do
+      app.patch '/user/:id/:attr' , :validate => [:value] do
         # User update one attribute
         user = User.for_update.first(:id=>params['id'])
         if user.equal?(nil)
           halt 404, {:response=>"Resource no found"}.to_json
         else
-          # TODO: protect this eval
           eval("user." + params[:attr] + " = '#{params[:value]}'")
           user.save :validate=>false # Prevent exception for validation plugin
         end
@@ -65,13 +77,7 @@ module Sinatra
 
       app.delete '/user/:id' do
         # Delete User
-        c = 0
-        params['id'].split(',').each { |n|
-          user = check_if_resource_exist(User, n)
-          user.delete
-          c += 1
-        }
-        {:response=>"Resources deleted: #{c}"}.to_json
+        delete_record(User, params['id'].split(','))
       end
 
       app.patch '/role/:role/user/:id' do
@@ -103,9 +109,8 @@ module Sinatra
           end
         end
       end
+
     end
   end
-
   register UserResources
-
 end

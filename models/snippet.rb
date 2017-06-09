@@ -4,6 +4,7 @@ require 'language_sniffer'
 class Snippet < Sequel::Model(:snippets)
   plugin :timestamps
   plugin :validation_helpers
+  plugin :json_serializer
   
   def self.detect_lang(snippet)
     LanguageSniffer.detect(snippet.filename).language.name

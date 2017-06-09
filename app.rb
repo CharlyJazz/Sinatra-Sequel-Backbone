@@ -8,6 +8,7 @@ class App
 
   def initialize
     @app = Rack::Builder.app do
+      # TODO: cuando termine la api elimino este bucle y creo bien los middleware
       [WEB, API].each do |e|
         map(e.prefix) { run(e.new) }
       end

@@ -16,7 +16,7 @@ module ServicesHelpers
         # original del modelo a editar entonces nos salimos de aca
         return
 
-      elsif model.where{Sequel.&(Sequel.~(:id=> except_id), ({attr.to_sym=>string}))}.kind_of? User
+      elsif model.where{Sequel.&(Sequel.~(:id=> except_id), ({attr.to_sym=>string}))}.kind_of? model
         # Si es el correo, o la clave o cualquiera que sea el campo
         # original de un modelo que no es el que hay que editar entonces
         # significa que no podemos editarlo porque deberia ser unique=true
@@ -34,10 +34,22 @@ module ServicesHelpers
     end
   end
   def check_if_resource_exist(model, id)
-    user = model.first(:id=>id)
-    if user.equal?(nil)
+    record = model.first(:id=>id)
+    if record.equal?(nil)
       halt 404, {:response=>"Resource no found"}.to_json
     end
-    user
+    record
+  end
+  def delete_record(model, id)
+    c = 0
+    id.each { |n|
+      record = check_if_resource_exist(model, n)
+      record.delete
+      c += 1
+    }
+    {:response=>"Resources deleted: #{c}"}.to_json
+  end
+  def params_404
+    halt 404, {:response=>"Any parameter are empty or nule"}.to_json
   end
 end

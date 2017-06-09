@@ -8,7 +8,7 @@ describe User do
     end
     context "get all users" do
       it "should response all user" do
-        get "/api/user/"
+        get "/api/user"
 
         expect(last_response.status).to eq 200
       end
@@ -17,17 +17,19 @@ describe User do
       it "should response a user" do
         get "/api/user/1"
 
+        expect(JSON.parse(last_response.body)["name"]).to eq "SnippetMan"
         expect(last_response.status).to eq 200
       end
       it "should not found the resource" do
         get "/api/user/2"
 
+        expect(JSON.parse(last_response.body)["response"]).to eq "Resource no found"
         expect(last_response.status).to eq 404
       end
     end
     context "create user" do
 
-      let(:route) {"/api/user/?name=carl3os&password=1232dsa&password_confirmation=1232dsa&email=carl3os@gmail.com"}
+      let(:route) {"/api/user?name=carl3os&password=1232dsa&password_confirmation=1232dsa&email=carl3os@gmail.com"}
 
       it "should create a user" do
         1.times { post route }
@@ -35,7 +37,7 @@ describe User do
         expect(last_response.status).to eq 200
         expect(User.all().count).to eq 2
       end
-      it "should response 404" do
+      it "should create one user and response 404" do
         2.times { post route }
 
         expect(last_response.status).to eq 404
@@ -43,13 +45,14 @@ describe User do
       end
     end
     context "edit user" do
-      let(:route_id_false) {"/api/user/2/?name=SnippetMan&password=snippet123123password_confirmation=snippet123123&email=SnippetMan@gmail.com"}
-      let(:route_id_true) {"/api/user/1/?name=carl3os&password=1232dsa&password_confirmation=1232dsa&email=carl3os@gmail.com"}
-      let(:route_edit_password) {"/api/user/1/?name="+@user.name+"&password=1232dsa&password_confirmation=1232dsa&email="+@user.email}
+      let(:route_id_false) {"/api/user/2?name=SnippetMan&password=snippet123123&password_confirmation=snippet123123&email=SnippetMan@gmail.com"}
+      let(:route_id_true) {"/api/user/1?name=carl3os&password=1232dsa&password_confirmation=1232dsa&email=carl3os@gmail.com"}
+      let(:route_edit_password) {"/api/user/1?name="+@user.name+"&password=1232dsa&password_confirmation=1232dsa&email="+@user.email}
 
       it "Pass an id that does not exist" do
         put route_id_false
 
+        expect(JSON.parse(last_response.body)["response"]).to eq "Resource no found"
         expect(last_response.status).to eq 404
       end
       it "Pass an id that exist and edit all attributes" do
@@ -89,13 +92,13 @@ describe User do
                    :password=>n.to_s+"123456", :password_confirmation=>n.to_s+"123456").save
         }
       end
-        it 'should delete 3 users' do
-          delete '/api/user/1,2,3,4'
+      it 'should delete 4 users' do
+        delete '/api/user/1,2,3,4'
 
-          expect(JSON.parse(last_response.body)['response']).to eq("Resources deleted: 4")
-          expect(last_response.status).to eq 200
-          expect(User.all.count).to eq 0
-        end
+        expect(JSON.parse(last_response.body)['response']).to eq("Resources deleted: 4")
+        expect(last_response.status).to eq 200
+        expect(User.all.count).to eq 0
+      end
     end
     describe "Role functionality" do
       before :each do

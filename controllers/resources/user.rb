@@ -19,28 +19,26 @@ module Sinatra
       end
 
       app.get '/user' do
-        # All users
+        # Read all users
         User.all.to_json
       end
 
       app.get '/user/:id' do
-        # Read User
-        user = check_if_resource_exist(User, params['id'])
-        user.to_json
+        # Read one user by id
+        check_if_resource_exist(User, params['id']).to_json
       end
 
       app.post '/user', :validate => [:name, :email, :password, :password_confirmation] do
-        # Create User
+        # Create user
         check_regex(Username, params['name'])
         check_regex(Email, params['email'])
         check_password_confirmation(params['password'], params['password_confirmation'])
         check_if_data_resource_exist(User, 'name', params['name'])
         check_if_data_resource_exist(User, 'email', params['email'])
-        user = User.create(:name=>params['name'],
-                           :email=>params['email'],
-                           :password=>params['password'],
-                           :password_confirmation=>params['password_confirmation']).save()
-        user.to_json
+        User.create(:name=>params['name'],
+                    :email=>params['email'],
+                    :password=>params['password'],
+                    :password_confirmation=>params['password_confirmation']).save().to_json
       end
 
       app.put '/user/:id', :validate => [:name, :email, :password, :password_confirmation] do
@@ -58,13 +56,12 @@ module Sinatra
           user.email = params['email']
           user.password = params['password']
           user.password_confirmation = params['password_confirmation']
-          user.save
-          user.to_json
+          user.save.to_json
         end
       end
 
       app.patch '/user/:id/:attr' , :validate => [:value] do
-        # User update one attribute
+        # Update one attribute of user
         user = User.for_update.first(:id=>params['id'])
         if user.equal?(nil)
           halt 404, {:response=>"Resource no found"}.to_json
@@ -76,12 +73,12 @@ module Sinatra
       end
 
       app.delete '/user/:id' do
-        # Delete User
+        # Delete user
         delete_record(User, params['id'].split(','))
       end
 
       app.patch '/role/:role/user/:id' do
-        # Change role of User
+        # Update role of User
         user = User.first(:id=>params['id'])
         if user.equal?(nil)
           halt 404, {:response=>"Resource no found"}.to_json
@@ -111,6 +108,7 @@ module Sinatra
       end
 
     end
+
   end
   register UserResources
 end

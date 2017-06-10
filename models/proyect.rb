@@ -1,6 +1,7 @@
 class Proyect < Sequel::Model(:proyects)
   plugin :timestamps
   plugin :validation_helpers
+  plugin :json_serializer
 
   def self.add_snippets(proyect, snippets={})
     count = 0

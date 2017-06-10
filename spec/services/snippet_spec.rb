@@ -95,10 +95,103 @@ describe Snippet do
       expect(Snippet.all.count).to eq 0
     end
   end
-  describe "Special resources" do
-    context "get snippets by programming language" do
-
+  describe "Snippet Comments" do
+    before :each do
+      @user_comment = User.new(:name => "SuperMan", :email=>"SuperMan@gmail.com",
+                               :password=>"123456", :password_confirmation=>"123456").save
     end
-    # TODO: add and remove like, response likes
+    context "get all comments of snippet" do
+      before :each do
+        3.times { @user_comment.add_comment_snippet(:body=>"Sad", :line_code=>2, :snippet_id=>@snippet.id) }
+      end
+      it "should return 2 comments" do
+        get 'api/snipppet/1/comment'
+
+        expect(JSON.parse(last_response.body).count).to eq 3
+        expect(last_response.status).to eq 200
+      end
+    end
+    context "create comment snippet" do
+
+      let(:route_true) {'/api/snipppet/1/comment?body=aaaaaaaa&title=lorem&user_id=2&line_code=15'}
+      let(:route_snippet_false) {'/api/snipppet/2/comment?body=aaaaaaaa&title=lorem&user_id=2&line_code=15'}
+      let(:route_user_false) {'/api/snipppet/2/comment?body=aaaaaaaa&title=lorem&user_id=5&line_code=15'}
+
+      context "pass routes correctly" do
+        it "should create" do
+          post route_true
+
+          expect(CommentSnippet.where(:snippet_id=>1).count).to eq 1
+        end
+      end
+      context "pass routes with id snippet false" do
+        it "should no created and 404" do
+          post route_snippet_false
+
+          expect(JSON.parse(last_response.body)["response"]).to eq "Resource no found"
+          expect(CommentSnippet.where(:snippet_id=>1).count).to eq 0
+        end
+      end
+      context "pass routes with id user false" do
+        it "should no created" do
+          post route_user_false
+
+          expect(JSON.parse(last_response.body)["response"]).to eq "Resource no found"
+          expect(CommentSnippet.where(:snippet_id=>1).count).to eq 0
+        end
+      end
+    end
+    context "edit, delete and comment snippet" do
+      before :each do
+        @user_comment.add_comment_snippet(:body=>"Sad", :line_code=>2, :snippet_id=>@snippet.id)
+      end
+      context "pass route for edit" do
+        it "should edit comment snippet" do
+          put '/api/snippet/1/comment/1?body=nuevo&title=nuevo&line_code=4'
+
+          expect(CommentSnippet[1].body).to eq "nuevo"
+          expect(CommentSnippet[1].title).to eq "nuevo"
+          expect(CommentSnippet[1].line_code).to eq 4
+        end
+      end
+      context "pass route for delete" do
+        it "should delete one comment" do
+          delete '/api/snippet/1/comment/1'
+
+          expect(CommentSnippet.all.count).to eq 0
+          expect(CommentSnippet.where(:snippet_id=>1).count).to eq 0
+        end
+        context "pass several id comment" do
+          before :each do
+            3.times {@user_comment.add_comment_snippet(:body=>"Sad", :line_code=>2, :snippet_id=>@snippet.id)}
+          end
+          it "should delete several comment" do
+            delete '/api/snippet/1/comment/1,2,3'
+
+            expect(JSON.parse(last_response.body)['response']).to eq("Resources deleted: 3")
+            expect(CommentSnippet.all.count).to eq 1
+          end
+        end
+      end
+    end
+  end
+  context "like and unlike the snippet" do
+    before :each do
+      @user_like = User.new(:name => "Audrey", :email=>"Audrey@gmail.com",
+                              :password=>"123456", :password_confirmation=>"123456").save
+    end
+    it "should create like and delete like" do
+      post '/api/snippet/1/like/2'
+
+      expect(JSON.parse(last_response.body)["response"]).to eq "like"
+      expect(JSON.parse(last_response.body)["likes"]).to eq 1
+      expect(LikeSnippet.where(:snippet_id=>@snippet.id, :user_id=>@user_like.id).count).to eq(1)
+
+      post '/api/snippet/1/like/2'
+
+      expect(JSON.parse(last_response.body)["response"]).to eq "unlike"
+      expect(JSON.parse(last_response.body)["likes"]).to eq 0
+      expect(LikeSnippet.where(:snippet_id=>@snippet.id, :user_id=>@user_like.id).count).to eq(0)
+    end
   end
 end

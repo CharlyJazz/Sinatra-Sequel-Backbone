@@ -1,6 +1,7 @@
 class CommentProyect< Sequel::Model(:comment_proyects)
   plugin :timestamps
   plugin :validation_helpers
+  plugin :json_serializer
 
   def self.delete_comment id_comment
     @comment = CommentProyect[id_comment]
@@ -17,5 +18,6 @@ class CommentProyect< Sequel::Model(:comment_proyects)
 
   many_to_one :users
   many_to_one :proyects
+  one_to_many :comment_proyects
 
 end

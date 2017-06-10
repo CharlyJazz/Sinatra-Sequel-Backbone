@@ -52,4 +52,11 @@ module ServicesHelpers
   def params_404
     halt 404, {:response=>"Any parameter are empty or nule"}.to_json
   end
+  def check_nil_string arg
+    arg.each { |n|
+      if n.empty? || n.nil?
+        params_404
+      end
+    }
+  end
 end

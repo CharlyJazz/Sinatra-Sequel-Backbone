@@ -93,7 +93,6 @@ module Sinatra
 
       app.post '/snippet/:id/like/:user_id' do
         # Create or Delete like
-
         snippet  = check_if_resource_exist(Snippet, params['id'])
         user = check_if_resource_exist(User, params['user_id'])
         like = LikeSnippet.destroy_or_create(snippet, user)

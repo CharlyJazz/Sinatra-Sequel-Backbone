@@ -1,6 +1,7 @@
 require './controllers/helpers/services_helper'
 require './controllers/resources/user'
 require './controllers/resources/snippet'
+require './controllers/resources/proyect'
 
 class API < Sinatra::Base
   include Endpoint
@@ -13,5 +14,6 @@ class API < Sinatra::Base
 
   register Sinatra::UserResources
   register Sinatra::SnippetResources
+  register Sinatra::ProyectResources
 
 end

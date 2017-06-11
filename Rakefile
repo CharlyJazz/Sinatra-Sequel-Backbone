@@ -12,7 +12,6 @@ end
 
 namespace :db do
   task :create do
-    # Create database for tests
     puts DB
   end
 

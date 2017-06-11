@@ -142,5 +142,51 @@ describe User do
         end
       end
     end
+    describe "followers functionality" do
+      before :each do
+        3.times { |n|
+          User.new(:name=>n.to_s+"abcdef", :email=>n.to_s+"abcdf@gmail.com",
+                   :password=>n.to_s+"123456", :password_confirmation=>n.to_s+"123456").save
+        }
+      end
+      it "should follow and unfollow" do
+        post '/api/user/2/follow/1'
+
+        expect(JSON.parse(last_response.body)['response']).to eq 1
+
+        post '/api/user/2/follow/1'
+
+        expect(JSON.parse(last_response.body)['response']).to eq 0
+      end
+      it "should followers 3" do
+        post '/api/user/1/follow/4'
+        post '/api/user/2/follow/4'
+        post '/api/user/3/follow/4'
+
+        expect(JSON.parse(last_response.body)['response']).to eq 3
+      end
+      context "users following you" do
+        it "should response 3 users" do
+          post '/api/user/2/follow/1'
+          post '/api/user/3/follow/1'
+          post '/api/user/4/follow/1'
+
+          get '/api/user/1/followers'
+
+          expect(JSON.parse(last_response.body)['response']).to eq 3
+        end
+      end
+      context "users you follow" do
+        it "should return 3 users" do
+          post '/api/user/1/follow/2'
+          post '/api/user/1/follow/4'
+          post '/api/user/1/follow/3'
+
+          get '/api/user/1/follow'
+
+          expect(JSON.parse(last_response.body)['response']).to eq 3
+        end
+      end
+    end
   end
 end

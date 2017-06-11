@@ -33,5 +33,6 @@ class Proyect < Sequel::Model(:proyects)
   many_to_one :users
   one_to_many :proyect_has_snippet
   one_to_many :like_proyects
+  one_to_many :comment_proyects
   
 end

@@ -2,7 +2,7 @@
 
 Feature:
 -----
-Simple web app for create snippets and comments with de power of Backbone and Sinatra simple style architecture.
+Simple web app for create snippets and comments with de power of Backbone and Sinatra rare style architecture.
 
 
 Status: **building** :construction:
@@ -10,7 +10,6 @@ Status: **building** :construction:
 
 TODO:
 -----
-* [ ] Read: [Sequel json plugin](https://stackoverflow.com/questions/9922336/generating-json-for-sinatra?rq=1)
 * [ ] Test delete all models for prevent delete in cascade error
 * [x] Create Tables
 * [ ] Create task
@@ -19,7 +18,7 @@ TODO:
     * [x] db:tag:update   => Update tag.yaml (Rewrite the file)
     * [ ] db:admin:create => Create User with the role Admin
     * [ ] db:admin:delete => Delete Admin User
-* [ ] Create Sequel Models
+* [x] Create Sequel Models
     * [x] User
     * [x] Role
     * [x] RoleUser
@@ -28,9 +27,9 @@ TODO:
     * [x] CommentSnippet
     * [x] Followers
     * [x] Tags
-    * [ ] Proyects
-    * [ ] LikeProyect
-    * [ ] Comment Proyect
+    * [x] Proyects
+    * [x] LikeProyect
+    * [x] Comment Proyect
 * [ ] Unit Test for Sequel Models
     * [x] User
     * [x] Role
@@ -42,18 +41,18 @@ TODO:
     * [x] Tags
     * [x] Proyects
     * [x] LikeProyect
-    * [ ] Comment Proyect
+    * [x] Comment Proyect
 * [ ] API REST JSON & Unit Test
     * [ ] Login & Logout
     * [x] Change Password
     * [x] Register User
-    * [ ] CRUD For Snippet
-    * [ ] UnLike/Like Snippet
-    * [ ] CRUD Comment Snippet
-    * [ ] Unfollow/Follow User
-    * [ ] CRUD Proyect
-    * [ ] CRUD Comment Proyect
-    * [ ] UnLike/Like Proyect
+    * [x] CRUD For Snippet
+    * [x] UnLike/Like Snippet
+    * [x] CRUD Comment Snippet
+    * [x] Unfollow/Follow User
+    * [x] CRUD Proyect
+    * [x] CRUD Comment Proyect
+    * [x] UnLike/Like Proyect
     * [ ] Add/Remove Snippet to Proyect
     * [ ] Github Oauth
 * [ ] Oauth and Login Sistem
@@ -71,7 +70,6 @@ TODO:
   * [ ]  Followers page
   * [ ]  All Proyects Pagination Page
   * [ ]  User Proyects
-  * [ ]  Use WOW.js for cool effects
 * [ ]  Create Text Editor
   * [ ]  Line specific comment
   * [ ]  General Comments snippet

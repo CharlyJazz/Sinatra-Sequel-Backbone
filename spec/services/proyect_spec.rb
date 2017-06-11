@@ -22,10 +22,23 @@ describe Proyect do
   context "delete proyects by id array" do
 
   end
-  describe "Special resources" do
+  describe "Snippet functionality" do
     context "add and remove snippet to proyect" do
 
     end
-    # TODO: add and remove like, response likes
+  end
+  describe "Comment proyect" do
+    context "read comment" do
+
+    end
+    context "create comment" do
+
+    end
+    context "edit comment" do
+
+    end
+    context "delete comment" do
+
+    end
   end
 end

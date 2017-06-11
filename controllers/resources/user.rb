@@ -35,10 +35,9 @@ module Sinatra
         check_password_confirmation(params['password'], params['password_confirmation'])
         check_if_data_resource_exist(User, 'name', params['name'])
         check_if_data_resource_exist(User, 'email', params['email'])
-        User.create(:name=>params['name'],
-                    :email=>params['email'],
-                    :password=>params['password'],
-                    :password_confirmation=>params['password_confirmation']).save().to_json
+        User.create(:name=>params['name'], :email=>params['email'],
+                    :password=>params['password'], :password_confirmation=>params['password_confirmation']
+        ).save().to_json
       end
 
       app.put '/user/:id', :validate => [:name, :email, :password, :password_confirmation] do
@@ -107,8 +106,28 @@ module Sinatra
         end
       end
 
+      app.get '/user/:id/follow' do
+        # User count all follow
+        user = check_if_resource_exist(User, params['id'])
+        {:response=>RelationShip.where(:follower_id=>user.id).count}.to_json
+      end
+
+      app.get '/user/:id/followers' do
+        # User count all followers
+        user = check_if_resource_exist(User, params['id'])
+        {:response=>RelationShip.where(:followed_id=>user.id).count}.to_json
+      end
+
+      app.post '/user/:follower_id/follow/:followed_id' do
+        # User :followed_id follow user :follower_id
+        followed = check_if_resource_exist(User, params['followed_id'])
+        follower = check_if_resource_exist(User, params['follower_id'])
+        RelationShip.follow_or_unfollow follower, followed
+        {:response=>RelationShip.where(:followed_id=>followed.id).count}.to_json
+      end
+
     end
 
   end
-  register UserResources
+    register UserResources
 end

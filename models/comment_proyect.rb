@@ -18,6 +18,5 @@ class CommentProyect< Sequel::Model(:comment_proyects)
 
   many_to_one :users
   many_to_one :proyects
-  one_to_many :comment_proyects
 
 end

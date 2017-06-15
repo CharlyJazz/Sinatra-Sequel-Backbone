@@ -23,6 +23,10 @@ class Proyect < Sequel::Model(:proyects)
     end
   end
 
+  def self.get_snippets(proyect)
+    Snippet.where(:id=>ProyectHasSnippet.where(:proyect_id=>proyect.id).select(:snippet_id))
+  end
+
   def validate
     super
     validates_presence [:name, :description]

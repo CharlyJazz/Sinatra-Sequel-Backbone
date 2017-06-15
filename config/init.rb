@@ -11,8 +11,6 @@ configure :test do
 end
 
 require './config/migrations'
-require './config/endpoint'
-
 
 Sequel::Model.strict_param_setting = false
 

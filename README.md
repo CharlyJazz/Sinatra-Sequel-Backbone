@@ -8,8 +8,8 @@ Status: **building** :construction:
 
 ## Install
 
-    1. Clone the repo.
-    2. Install the gems with the command `bundle install`.
+1.  Clone the repo.
+2.  Install the gems with the command `bundle install`.
 
 ## Test
 

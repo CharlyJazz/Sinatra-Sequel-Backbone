@@ -6,6 +6,15 @@ Simple web app for create snippets and comments with de power of **Backbone** an
 
 Status: **building** :construction:
 
+## Install
+
+    1. Clone the repo.
+    2. Install the gems with the command `bundle install`.
+
+## Test
+
+You can test the *models* or the *services* with the command `bundle exec rspec path/to/test/file`.
+
 ## TODO
 
 * [ ] Test delete all models for prevent delete in cascade error

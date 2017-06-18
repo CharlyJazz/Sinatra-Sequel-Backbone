@@ -85,13 +85,34 @@ class ProyectNamespace < CoreController
 
     post '/:id/snippet/:id_snippet' do
       # Add snippet to proyect
-      # Proyect.add_snippets
+      proyect = check_if_resource_exist(Proyect, params[:id])
+      c = 0
+      params[:id_snippet].split(",").each { |n|
+        snippet = check_if_resource_exist(Snippet, n)
+        if Proyect.proyect_have_snippet? proyect.id, snippet.id
+          halt 404, {:response=>"Proyect al ready have this snippet #{params[:id_snippet]}"}.to_json
+        else
+          Proyect.add_snippets proyect, [snippet]
+        end
+        c += 1
+      }
+      {:response=>"Resources added: #{c}"}.to_json
     end
 
     delete '/:id/snippet/:id_snippet' do
       # Remove snippet to proyect
-      # Proyect.remove_snippets
-      # check_if_resource_exist(Proyect, params['id'])
+      proyect = check_if_resource_exist(Proyect, params[:id])
+      c = 0
+      params[:id_snippet].split(",").each { |n|
+        snippet = check_if_resource_exist(Snippet, n)
+        if !Proyect.proyect_have_snippet? proyect.id, snippet.id
+          halt 404, {:response=>"Proyect not have the snippet #{params[:id_snippet]}"}.to_json
+        else
+          Proyect.remove_snippets proyect, [snippet]
+        end
+        c += 1
+      }
+      {:response=>"Resources removed: #{c}"}.to_json
     end
 
   end

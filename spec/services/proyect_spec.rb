@@ -8,13 +8,9 @@ describe Proyect do
     @proyect = Proyect.new(:name=>"github", :description=>"rails web for git repositories",
                            :user_id=>@user.id).save
   end
-  after :each do
-    puts last_response.body
-    puts "- - - - - - "
-  end
   context "get all proyects" do
     it "should get all proyects" do
-      get "/api/proyect"
+      get "/api/proyect/"
 
       expect(last_response.status).to eq 200
     end
@@ -29,9 +25,9 @@ describe Proyect do
   end
   context "create proyect" do
 
-    let(:route_true) {"/api/proyect?name=proyect_name&description=description_proyect&user_id=1"}
-    let(:route_parameter_empty) {"/api/proyect?name=proyect_name&description=&user_id="}
-    let(:route_without_parameter) {"/api/proyect"}
+    let(:route_true) {"/api/proyect/?name=proyect_name&description=description_proyect&user_id=1"}
+    let(:route_parameter_empty) {"/api/proyect/?name=proyect_name&description=&user_id="}
+    let(:route_without_parameter) {"/api/proyect/"}
 
     it "should create proyect" do
       post route_true
@@ -113,49 +109,51 @@ describe Proyect do
         it "should remove snippet" do
           delete '/api/proyect/1/snippet/1'
 
-          expect(JSON.parse(last_response.body)["response"]).to eq "Resources deleted: 1"
+          expect(JSON.parse(last_response.body)["response"]).to eq "Resources removed: 1"
         end
-        it "should remove 3" do
-          delete '/api/proyect12/snippet/1,2,3'
+        it "should remove 3 snippets" do
+          delete '/api/proyect/1/snippet/1,2,3'
 
-          expect(JSON.parse(last_response.body)["response"]).to eq "Resources deleted: 3"
+          expect(JSON.parse(last_response.body)["response"]).to eq "Resources removed: 3"
         end
         context "delete snippet that does not exist"
           it "should " do
-            delete '/api/proyect12/snippet/4'
-            # TODO: Esto hay que programarlo bien, porque hay que eliminar la relacion de ProyectHasSnippet
-            # con el snippet y el proyecto,  y en caso de lanzar un id de snippet que no esta relacionado no
-            # se podria quitar ninguna relacion porque no hay
-
+            delete '/api/proyect/1/snippet/4'
             expect(JSON.parse(last_response.body)["response"]).to eq "Resource no found"
           end
         end
       context "add snippet" do
-        it "should add snippet" do
-          post '/api/proyect/1/snippet/4'
+        before :each do
+          3.times { Snippet.new(:filename => "filename1.js",
+                                :body=>"Lorem ipsum...", :user_id=>@user.id).save }
+        end
+        context "try add snippet that al ready added" do
+          it "should return response message" do
+            post '/api/proyect/1/snippet/3'
 
-          expect(JSON.parse(last_response.body)["response"]).to eq "Resources deleted: 1"
+            expect(JSON.parse(last_response.body)["response"]).to eq "Proyect al ready have this snippet 3"
+          end
+        end
+        context "add snippets" do
+          it "should add snippet" do
+            post '/api/proyect/1/snippet/4'
+
+            expect(JSON.parse(last_response.body)["response"]).to eq "Resources added: 1"
+          end
         end
         context "add several snippets" do
           it "should add 3 more" do
             post '/api/proyect/1/snippet/4,5,6'
 
-            expect(JSON.parse(last_response.body)["response"]).to eq "Resources deleted: 3"
+            expect(JSON.parse(last_response.body)["response"]).to eq "Resources added: 3"
           end
         end
-        context "add snippet already added in the proyect" do
-          it "should return message" do
-            post '/api/proyect/1/snippet/1'
+      end
+      context "Add snippet that does not exist" do
+        it "should no found" do
+          post '/api/proyect/1/snippet/10'
 
-            expect(JSON.parse(last_response.body)["response"]).to eq "This snippet is already added to the project"
-          end
-        end
-        context "Add snippet that does not exist" do
-          it "should no found" do
-            post '/api/proyect/1/snippet/10'
-
-            expect(JSON.parse(last_response.body)["response"]).to eq "Resource no found"
-          end
+          expect(JSON.parse(last_response.body)["response"]).to eq "Resource no found"
         end
       end
     end

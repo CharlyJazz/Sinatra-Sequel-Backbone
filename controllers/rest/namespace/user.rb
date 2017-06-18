@@ -61,29 +61,29 @@ class UserNamespace < SnippetNamespace
       user.to_json
     end
 
-    delete ':id' do
+    delete '/:id' do
       # Delete user
       delete_record(User, params['id'].split(','))
     end
 
-    patch '/:role/:id' do # esto era asi '/:role/user/:id cambiar specs
+    patch '/:id/role/:role_name' do # esto era asi '/:role/user/:id cambiar specs
       # Update role of User
       user = User.first(:id=>params['id'])
       if user.equal?(nil)
         halt 404, {:response=>"Resource no found"}.to_json
       else
-        if Role.role_exist? params[:role]
+        if Role.role_exist? params[:role_name]
           # Check si el usuario tiene ese rol con el methodo de user_have_role?
-          if RoleUser.user_have_role? params[:id], Role.first(:name=>params[:role]).id
+          if RoleUser.user_have_role? params[:id], Role.first(:name=>params[:role_name]).id
           # Si el usuario tiene el rol retornamos un mensaje diciendoloe
             halt 404, {:response=>"Action not allowed, this user already has this role"}.to_json
           else
           # Si el usuario no tiene ese rol se lo asignamos
           # y retornamos un mensaje diciendolo, pero eliminamos su rol anterior
-            if params[:role].equal? "admin"
+            if params[:role_name].equal? "admin"
               Role.remove_role_from_user user, Role.first(:name=>"user")
               Role.add_role_to_user user, Role.first(:name=>"admin")
-            elsif params[:role].equal? "user"
+            elsif params[:role_name].equal? "user"
               Role.remove_role_from_user user, Role.first(:name=>"admin")
               Role.add_role_to_user user, Role.first(:name=>"user")
             end

@@ -8,7 +8,7 @@ describe User do
     end
     context "get all users" do
       it "should response all user" do
-        get "/api/user"
+        get "/api/user/"
 
         expect(last_response.status).to eq 200
       end
@@ -29,7 +29,7 @@ describe User do
     end
     context "create user" do
 
-      let(:route) {"/api/user?name=carl3os&password=1232dsa&password_confirmation=1232dsa&email=carl3os@gmail.com"}
+      let(:route) {"/api/user/?name=carl3os&password=1232dsa&password_confirmation=1232dsa&email=carl3os@gmail.com"}
 
       it "should create a user" do
         1.times { post route }
@@ -109,7 +109,7 @@ describe User do
       end
       context "add role to user that does no exist" do
         it "should return 404 and message" do
-          patch '/api/role/admin/user/123'
+          patch '/api/user/123/role/admin'
 
           expect(JSON.parse(last_response.body)['response']).to eq("Resource no found")
           expect(last_response.status).to eq 404
@@ -118,7 +118,7 @@ describe User do
       context "add admin role to use" do
         it "should add admin role to user" do
           # Add admin role to SnippetMan user
-          patch '/api/role/admin/user/1'
+          patch '/api/user/1/role/admin'
 
           expect(JSON.parse(last_response.body)['response']).to eq("Added role successfully")
           expect(last_response.status).to eq 200
@@ -127,7 +127,7 @@ describe User do
       context "add admin role to user already admin" do
         it "should return 404 and message" do
           # Try add admin role to user already admin
-          patch '/api/role/admin/user/2'
+          patch '/api/user/2/role/admin'
 
           expect(JSON.parse(last_response.body)['response']).to eq("Action not allowed, this user already has this role")
           expect(last_response.status).to eq 404
@@ -135,7 +135,7 @@ describe User do
       end
       context "try adding a role that does not exist" do
         it "should return 404 and message" do
-          patch '/api/role/apple/user/2'
+          patch '/api/user/2/role/apple'
 
           expect(JSON.parse(last_response.body)['response']).to eq("Action not allowed, role does not exist")
           expect(last_response.status).to eq 404

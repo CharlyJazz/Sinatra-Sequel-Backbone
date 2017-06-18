@@ -10,26 +10,18 @@ module ServicesHelpers
     end
   end
   def check_if_data_resource_exist(model, attr, string, except_id = {})
-    if !except_id.is_a?(Hash)
+    # model     => representation object mapped of table
+    # attr      => attribute of table
+    # string    => value of attr
+    # except_id => record to except in the query
+    unless except_id.is_a?(Hash) # Test this, bug ?
       if model.first(:id=>except_id, attr.to_sym=>string) != nil
-        # Si es el correo, o la clave o cualquiera que sea el campo
-        # original del modelo a editar entonces nos salimos de aca
         return
-
       elsif model.where{Sequel.&(Sequel.~(:id=> except_id), ({attr.to_sym=>string}))}.kind_of? model
-        # Si es el correo, o la clave o cualquiera que sea el campo
-        # original de un modelo que no es el que hay que editar entonces
-        # significa que no podemos editarlo porque deberia ser unique=true
-        # asi que lanzamos el 404
-        # TODO: TESTEAR ESTO, tendria que crear otro user y hacer que el primer user intente editar sus datos con algunos de los de el, y debe entrar aca
-        # query = model.where{Sequel.&(Sequel.~(:id=> except_id), ({attr.to_sym=>string}))}
-        # print query.kind_of? User
         halt 404, {:response=>"There is already a resource with this data"}.to_json
       end
     end
     if model.first(attr.to_sym=>string) != nil
-      # Pero si no hay un except_id, o sea, el id del modelo a editar,
-      # entonces vemos si existe ya este campo FUNCIONAL
       halt 404, {:response=>"There is already a resource with this data"}.to_json
     end
   end

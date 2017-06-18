@@ -8,7 +8,7 @@ describe Snippet do
   end
   context "get all snippet" do
     it "should return 200" do
-      get "/api/snippet"
+      get "/api/snippet/"
 
       expect(last_response.status).to eq 200
     end
@@ -29,7 +29,7 @@ describe Snippet do
   end
   context "create snippet" do
 
-    let(:route) {"/api/snippet?filename=carlos.js&body=lorem&user_id=1"}
+    let(:route) {"/api/snippet/?filename=carlos.js&body=lorem&user_id=1"}
 
     it "should create 1 snippet" do
 
@@ -105,7 +105,7 @@ describe Snippet do
         3.times { @user_comment.add_comment_snippet(:body=>"Sad", :line_code=>2, :snippet_id=>@snippet.id) }
       end
       it "should return 2 comments" do
-        get 'api/snipppet/1/comment'
+        get 'api/snippet/1/comment'
 
         expect(JSON.parse(last_response.body).count).to eq 3
         expect(last_response.status).to eq 200
@@ -113,9 +113,9 @@ describe Snippet do
     end
     context "create comment snippet" do
 
-      let(:route_true) {'/api/snipppet/1/comment?body=aaaaaaaa&title=lorem&user_id=2&line_code=15'}
-      let(:route_snippet_false) {'/api/snipppet/2/comment?body=aaaaaaaa&title=lorem&user_id=2&line_code=15'}
-      let(:route_user_false) {'/api/snipppet/2/comment?body=aaaaaaaa&title=lorem&user_id=5&line_code=15'}
+      let(:route_true) {'/api/snippet/1/comment?body=aaaaaaaa&title=lorem&user_id=2&line_code=15'}
+      let(:route_snippet_false) {'/api/snippet/2/comment?body=aaaaaaaa&title=lorem&user_id=2&line_code=15'}
+      let(:route_user_false) {'/api/snippet/2/comment?body=aaaaaaaa&title=lorem&user_id=5&line_code=15'}
 
       context "pass routes correctly" do
         it "should create" do

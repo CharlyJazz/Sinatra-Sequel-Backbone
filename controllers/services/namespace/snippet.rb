@@ -1,4 +1,4 @@
-require './controllers/rest/namespace/proyect'
+require './controllers/services/namespace/proyect'
 
 class SnippetNamespace < ProyectNamespace
 

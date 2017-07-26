@@ -4,7 +4,10 @@
 *.lock
 *.bundle/*
 *tmp/tag.backup.yml
-Gemfile.lock
+
 
 public/bower_components/*
 .idea/*
+
+
+Gemfile.lock

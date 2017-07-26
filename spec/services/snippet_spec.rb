@@ -62,7 +62,7 @@ describe Snippet do
       put route_params_empty
 
       expect(JSON.parse(last_response.body)["response"]).to eq "Any parameter are empty or nule"
-      expect(last_response.status).to eq 404
+      expect(last_response.status).to eq 422
     end
     it "Pass correct route" do
       put route_id_true

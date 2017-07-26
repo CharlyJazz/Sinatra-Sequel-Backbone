@@ -10,6 +10,8 @@ describe User do
       it "should response all user" do
         get "/api/user/"
 
+        expect(JSON.parse(last_response.body)[0]["name"]).to eq "SnippetMan"
+        expect(JSON.parse(last_response.body)[0]["password_digest"]).to be_nil
         expect(last_response.status).to eq 200
       end
     end
@@ -18,6 +20,7 @@ describe User do
         get "/api/user/1"
 
         expect(JSON.parse(last_response.body)["name"]).to eq "SnippetMan"
+        expect(JSON.parse(last_response.body)["password_digest"]).to be_nil
         expect(last_response.status).to eq 200
       end
       it "should not found the resource" do
@@ -34,6 +37,8 @@ describe User do
       it "should create a user" do
         1.times { post route }
 
+        expect(JSON.parse(last_response.body)["name"]).to eq "carl3os"
+        expect(JSON.parse(last_response.body)["password_digest"]).to be_nil
         expect(last_response.status).to eq 200
         expect(User.all().count).to eq 2
       end
@@ -65,6 +70,8 @@ describe User do
 
         expect(JSON.parse(last_response.body)['response']).to_not eq("There is already a resource with this data")
         expect(last_response.status).to eq 200
+        expect(JSON.parse(last_response.body)["name"]).to eq "SnippetMan"
+        expect(JSON.parse(last_response.body)["password_digest"]).to be_nil
         expect(User.first(:id=>1).name).to eq "SnippetMan" # Should no affected
         expect(User.first(:id=>1).email).to eq "SnippetMan@gmail.com" # Should no affected
       end

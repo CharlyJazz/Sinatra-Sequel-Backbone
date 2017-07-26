@@ -49,8 +49,8 @@ You can test the *models* or the *services* with the command `bundle exec rspec 
   * [x] Proyects
   * [x] LikeProyect
   * [x] Comment Proyect
-* [ ] API REST JSON & Unit Test
-  * [ ] Login & Logout
+* [x] API REST JSON & Unit Test
+  * [x] Login & Logout
   * [x] Change Password
   * [x] Register User
   * [x] CRUD For Snippet
@@ -60,8 +60,7 @@ You can test the *models* or the *services* with the command `bundle exec rspec 
   * [x] CRUD Proyect
   * [x] CRUD Comment Proyect
   * [x] UnLike/Like Proyect
-  * [ ] Add/Remove Snippet to Proyect
-  * [ ] Github Oauth
+  * [x] Add/Remove Snippet to Proyect
 * [ ] Oauth and Login Sistem
   * [x] Implement sequel_secure_password gem
   * [ ] Github Oauth
@@ -81,7 +80,7 @@ You can test the *models* or the *services* with the command `bundle exec rspec 
 * [ ]  Line specific comment
 * [ ]  General Comments snippet
 * [ ]  Like snippet
-* [ ] Backbone App
+* [ ]  Backbone App
 
 ## Resources
 

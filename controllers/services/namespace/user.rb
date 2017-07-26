@@ -1,4 +1,4 @@
-require './controllers/rest/namespace/snippet'
+require './controllers/services/namespace/snippet'
 
 class UserNamespace < SnippetNamespace
 
@@ -10,12 +10,17 @@ class UserNamespace < SnippetNamespace
 
     get '/' do
       # Read all users
-      User.all.to_json
+      # Prevent send the password
+      users = User.all
+      users.map { |user|
+          user.json_serializer_opts(:except=>:password_digest)
+      }
+      users.to_json
     end
 
     get '/:id' do
       # Read one user by id
-      check_if_resource_exist(User, params['id']).to_json
+      check_if_resource_exist(User, params['id']).to_json :except=> :password_digest
     end
 
     post '/', :validate => [:name, :email, :password, :password_confirmation] do
@@ -27,7 +32,7 @@ class UserNamespace < SnippetNamespace
       check_if_data_resource_exist(User, 'email', params['email'])
       User.create(:name=>params['name'], :email=>params['email'],
                   :password=>params['password'], :password_confirmation=>params['password_confirmation']
-      ).save().to_json
+      ).save().to_json :except=> :password_digest
     end
 
     put '/:id', :validate => [:name, :email, :password, :password_confirmation] do
@@ -45,7 +50,7 @@ class UserNamespace < SnippetNamespace
         user.email = params['email']
         user.password = params['password']
         user.password_confirmation = params['password_confirmation']
-        user.save.to_json
+        user.save.to_json :except=> :password_digest
       end
     end
 

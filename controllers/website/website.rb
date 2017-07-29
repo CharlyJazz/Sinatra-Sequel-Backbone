@@ -1,9 +1,16 @@
 require './controllers/core'
+require './controllers/helpers/slim_helpers'
+require 'slim'
 
 class WebsiteController < CoreController
-  # TODO: crear app web
+  include SlimHelpers
+
+  before do
+    set_current_user
+  end
+
   get '/' do
-    'Hello Website'
+    slim :base
   end
 
 end

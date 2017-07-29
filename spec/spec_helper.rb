@@ -4,18 +4,13 @@ require File.join(File.dirname(__FILE__), '..', 'app.rb')
 
 Bundler.require(:test)
 
-module RSpecMixin
-  RSpec::Expectations.configuration.on_potential_false_positives = :nothing
-  include Rack::Test::Methods
-  def app() App.new end
-end
-
 RSpec.configure { |config|
-  config.include RSpecMixin
-
+  RSpec::Expectations.configuration.on_potential_false_positives = :nothing
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.include Rack::Test::Methods
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
@@ -27,6 +22,9 @@ RSpec.configure { |config|
       example.run
     end
   end
+
+  def app() App.new end
+
 }
 
 # http://recipes.sinatrarb.com/p/testing/rspec

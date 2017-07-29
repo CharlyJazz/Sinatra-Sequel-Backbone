@@ -5,9 +5,10 @@
 *.bundle/*
 *tmp/tag.backup.yml
 
-
-public/bower_components/*
 .idea/*
 
 
 Gemfile.lock
+/public/bower_components/
+/app.rsa
+/app.rsa.pub

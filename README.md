@@ -13,18 +13,35 @@ Status: **building** :construction:
 
 ## Test
 
-You can test the *models* or the *services* with the command `bundle exec rspec path/to/test/file`.
+You can test the app with the command `bundle exec rspec path/to/test/file`.
+
+## OpenSSL
+
+This app will load app.rsa and app.rsa.pub as sign and verify keys for the JWT encode and decode
+
+the app.rsa and app.rsa.pub were generated with:
+
+`openssl genrsa -out app.rsa 2048`
+
+`openssl rsa -in app.rsa -pubout > app.rsa.pub`
+
+## Run
+
+
+1. Create database with the command `bundle exec rake db:create`
+2. Create roles with the command `bundle exec rake db:role:create`
+3. Create tags with the command `bundle exec rake db:tag:create`
+4. Create 2048 bit RSA Key and export the RSA Public Key
+5. Run `bundle exec rackup -p 8000`
 
 ## TODO
 
-* [ ] Test delete all models for prevent delete in cascade error
 * [x] Create Tables
 * [ ] Create task
-  * [ ] db:tag:create   => Insert tag from tag file in the database
+  * [x] db:tag:create   => Insert tag from tag file in the database
       * [ ] Prevent create tags exist
-  * [x] db:tag:update   => Update tag.yaml (Rewrite the file)
+  * [ ] db:tag:update   => Create backup of tag registered in the database
   * [ ] db:admin:create => Create User with the role Admin
-  * [ ] db:admin:delete => Delete Admin User
 * [x] Create Sequel Models
   * [x] User
   * [x] Role
@@ -63,11 +80,10 @@ You can test the *models* or the *services* with the command `bundle exec rspec 
   * [x] Add/Remove Snippet to Proyect
 * [ ] Oauth and Login Sistem
   * [x] Implement sequel_secure_password gem
+  * [ ] JWT
   * [ ] Github Oauth
-  * [ ] Unit Test for this
 * [ ] Implement Capybara for front-end testing
 * [ ] Write main front end
-* [ ]  ITCSS and Sass
 * [ ]  Flash message with help the BMD
 * [ ]  Login Page
 * [ ]  Change Password
@@ -87,3 +103,5 @@ You can test the *models* or the *services* with the command `bundle exec rspec 
     - https://github.com/jeremyevans/sequel/blob/master/lib/sequel/plugins/json_serializer.rb
     - http://sequel.jeremyevans.net/rdoc-plugins/classes/Sequel/Plugins/JsonSerializer.html
     - http://sequel.jeremyevans.net/rdoc-plugins/classes/Sequel/Plugins/Serialization.html
+    - https://github.com/nickdufresne/jwt-sinatra-example/blob/master/app.rb
+    - https://rietta.com/blog/2012/01/27/openssl-generating-rsa-key-from-command/

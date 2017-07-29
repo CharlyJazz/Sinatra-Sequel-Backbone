@@ -1,20 +1,13 @@
 module CoreAppHelpers
-  # def asset_path(source)
-  #   "/assets/" + settings.sprockets.find_asset(source).digest_path
-  # end
 
   def current_user
     if session[:user]
-      user = User.first(:id => session[:user])
-
-      if user.role == :user
-        return AuthUser.new(user.username, user.role, user.id)
+      user = User[session[:user]]
+      if RoleUser.user_have_role? user.id, 'user'
+        return AuthUser.new(user.name, user.id)
+      elsif RoleUser.user_have_role? user.id, 'admin'
+        return Admin.new(user.name, user.id)
       end
-
-      if user.role == :admin
-        return Admin.new(user.username, user.role, user.id)
-      end
-
     else
       return GuestUser.new
     end
@@ -75,9 +68,9 @@ end
 
 class AuthUser
   attr_reader :id, :name
-  def initialize(name, role, id)
+  def initialize(name, id)
     @name = name
-    @role = role
+    @role = 'user'
     @id = id
   end
 
@@ -86,7 +79,7 @@ class AuthUser
   end
 
   def in_role? role
-    @role
+    @role.equal? role
   end
 
   def is_authenticated
@@ -101,9 +94,9 @@ end
 
 class Admin
   attr_reader :id, :name
-  def initialize(name, role, id)
+  def initialize(name, id)
     @name = name
-    @role = role
+    @role = 'admin'
     @id = id
   end
 
@@ -112,7 +105,7 @@ class Admin
   end
 
   def in_role? role
-    @role
+    @role.equal? role
   end
 
   def is_authenticated

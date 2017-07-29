@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'jwt'
 gem 'rack'
 gem 'sinatra'
 gem 'sinatra-extension'
@@ -11,7 +12,12 @@ gem 'sequel_secure_password'
 gem 'sequel'
 gem 'rake'
 gem 'language_sniffer', :git => 'git://github.com/grosser/language_sniffer.git', require: false
-gem 'octicons' #https://github.com/primer/octicons_gem 
+gem 'octicons' #https://github.com/primer/octicons_gem
+gem 'uglifier'
+gem 'sprockets'
+gem 'sass'
+gem 'coffee-script'
+gem 'slim'
 
 group :test, :development do #  bundle install --with test development
   gem 'sqlite3'

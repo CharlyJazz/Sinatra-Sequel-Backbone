@@ -53,7 +53,6 @@ describe User do
       let(:route_id_false) {"/api/user/2?name=SnippetMan&password=snippet123123&password_confirmation=snippet123123&email=SnippetMan@gmail.com"}
       let(:route_id_true) {"/api/user/1?name=carl3os&password=1232dsa&password_confirmation=1232dsa&email=carl3os@gmail.com"}
       let(:route_edit_password) {"/api/user/1?name="+@user.name+"&password=1232dsa&password_confirmation=1232dsa&email="+@user.email}
-
       it "Pass an id that does not exist" do
         put route_id_false
 
@@ -62,6 +61,7 @@ describe User do
       end
       it "Pass an id that exist and edit all attributes" do
         put route_id_true
+
         expect(User.first(:id=>1).name).to eq "carl3os"
         expect(last_response.status).to eq 200
       end

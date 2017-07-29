@@ -1,0 +1,63 @@
+.container
+  .row
+		.col-lg-12
+			.row
+				.col-lg-6
+					.card
+						.card-block
+							.text-center
+								h3
+									i.fa.fa-lock
+									|  Login:
+							hr.mt-2.mb-2
+							form#form-login
+								.md-form
+									i.fa.fa-envelope.prefix
+									input#login-email.form-control[type="text"]
+									label[for="login-email"]
+										| Your email
+								.md-form
+									i.fa.fa-lock.prefix
+									input#login-password.form-control[type="password"]
+									label[for="login-password"]
+										| Your password
+								.text-center
+									button.btn.btn-indigo
+										| Sign up
+				.col-lg-6
+					.card
+						.card-block
+							.text-center
+								h3
+									i.fa.fa-lock
+									|  Register:
+							hr.mt-2.mb-2
+							form#form-register
+								.md-form
+									i.fa.fa-user.prefix
+									input#register-username.form-control[type="text"]
+									label[for="register-username"]
+										| Your username
+								.md-form
+									i.fa.fa-envelope.prefix
+									input#register-email.form-control[type="text"]
+									label[for="form2"]
+											| Your email
+								.md-form
+									i.fa.fa-lock.prefix
+									input#register-password.form-control[type="password"]
+									label[for="form4"]
+											| Your password
+								.md-form
+									i.fa.fa-key.prefix
+									input#register-repeat.form-control[type="password"]
+									label[for="register-repeat"]
+										| Repeat your password
+								.md-form
+									.text-center
+										span Upload your profile image
+									hr.mt-1.mb-1
+										input#register-image[type="file"]
+								.text-center
+									button.btn.btn-indigo
+										| Sign in

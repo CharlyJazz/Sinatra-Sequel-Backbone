@@ -17,7 +17,6 @@ gem 'uglifier'
 gem 'sprockets'
 gem 'sass'
 gem 'coffee-script'
-gem 'slim'
 
 group :test, :development do #  bundle install --with test development
   gem 'sqlite3'

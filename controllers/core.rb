@@ -30,7 +30,8 @@ class CoreController < Sinatra::Base
   bower_components = %w[backbone bootstrap codemirror
                         components-font-awesome jquery
                         jquery-dateFormat MDBootstrap
-                        tether underscore]
+                        tether underscore backbone.marionette
+                        backbone.radio]
 
   set :sprockets, Sprockets::Environment.new(root) { |env|
     bower_components.each { | library |

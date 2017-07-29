@@ -29,16 +29,6 @@ module CoreAppHelpers
     set_current_user.permission_level == 2 or halt 401
   end
 
-  def login_required
-    user = current_user
-    if user && user.class != GuestUser
-      return true
-    else
-      redirect '/login'
-      return false
-    end
-  end
-
   def upload_file(id, directory, filename, tmpfile)
     # Prevent error if the filename have spaces e.g: my photo.png to myphoto.png and return.
     ext = (/\.[^.]*$/.match(filename.to_s)).to_s
@@ -69,7 +59,7 @@ end
 class AuthUser
   attr_reader :id, :name
   def initialize(name, id)
-    @name = name
+    @username = name
     @role = 'user'
     @id = id
   end
@@ -95,7 +85,7 @@ end
 class Admin
   attr_reader :id, :name
   def initialize(name, id)
-    @name = name
+    @username = name
     @role = 'admin'
     @id = id
   end

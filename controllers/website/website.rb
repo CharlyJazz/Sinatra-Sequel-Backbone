@@ -1,16 +1,16 @@
 require './controllers/core'
-require './controllers/helpers/slim_helpers'
-require 'slim'
+require './controllers/helpers/website_helpers'
 
 class WebsiteController < CoreController
-  include SlimHelpers
+
+  helpers WebsiteHelpers
 
   before do
     set_current_user
   end
 
   get '/' do
-    slim :base
+    erb :index
   end
 
 end

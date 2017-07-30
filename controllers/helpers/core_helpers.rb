@@ -4,9 +4,9 @@ module CoreAppHelpers
     if session[:user]
       user = User[session[:user]]
       if RoleUser.user_have_role? user.id, 'user'
-        return AuthUser.new(user.name, user.id)
+        return AuthUser.new(user.name, user.email, user.picture, user.id)
       elsif RoleUser.user_have_role? user.id, 'admin'
-        return Admin.new(user.name, user.id)
+        return Admin.new(user.name, user.email, user.picture, user.id)
       end
     else
       return GuestUser.new
@@ -57,11 +57,13 @@ class GuestUser
 end
 
 class AuthUser
-  attr_reader :id, :name
-  def initialize(name, id)
+  attr_reader :id, :name, :email, :picture
+  def initialize(name, email, picture, id)
     @username = name
-    @role = 'user'
+    @email = email
+    @picture = picture
     @id = id
+    @role = 'user'
   end
 
   def permission_level
@@ -83,11 +85,13 @@ class AuthUser
 end
 
 class Admin
-  attr_reader :id, :name
-  def initialize(name, id)
+  attr_reader :id, :name, :email, :picture
+  def initialize(name, email, picture, id)
     @username = name
-    @role = 'admin'
+    @email = email
+    @picture = picture
     @id = id
+    @role = 'admin'
   end
 
   def permission_level

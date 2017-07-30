@@ -1,3 +1,3 @@
-var SnippetView = Backbone.View.extend({
+var SnippetView = Backbone.Marionette.View.extend({
   template: '#container-snippets'
 });

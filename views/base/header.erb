@@ -1,5 +1,5 @@
 <!--Navbar-->
-<nav class="navbar navbar-toggleable-md navbar-dark bg-primary" id="navbar-application">
+<nav class="navbar navbar-toggleable-md navbar-dark bg-primary">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -8,28 +8,32 @@
             <strong>Snippet App</strong>
         </a>
         <div class="collapse navbar-collapse" id="navbar-application-menu">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">Proyect</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">Snippet</a>
-                </li>
-                <li class="nav-item dropdown btn-group">
-                    <a class="nav-link dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Username</a>
-                    <div class="dropdown-menu dropdown" aria-labelledby="dropdownMenu1">
-                        <a class="dropdown-item">Create Snippet</a>
-                        <a class="dropdown-item">Create Proyect</a>
-                        <a class="dropdown-item">Config Profile</a>
-                    </div>
-                </li>
-            </ul>
-            <form class="form-inline waves-effect waves-light">
-                <input class="form-control" type="text" placeholder="Snippet, proyect, or tag">
-            </form>
+            <script type="x-template/underscore" id="ul-navbar-application-menu">
+                <ul class="mr-auto navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#proyects">Proyect</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#snippets">Snippet</a>
+                    </li>
+                </ul>
+                <form class="form-inline waves-effect waves-light">
+                    <input class="form-control" type="text" placeholder="Snippet, proyect, or tag">
+                </form>
+            </script>
         </div>
     </div>
 </nav>
+
+
+<%#<li class="nav-item dropdown btn-group">
+    <a class="nav-link dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Username</a>
+    <div class="dropdown-menu dropdown" aria-labelledby="dropdownMenu1">
+        <a class="dropdown-item">Create Snippet</a>
+        <a class="dropdown-item">Create Proyect</a>
+        <a class="dropdown-item">Config Profile</a>
+    </div>
+</li>%>

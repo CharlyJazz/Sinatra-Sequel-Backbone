@@ -31,13 +31,30 @@
   <script type="text/javascript" src="<%= asset_path('lib/backbone.marionette.min.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('lib/codemirror.js') %>"></script>
 
+  <!-- B a c k b o n e -->
+
+  <script type="text/javascript" src="<%= asset_path('models/current_user_model.js') %>"></script>
+
+  <script type="text/javascript" src="<%= asset_path('views/home_view.js') %>"></script>
+  <script type="text/javascript" src="<%= asset_path('views/profile_view.js') %>"></script>
+  <script type="text/javascript" src="<%= asset_path('views/authentication_view.js') %>"></script>
+  <script type="text/javascript" src="<%= asset_path('views/header_view.js') %>"></script>
+  <script type="text/javascript" src="<%= asset_path('views/proyect_view.js') %>"></script>
+  <script type="text/javascript" src="<%= asset_path('views/snippet_view.js') %>"></script>
+
+  <script type="text/javascript" src="<%= asset_path('controllers/home_controller.js') %>"></script>
+
+  <script type="text/javascript" src="<%= asset_path('routes/home_routes.js') %>"></script>
+
   <script type="text/javascript" src="<%= asset_path('app.js') %>"></script>
 
   <script>
     $(document).ready(function(){
-      var CurrentApplication = new Application({
+      var CurrentApplication = new app.Application({
             is_authenticated: <%= @current_user.is_authenticated %>,
             username: <%= @current_user.username %>,
+            email: <%= @current_user.email %>,
+            id: <%= @current_user.id %>,
             permission_level: <%= @current_user.permission_level %>
       });
 

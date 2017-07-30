@@ -1,21 +1,23 @@
-var Application = Marionette.Application.extend({
+var app = app || {};
 
-  /*  Options for the application configuration
-        is_authenticated: true or false
-        username: string that represent of name of the user
-        permission_level: int that represent a Guest, User or Admin permission
-  */
+app.Application = Marionette.Application.extend({
 
   onStart: function() {
-    if (this.options.is_authenticated) {
-      console.log('View Profile')
-    } 
-    else {
-      console.log('View Auth')
-    }
+    // Current user authenticated or guest
+    // Very Important for the render of the header
+    app.current_user = new app.CurrentUser({
+      username: this.options.username,
+      email: this.options.email,
+      id: this.options.id,
+      permission_level: this.options.permission_level
+    });
 
-    Backbone.history.start();
+    new app.ApplicationHeaderView
 
+    new app.ApplicationPagesRouter;
+  
+    Backbone.history.start();        
+    
   }
-
+    
 });

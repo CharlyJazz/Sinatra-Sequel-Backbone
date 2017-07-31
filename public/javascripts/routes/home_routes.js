@@ -5,6 +5,6 @@ app.ApplicationPagesRouter = Backbone.Marionette.AppRouter.extend({
   appRoutes: {
     '': 'home',
     'auth': 'authentication',
-    'profile': 'profile' // TODO id of user
+    'profile': 'profile'
   }
 });

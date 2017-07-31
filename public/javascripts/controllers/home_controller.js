@@ -15,5 +15,5 @@ app.ApplicationHomeController = {
     // If user authenticated then show the profile
       var view = new app.ProfileView();
       view.render();
-  },
+  }
 };

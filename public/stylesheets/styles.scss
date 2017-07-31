@@ -12,3 +12,58 @@ main{
 body{
   background-color: $bluedark;
 }
+
+.security-high {
+  border-bottom: 1px solid #00C851 !important;
+  box-shadow: 0 1px 0 0 #00C851 !important;
+}
+
+.security-medium {
+  border-bottom: 1px solid #F4C20B !important;
+  box-shadow: 0 1px 0 0 #F4C20B !important;
+}
+
+.security-down {
+  border-bottom: 1px solid #AF2018 !important;
+  box-shadow: 0 1px 0 0 #AF2018 !important;
+}
+
+.hidden-element{
+  display: none;
+}
+
+.inputDnD {
+  .form-control-file {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 6em;
+    outline: none;
+    visibility: hidden;
+    cursor: pointer;
+    background-color: $bluemedium;
+    box-shadow: 0 0 5px solid $bluelight;
+    &:before {
+      content: attr(data-title);
+      position: absolute;
+      top: 0.5em;
+      left: 0;
+      width: 100%;
+      min-height: 6em;
+      line-height: 2em;
+      padding-top: 1.5em;
+      opacity: 1;
+      visibility: visible;
+      text-align: center;
+      border: 0.25em dashed $bluelight;
+      transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+      overflow: hidden;
+    }
+    &:hover {
+      &:before {
+        border-style: solid;
+        box-shadow: inset 0px 0px 0px 0.25em $bluelight;
+      }
+    }
+  }
+}

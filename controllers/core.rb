@@ -3,12 +3,15 @@ Bundler.require
 require './config/init'
 require './controllers/helpers/core_helpers'
 
+require './lib/json_params'
+
 
 class CoreController < Sinatra::Base
   require './lib/regex_pattern'
 
   helpers CoreAppHelpers
 
+  register Sinatra::JsonBodyParams
   register Sinatra::Namespace
 
   configure do

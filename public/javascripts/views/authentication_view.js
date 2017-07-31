@@ -45,6 +45,7 @@ app.RegisterSubView = Backbone.Marionette.View.extend({
   className: 'col-lg-6 offset-lg-3',
   _username_preview: _.template('Username: <strong><%= username %></strong>'),
   _email_preview: _.template('Email: <strong><%= email %></strong>'),
+  _inputs: ['#username', '#email', '#password', '#repeat'],
   regions: {
     login: '#register-region'
   },
@@ -60,6 +61,7 @@ app.RegisterSubView = Backbone.Marionette.View.extend({
     'click button#continue':   'showFieldsetImage',
     'click button#back':       'showFieldsetInformation',
     'click button#trigger-image-input': 'triggerFileUpload',
+    'click button#submit':'registerUser',
     'change input#inputFile': 'readUrl'
   },
   checkAlReadyUse: function (event) {
@@ -98,18 +100,18 @@ app.RegisterSubView = Backbone.Marionette.View.extend({
     var input = $(event.currentTarget);
     if(input.val().length <= 6) {
       input.removeClass(
-        'security-medium security-high'
+        'security-medium security-high valid'
       ).addClass('security-down');
     }
     else if(input.val().length > 6 && input.val().length <= 12) {
       input.removeClass(
         'security-down security-high'
-      ).addClass('security-medium')
+      ).addClass('security-medium valid')
     }
     else {
       input.removeClass(
         'security-medium security-down'
-      ).addClass('security-high')
+      ).addClass('security-high valid')
     }
   },
   checkPasswordMatches: function(event) {
@@ -123,19 +125,25 @@ app.RegisterSubView = Backbone.Marionette.View.extend({
     }
   },
   showFieldsetImage: function () {
+    if (app.validateForm(this._inputs)) {
+      $('#preview-username').html(
+        this._username_preview({
+          username:$("input#username").val()
+        })
+      );
+      $('#preview-email').html(
+        this._email_preview({
+          email:$("input#email").val()
+        })
+      );
+      $('.fieldset-information').addClass('hidden-element');
+      $('.fieldset-image').removeClass('hidden-element');
+    }
+    else {
+      console.log('nomamaguebo')
+    }
+
     // Validate fields, show preview info and switch the current fieldset
-    $('#preview-username').html(
-      this._username_preview({
-        username:$("input#username").val()
-      })
-    );
-    $('#preview-email').html(
-      this._email_preview({
-        email:$("input#email").val()
-      })
-    );
-    $('.fieldset-information').addClass('hidden-element');
-    $('.fieldset-image').removeClass('hidden-element');
   },
   showFieldsetInformation: function () {
     // Validate fields, show preview info and switch the current fieldset
@@ -157,5 +165,20 @@ app.RegisterSubView = Backbone.Marionette.View.extend({
   },
   triggerFileUpload: function () {
     document.getElementById('inputFile').click()
+  },
+  registerUser: function (event) {
+    var users = new app.UserCollection(),
+        image = $('input#inputFile').prop('files')[0],
+        reader = new FileReader();
+    reader.onloadend = function(e) {
+      request = users.create({
+        'name':$('input#username').val(),
+        'email':$('input#email').val(),
+        'password':$('input#password').val(),
+        'password_confirmation':$('input#repeat').val(),
+        'image_profile': reader.result
+      });
+    };
+    reader.readAsDataURL(image);
   }
 });

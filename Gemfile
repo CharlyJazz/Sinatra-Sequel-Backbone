@@ -17,6 +17,7 @@ gem 'uglifier'
 gem 'sprockets'
 gem 'sass'
 gem 'coffee-script'
+gem 'multi_json'
 
 group :test, :development do #  bundle install --with test development
   gem 'sqlite3'

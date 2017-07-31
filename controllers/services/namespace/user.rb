@@ -23,19 +23,23 @@ class UserNamespace < SnippetNamespace
       check_if_resource_exist(User, params['id']).to_json :except=> :password_digest
     end
 
-    post '/', :validate => [:name, :email, :password, :password_confirmation] do
+    post '/', :validate => [:name, :email, :password, :password_confirmation, :image_profile] do
       # Create user
+      puts params['image_profile']
       check_regex(Username, params['name'])
       check_regex(Email, params['email'])
       check_password_confirmation(params['password'], params['password_confirmation'])
       check_if_data_resource_exist(User, 'name', params['name'])
       check_if_data_resource_exist(User, 'email', params['email'])
-      User.create(:name=>params['name'], :email=>params['email'],
-                  :password=>params['password'], :password_confirmation=>params['password_confirmation']
+      User.create(:name=>params['name'],
+                  :email=>params['email'],
+                  :password=>params['password'],
+                  :password_confirmation=>params['password_confirmation'],
+                  :image_profile=>params['image_profile']
       ).save().to_json :except=> :password_digest
     end
 
-    put '/:id', :validate => [:name, :email, :password, :password_confirmation] do
+    put '/:id', :validate => [:name, :email, :password, :password_confirmation, :image_profile] do
       # Update User
       user = User.for_update.first(:id=>params['id'])
       if user.equal?(nil)

@@ -46,29 +46,29 @@
         <hr class="mt-2 mb-2">
       </div>
       <!--Body-->
-      <form>
+      <form id="form-register" enctype="multipart/form-data">
         <fieldset class="fieldset-information"> <!--First Step-->
           <div class="text-center">
             <legend>Personal information:</legend>
           </div>
           <div class="md-form">
             <i class="fa fa-user prefix"></i>
-            <input type="text" id="username" class="form-control">
+            <input type="text" id="username" class="form-control" required>
             <label for="username" data-error="Username already using">Your username</label>
           </div>
           <div class="md-form">
             <i class="fa fa-envelope prefix"></i>
-            <input type="email" id="email" class="form-control">
+            <input type="email" id="email" class="form-control" required>
             <label for="email" data-error="Email already using">Your email</label>
           </div>
           <div class="md-form">
             <i class="fa fa-lock prefix"></i>
-            <input type="password" id="password" class="form-control">
+            <input type="password" id="password" class="form-control" required>
             <label for="password">Your password</label>
           </div>
           <div class="md-form">
             <i class="fa fa-lock prefix"></i>
-            <input type="password" id="repeat" class="form-control">
+            <input type="password" id="repeat" class="form-control" required>
             <label for="repeat">Repeat password</label>
           </div>
           <div class="text-center">
@@ -86,7 +86,8 @@
             <div class="form-group inputDnD">
               <label class="sr-only" for="inputFile">Upload your image</label>
               <input type="file" class="form-control-file text-primary font-weight-bold"
-                     id="inputFile" accept="image/*"  data-title="Drag and drop a file">
+                     id="inputFile" accept="image/*" data-title="Drag and drop a file"
+                     required>
             </div>
           </div>
           <!--Card Preview Image Profile-->

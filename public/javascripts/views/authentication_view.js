@@ -64,6 +64,14 @@ app.RegisterSubView = Backbone.Marionette.View.extend({
     'click button#submit':'registerUser',
     'change input#inputFile': 'readUrl'
   },
+  ui: {
+    submit: '#submit',
+    switch: 'a.switch'
+  },
+  initialize: function(){
+    this.collection = new app.UserCollection();
+    this.listenTo(this.collection, 'add', this.toastSuccess);
+  },
   checkAlReadyUse: function (event) {
     // Check if the email or username is already use
     var input = $(event.currentTarget), data;
@@ -161,24 +169,49 @@ app.RegisterSubView = Backbone.Marionette.View.extend({
         $('#preview-image').attr('src', imgData);
       };
       reader.readAsDataURL(input.files[0]);
+      $('#submit').attr("disabled", false);
     }
   },
   triggerFileUpload: function () {
     document.getElementById('inputFile').click()
   },
-  registerUser: function (event) {
-    var users = new app.UserCollection(),
-        image = $('input#inputFile').prop('files')[0],
-        reader = new FileReader();
-    reader.onloadend = function(e) {
-      request = users.create({
-        'name':$('input#username').val(),
-        'email':$('input#email').val(),
-        'password':$('input#password').val(),
-        'password_confirmation':$('input#repeat').val(),
-        'image_profile': reader.result
-      });
-    };
-    reader.readAsDataURL(image);
+  registerUser: function () {
+    var submitButton = this.getUI('submit'),
+        switchButton = this.getUI('switch'),
+        image = $('input#inputFile').prop('files'), request,
+        users = this.collection, reader = new FileReader();
+    submitButton.attr("disabled", true); // Prevent send several ajax
+    if(image.length === 1){
+      reader.onloadend = function(e) {
+        request = users.create({
+          'name':$('input#username').val(),
+          'email':$('input#email').val(),
+          'password':$('input#password').val(),
+          'password_confirmation':$('input#repeat').val(),
+          'image_profile': reader.result
+        },{
+            wait:true,
+            success: function () {
+              switchButton.trigger('click');  // Render login form
+            },
+            error: function () {
+              submitButton.attr("disabled", false);
+              app.toastError()
+          }
+        });
+      };
+      reader.readAsDataURL(image[0]);
+    } else {
+      submitButton.attr("disabled", false);
+      throw "File input are empty";
+    }
+  },
+  toastSuccess: function(){
+    $.toast({
+      heading: 'You have successfully registered!',
+      text: 'Now login to access your profile.',
+      icon: 'success',
+      showHideTransition: 'slide'
+    })
   }
 });

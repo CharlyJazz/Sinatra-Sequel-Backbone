@@ -34,7 +34,7 @@ class CoreController < Sinatra::Base
                         components-font-awesome jquery
                         jquery-dateFormat MDBootstrap
                         tether underscore backbone.marionette
-                        backbone.radio]
+                        backbone.radio jquery-toast-plugin]
 
   set :sprockets, Sprockets::Environment.new(root) { |env|
     bower_components.each { | library |

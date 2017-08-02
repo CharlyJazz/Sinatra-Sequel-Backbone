@@ -1,25 +1,62 @@
 <!--Navbar-->
 <nav class="navbar navbar-toggleable-md navbar-dark bg-primary">
     <div class="container">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler navbar-toggler-right" type="button"
+                data-toggle="collapse" data-target="#navbar-application-menu"
+                aria-controls="navbarNav1" aria-expanded="false"
+                aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand">
             <strong>Snippet App</strong>
         </a>
         <div class="collapse navbar-collapse" id="navbar-application-menu">
             <script type="x-template/underscore" id="ul-navbar-application-menu">
-                <ul class="mr-auto navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#proyects">Proyect</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#snippets">Snippet</a>
-                    </li>
+
+                {{ if (permission_level === 0) { }}
+
+                  <ul class="mr-auto navbar-nav">
+                      <li class="nav-item active">
+                          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="#proyects">Proyect</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="#snippets">Snippet</a>
+                      </li>
                 </ul>
+
+                {{ } else { }}
+
+                  <ul class="mr-auto navbar-nav">
+                    <li class="nav-item active">
+                      <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#proyects">Proyect</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#snippets">Snippet</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#auth">Log in</a>
+                    </li>
+                  </ul>
+                  <li class="nav-item dropdown btn-group">
+                      <a class="nav-link dropdown-toggle" id="dropdownMenu" data-toggle="dropdown"
+                         aria-haspopup="true" aria-expanded="false">
+                        {{= username }}
+                      </a>
+                      <div class="dropdown-menu dropdown" aria-labelledby="dropdownMenu">
+                          <a class="dropdown-item" href="#">Create Snippet</a>
+                          <a class="dropdown-item" href="#">Create Proyect</a>
+                          <a class="dropdown-item" href="#config">Config Profile</a>
+                      </div>
+                  </li>
+
+                {{ } }}
+
                 <form class="form-inline waves-effect waves-light">
                     <input class="form-control" type="text" placeholder="Snippet, proyect, or tag">
                 </form>
@@ -27,13 +64,3 @@
         </div>
     </div>
 </nav>
-
-
-<%#<li class="nav-item dropdown btn-group">
-    <a class="nav-link dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Username</a>
-    <div class="dropdown-menu dropdown" aria-labelledby="dropdownMenu1">
-        <a class="dropdown-item">Create Snippet</a>
-        <a class="dropdown-item">Create Proyect</a>
-        <a class="dropdown-item">Config Profile</a>
-    </div>
-</li>%>

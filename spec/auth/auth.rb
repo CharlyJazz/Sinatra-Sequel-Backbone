@@ -1,4 +1,13 @@
 require File.dirname(__FILE__) + '/../spec_helper'
+require 'jwt'
+
+verify_key = ''
+
+verify_key_path = File.expand_path("../../../app.rsa.pub", __FILE__)
+
+File.open(verify_key_path) do |file|
+  verify_key = OpenSSL::PKey.read(file)
+end
 
 describe 'Login and Logout' do
   before :each do
@@ -6,7 +15,7 @@ describe 'Login and Logout' do
                      :password=>"123456", :password_confirmation=>"123456").save
   end
   context "Trying to user without password parameter" do
-    it "should return 'User Logged successfully' " do
+    it "should return 'Any parameter are empty or nule' " do
       post "/auth/login?email=SnippetMan@gmail.com"
 
       expect(JSON.parse(last_response.body)["response"]).to eq "Any parameter are empty or nule"
@@ -30,11 +39,19 @@ describe 'Login and Logout' do
     end
   end
   context "Trying to log user correctly" do
+    before :each do
+
+    end
     it "should return 'User Logged successfully' " do
       post "/auth/login?email=SnippetMan@gmail.com&password=123456"
 
       expect(JSON.parse(last_response.body)["response"]).to eq "User Logged successfully"
       expect(last_response.status).to eq 200
+
+      @token = expect(JSON.parse(last_response.body)["token"])
+      payload, header = JWT.decode(@token, verify_key, true)
+
+      expect(payload).to eq 1
     end
   end
   context "Trying to logout user without before login" do

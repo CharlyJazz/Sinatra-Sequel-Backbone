@@ -12,19 +12,23 @@
           <hr class="mt-2 mb-2">
         </div>
         <!--Body-->
-        <div class="md-form">
-          <i class="fa fa-envelope prefix"></i>
-          <input type="text" id="form2" class="form-control">
-          <label for="form2">Your email</label>
-        </div>
-        <div class="md-form">
-          <i class="fa fa-lock prefix"></i>
-          <input type="password" id="form4" class="form-control">
-          <label for="form4">Your password</label>
-        </div>
-        <div class="text-center">
-          <button class="btn btn-deep-purple">Login</button>
-        </div>
+        <form>
+          <fieldset>
+            <div class="md-form">
+              <i class="fa fa-envelope prefix"></i>
+              <input type="text" id="email" class="form-control" required>
+              <label for="email">Your email</label>
+            </div>
+            <div class="md-form">
+              <i class="fa fa-lock prefix"></i>
+              <input type="password" id="password" class="form-control" required>
+              <label for="password">Your password</label>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-deep-purple" id="submit">Login</button>
+            </div>
+          </fieldset>
+        </form>
       </div>
       <!--Footer-->
       <div class="modal-footer text-center">

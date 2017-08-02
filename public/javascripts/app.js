@@ -1,6 +1,6 @@
 var app = app || {};
 
-app.Application = Marionette.Application.extend({
+app.Application = Mn.Application.extend({
 
   onStart: function() {
     // Current user authenticated or guest
@@ -12,12 +12,39 @@ app.Application = Marionette.Application.extend({
       permission_level: this.options.permission_level
     });
 
-    new app.ApplicationHeaderView
+    var applicationHeader = new app.ApplicationHeaderView();
 
-    new app.ApplicationPagesRouter;
+    var applicationPagesRoutes = new app.ApplicationPagesRouter();
   
     Backbone.history.start();        
     
   }
     
 });
+
+// https://stackoverflow.com/questions/7514922/rails-with-underscore-js-templates
+
+_.templateSettings = {
+  interpolate: /\{\{\=(.+?)\}\}/g,
+  evaluate: /\{\{(.+?)\}\}/g
+};
+
+// https://www.sitepoint.com/using-json-web-tokens-node-js/
+
+// Store "old" sync function
+var backboneSync = Backbone.sync;
+
+// Now override
+Backbone.sync = function (method, model, options) {
+  /*
+   * "options" represents the options passed to the underlying $.ajax call
+   * */
+  var token = app.current_user.get_token(); // Check if user is login and get the token
+  if (token) {
+    options.headers = {
+      'x-access-token': token
+    }
+  }
+  // call the original function
+  backboneSync(method, model, options);
+};

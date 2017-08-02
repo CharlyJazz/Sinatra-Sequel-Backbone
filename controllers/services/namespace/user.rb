@@ -25,7 +25,6 @@ class UserNamespace < SnippetNamespace
 
     post '/', :validate => [:name, :email, :password, :password_confirmation, :image_profile] do
       # Create user
-      puts params['image_profile']
       check_regex(Username, params['name'])
       check_regex(Email, params['email'])
       check_password_confirmation(params['password'], params['password_confirmation'])

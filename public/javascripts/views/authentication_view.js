@@ -1,6 +1,6 @@
 var app = app || {};
 
-app.AuthenticationView = Backbone.Marionette.View.extend({
+app.AuthenticationView = Mn.View.extend({
   el: 'main',
   template: '#container-authentication',
   regions: {
@@ -28,8 +28,7 @@ app.AuthenticationView = Backbone.Marionette.View.extend({
   }
 });
 
-
-app.LoginSubView = Backbone.Marionette.View.extend({
+app.LoginSubView = Mn.View.extend({
   template: '#sub-view-login',
   className: 'col-lg-6 offset-lg-3',
   regions: {
@@ -37,10 +36,71 @@ app.LoginSubView = Backbone.Marionette.View.extend({
   },
   triggers: {
     'click a.switch': 'switch_register'
+  },
+  events: {
+    'click @ui.submit': 'loginUser'
+  },
+  ui: {
+    'submit': '#submit',
+    'password_input': 'input#password',
+    'email_input': 'input#email'
+  },
+  loginUser: function () {
+    var password = this.getUI('password_input'),
+        email = this.getUI('email_input');
+    if (password.val().length < 7) {
+      $.toast({
+        heading: 'Password very tiny!',
+        text: 'The password no is correct',
+        icon: 'warning',
+        showHideTransition: 'slide'
+      });
+    }
+    else {
+      // Send ajax for login the user
+      $.ajax({
+        type: "POST",
+        url: '/auth/login',
+        data: {
+          'email': email.val(),
+          'password': password.val()
+        },
+        dataType: 'json',
+        success: function (response) {
+          // Show toast
+          $.toast({
+            heading: "Welcome " + response.username,
+            text: 'Wait while loading your profile',
+            icon: 'success',
+            showHideTransition: 'slide',
+            hideAfter: 1600
+          });
+          // Update current_user attributes
+          app.current_user.set({
+              username: response.username,
+              email: response.email,
+              id: response.id,
+              permission_level: response.permission_level
+          });
+          // Update current_user profile image
+          app.current_user.set_image_profile(response.image_profile);
+          // Update current_user token
+          app.current_user.add_token(response.token);
+        },
+        error: function (response) {
+          $.toast({
+            heading: 'The data does not match',
+            text: 'Make sure your password and mail with the correct ones',
+            icon: 'error',
+            showHideTransition: 'slide'
+          });
+        }
+      });
+    }
   }
 });
 
-app.RegisterSubView = Backbone.Marionette.View.extend({
+app.RegisterSubView = Mn.View.extend({
   template: '#sub-view-register',
   className: 'col-lg-6 offset-lg-3',
   _username_preview: _.template('Username: <strong><%= username %></strong>'),
@@ -66,7 +126,9 @@ app.RegisterSubView = Backbone.Marionette.View.extend({
   },
   ui: {
     submit: '#submit',
-    switch: 'a.switch'
+    switch: 'a.switch',
+    fieldset_information: '.fieldset-information',
+    fieldset_image: '.fieldset-image'
   },
   initialize: function(){
     this.collection = new app.UserCollection();
@@ -133,6 +195,10 @@ app.RegisterSubView = Backbone.Marionette.View.extend({
     }
   },
   showFieldsetImage: function () {
+    /*
+     * Add username and email preview data and
+     * Show fieldset image or show toast if not have image profile
+     * */
     if (app.validateForm(this._inputs)) {
       $('#preview-username').html(
         this._username_preview({
@@ -144,21 +210,27 @@ app.RegisterSubView = Backbone.Marionette.View.extend({
           email:$("input#email").val()
         })
       );
-      $('.fieldset-information').addClass('hidden-element');
-      $('.fieldset-image').removeClass('hidden-element');
+      this.getUI('fieldset_information').addClass('hidden-element');
+      this.getUI('fieldset_image').removeClass('hidden-element');
     }
     else {
-      console.log('nomamaguebo')
+      $.toast({
+        heading: 'Fill all fields!',
+        text: 'Remember, the password need more that 6 characters',
+        icon: 'info',
+        showHideTransition: 'slide'
+      })
     }
-
-    // Validate fields, show preview info and switch the current fieldset
   },
   showFieldsetInformation: function () {
-    // Validate fields, show preview info and switch the current fieldset
-    $('.fieldset-information').removeClass('hidden-element');
-    $('.fieldset-image').addClass('hidden-element');
+    /*
+    * Show fieldset information
+    * */
+    this.getUI('fieldset_information').removeClass('hidden-element');
+    this.getUI('fieldset_image').addClass('hidden-element');
   },
   readUrl: function(event){
+    // Show image preview
     var input = event.currentTarget;
     if (input.files && input.files[0]) {
       var reader = new FileReader();

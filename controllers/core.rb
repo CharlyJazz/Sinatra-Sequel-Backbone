@@ -30,6 +30,23 @@ class CoreController < Sinatra::Base
     set :session_secret, '1a2s3d4f5g6h7j8k9l'
   end
 
+  signing_key_path = File.expand_path("../../app.rsa", __FILE__)
+
+  verify_key_path = File.expand_path("../../app.rsa.pub", __FILE__)
+
+  signing_key, verify_key = '', ''
+
+  File.open(signing_key_path) do |file|
+    signing_key = OpenSSL::PKey.read(file)
+  end
+
+  File.open(verify_key_path) do |file|
+    verify_key = OpenSSL::PKey.read(file)
+  end
+
+  set :signing_key, signing_key
+  set :verify_key, verify_key
+
   bower_components = %w[backbone bootstrap codemirror
                         components-font-awesome jquery
                         jquery-dateFormat MDBootstrap

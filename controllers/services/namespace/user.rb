@@ -30,12 +30,14 @@ class UserNamespace < SnippetNamespace
       check_password_confirmation(params['password'], params['password_confirmation'])
       check_if_data_resource_exist(User, 'name', params['name'])
       check_if_data_resource_exist(User, 'email', params['email'])
-      User.create(:name=>params['name'],
+      user = User.create(:name=>params['name'],
                   :email=>params['email'],
                   :password=>params['password'],
                   :password_confirmation=>params['password_confirmation'],
                   :image_profile=>params['image_profile']
-      ).save().to_json :except=> :password_digest
+      ).save()
+      Role.add_role_to_user Role.first(:name=>'user'), user # Create role relationship
+      user.to_json :except=> :password_digest
     end
 
     put '/:id', :validate => [:name, :email, :password, :password_confirmation, :image_profile] do

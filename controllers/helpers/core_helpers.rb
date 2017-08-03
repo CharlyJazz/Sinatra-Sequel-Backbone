@@ -1,19 +1,41 @@
 module CoreAppHelpers
 
   def current_user
-    if session[:user]
-      user = User[session[:user]]
-      if RoleUser.user_have_role? user.id, 'user'
-        return AuthUser.new(user.name, user.email, user.picture, user.id)
-      elsif RoleUser.user_have_role? user.id, 'admin'
-        return Admin.new(user.name, user.email, user.picture, user.id)
+    @token = extract_token
+    # Try decode token
+    begin
+      payload, header = JWT.decode(@token, settings.verify_key, true)
+      @exp = header["exp"]
+      # Check to see if the exp is set (we don't accept forever tokens)
+      if @exp.nil?
+        puts "Access token doesn't have exp set."
+        return GuestUser.new
       end
-    else
+      @exp = Time.at(@exp.to_i)
+      puts @exp # DEBUG
+      # Make sure the token hasn't expired
+      if Time.now > @exp
+        puts "Access token expired."
+        return GuestUser.new
+      end
+      @user_id = payload["user_id"]
+      puts "User id: #{@user_id}."
+    rescue JWT::DecodeError => e
+      puts "Decode Error."
       return GuestUser.new
     end
 
-  rescue NoMethodError
-    return GuestUser.new
+    user = User[@user_id] # Use the payload id_user for search the user
+
+    puts "User: #{user.name}."
+
+    if RoleUser.user_have_role? user.id, 'user'
+      puts "Current user should be a AuthUser."
+      AuthUser.new(user.name, user.email, user.image_profile, user.id)
+    elsif RoleUser.user_have_role? user.id, 'admin'
+      puts "Current user should be a Admin."
+      Admin.new(user.name, user.email, user.image_profile, user.id)
+    end
 
   end
 
@@ -42,12 +64,6 @@ module CoreAppHelpers
     filename
   end
 
-  # protected just does a redirect if we don't have a valid token
-  def protected!
-    return if authorized?
-    redirect to('/login') # No me sirve
-  end
-
   # helper to extract the token from the session, header or request param
   # if we are building an api, we would obviously want to handle header or request param
   def extract_token
@@ -72,36 +88,7 @@ module CoreAppHelpers
       return token
     end
 
-    return nil
-  end
-
-  # check the token to make sure it is valid with our public key
-  def authorized?
-    @token = extract_token
-    begin
-      payload, header = JWT.decode(@token, settings.verify_key, true)
-
-      @exp = header["exp"]
-
-      # check to see if the exp is set (we don't accept forever tokens)
-      if @exp.nil?
-        puts "Access token doesn't have exp set"
-        return false
-      end
-
-      @exp = Time.at(@exp.to_i)
-
-      # make sure the token hasn't expired
-      if Time.now > @exp
-        puts "Access token expired"
-        return false
-      end
-
-      @user_id = payload["user_id"]
-
-    rescue JWT::DecodeError => e
-      return false
-    end
+    nil
   end
 
 end
@@ -122,7 +109,7 @@ class GuestUser
 end
 
 class AuthUser
-  attr_reader :id, :name, :email, :picture
+  attr_reader :id, :username, :email, :picture
   def initialize(name, email, picture, id)
     @username = name
     @email = email
@@ -150,7 +137,7 @@ class AuthUser
 end
 
 class Admin
-  attr_reader :id, :name, :email, :picture
+  attr_reader :id, :username, :email, :picture
   def initialize(name, email, picture, id)
     @username = name
     @email = email

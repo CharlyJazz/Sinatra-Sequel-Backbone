@@ -5,6 +5,7 @@ describe User do
     before :each do
       @user = User.new(:name => "SnippetMan", :email=>"SnippetMan@gmail.com",
                        :password=>"123456", :password_confirmation=>"123456").save
+      Role.new(:name=>'user').save
     end
     context "get all users" do
       it "should response all user" do
@@ -32,15 +33,19 @@ describe User do
     end
     context "create user" do
 
-      let(:route) {"/api/user/?name=carl3os&password=1232dsa&password_confirmation=1232dsa&email=carl3os@gmail.com"}
+      let(:route) {"/api/user/?name=carl3os&password=1232dsa" +
+          "&password_confirmation=1232dsa&email=carl3os@gmail.com&image_profile=asdadada"}
 
       it "should create a user" do
-        1.times { post route }
+        1.times { post route}
 
+        expect(JSON.parse(last_response.body)["response"]).to be_nil
+        expect(last_response.status).to eq 200
         expect(JSON.parse(last_response.body)["name"]).to eq "carl3os"
         expect(JSON.parse(last_response.body)["password_digest"]).to be_nil
-        expect(last_response.status).to eq 200
         expect(User.all().count).to eq 2
+        # Check if the user have relationship with de role 'user'
+        expect(RoleUser.user_have_role? JSON.parse(last_response.body)["id"], 'user').to be_truthy
       end
       it "should create one user and response 404" do
         2.times { post route }
@@ -50,9 +55,15 @@ describe User do
       end
     end
     context "edit user" do
-      let(:route_id_false) {"/api/user/2?name=SnippetMan&password=snippet123123&password_confirmation=snippet123123&email=SnippetMan@gmail.com"}
-      let(:route_id_true) {"/api/user/1?name=carl3os&password=1232dsa&password_confirmation=1232dsa&email=carl3os@gmail.com"}
-      let(:route_edit_password) {"/api/user/1?name="+@user.name+"&password=1232dsa&password_confirmation=1232dsa&email="+@user.email}
+      let(:route_id_false) {"/api/user/2?name=SnippetMan&password=snippet123123" +
+          "&password_confirmation=snippet123123&email=SnippetMan@gmail.com&image_profile=asdadada"}
+
+      let(:route_id_true) {"/api/user/1?name=carl3os&password=1232dsa" +
+          "&password_confirmation=1232dsa&email=carl3os@gmail.com&image_profile=asdadada"}
+
+      let(:route_edit_password) {"/api/user/1?name=" + @user.name +
+          "&password=1232dsa&password_confirmation=1232dsa&email=" + @user.email + "&image_profile=asdadada"}
+
       it "Pass an id that does not exist" do
         put route_id_false
 

@@ -59,7 +59,7 @@ app.LoginSubView = Mn.View.extend({
     else {
       // Send ajax for login the user
       $.ajax({
-        type: "POST",
+        type: 'POST',
         url: '/auth/login',
         data: {
           'email': email.val(),
@@ -69,7 +69,7 @@ app.LoginSubView = Mn.View.extend({
         success: function (response) {
           // Show toast
           $.toast({
-            heading: "Welcome " + response.username,
+            heading: 'Welcome ' + response.username,
             text: 'Wait while loading your profile',
             icon: 'success',
             showHideTransition: 'slide',
@@ -106,6 +106,7 @@ app.RegisterSubView = Mn.View.extend({
   _username_preview: _.template('Username: <strong><%= username %></strong>'),
   _email_preview: _.template('Email: <strong><%= email %></strong>'),
   _inputs: ['#username', '#email', '#password', '#repeat'],
+  _image_dimension: {'height':300, 'width':300},
   regions: {
     login: '#register-region'
   },
@@ -127,6 +128,7 @@ app.RegisterSubView = Mn.View.extend({
   ui: {
     submit: '#submit',
     switch: 'a.switch',
+    image_preview: '#preview-image',
     fieldset_information: '.fieldset-information',
     fieldset_image: '.fieldset-image'
   },
@@ -202,12 +204,12 @@ app.RegisterSubView = Mn.View.extend({
     if (app.validateForm(this._inputs)) {
       $('#preview-username').html(
         this._username_preview({
-          username:$("input#username").val()
+          username:$('input#username').val()
         })
       );
       $('#preview-email').html(
         this._email_preview({
-          email:$("input#email").val()
+          email:$('input#email').val()
         })
       );
       this.getUI('fieldset_information').addClass('hidden-element');
@@ -230,18 +232,33 @@ app.RegisterSubView = Mn.View.extend({
     this.getUI('fieldset_image').addClass('hidden-element');
   },
   readUrl: function(event){
-    // Show image preview
-    var input = event.currentTarget;
+    // Validate size of image and show image preview
+    var input = event.currentTarget,
+        _URL = window.URL || window.webkitURL,
+        max_width = this._image_dimension.width,
+        max_height = this._image_dimension.height,
+        submit = this.getUI('submit'),
+        image_preview = this.getUI('image_preview');
     if (input.files && input.files[0]) {
-      var reader = new FileReader();
-      reader.onload = function(e) {
-        var imgData = e.target.result;
-        var imgName = input.files[0].name;
-        input.setAttribute("data-title", imgName);
-        $('#preview-image').attr('src', imgData);
+      var img = new Image();
+      img.onload = function(e) {
+        var width = img.naturalWidth, height = img.naturalHeight;
+        if (width <= max_width && height <= max_height ) {
+          input.setAttribute('data-title', input.files[0].name);
+          image_preview.attr('src', e.target.src); // transform to UI element
+          submit.attr('disabled', false);// transform to UI element
+        }
+        else {
+          $.toast({
+            heading: 'Image dimensions not supported',
+            text: 'Your image should be ' + max_height + ' px wide and '
+                  + max_height + ' px and ' + max_height + ' long or smaller',
+            icon: 'error',
+            showHideTransition: 'slide'
+          });
+        }
       };
-      reader.readAsDataURL(input.files[0]);
-      $('#submit').attr("disabled", false);
+      img.src = _URL.createObjectURL(input.files[0]);
     }
   },
   triggerFileUpload: function () {
@@ -252,9 +269,9 @@ app.RegisterSubView = Mn.View.extend({
         switchButton = this.getUI('switch'),
         image = $('input#inputFile').prop('files'), request,
         users = this.collection, reader = new FileReader();
-    submitButton.attr("disabled", true); // Prevent send several ajax
+    submitButton.attr('disabled', true); // Prevent send several ajax
     if(image.length === 1){
-      reader.onloadend = function(e) {
+      reader.onloadend = function() {
         request = users.create({
           'name':$('input#username').val(),
           'email':$('input#email').val(),
@@ -267,15 +284,15 @@ app.RegisterSubView = Mn.View.extend({
               switchButton.trigger('click');  // Render login form
             },
             error: function () {
-              submitButton.attr("disabled", false);
+              submitButton.attr('disabled', false);
               app.toastError()
           }
         });
       };
       reader.readAsDataURL(image[0]);
     } else {
-      submitButton.attr("disabled", false);
-      throw "File input are empty";
+      submitButton.attr('disabled', false);
+      throw 'File input are empty';
     }
   },
   toastSuccess: function(){
@@ -284,6 +301,6 @@ app.RegisterSubView = Mn.View.extend({
       text: 'Now login to access your profile.',
       icon: 'success',
       showHideTransition: 'slide'
-    })
+    });
   }
 });

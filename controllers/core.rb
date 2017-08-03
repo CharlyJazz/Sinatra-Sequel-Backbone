@@ -19,7 +19,7 @@ class CoreController < Sinatra::Base
     enable :sessions
     enable :logging
 
-    enable :show_exceptions
+    disable :show_exceptions
 
     set :template_engine, :erb
     set :root,  Pathname(File.expand_path("../..", __FILE__))

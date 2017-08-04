@@ -1,6 +1,6 @@
 var app = app || {};
 
-app.ProyectsView = Backbone.Marionette.View.extend({
+app.ProyectsView = Mn.View.extend({
   el: 'main',
   template: '#container-proyects'
 });

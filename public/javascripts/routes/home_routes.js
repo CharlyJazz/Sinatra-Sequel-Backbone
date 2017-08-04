@@ -1,10 +1,12 @@
 var app = app || {};
 
-app.ApplicationPagesRouter = Backbone.Marionette.AppRouter.extend({
-  controller: app.ApplicationHomeController,
+app.ApplicationBasicRouter = Backbone.Marionette.AppRouter.extend({
+  controller: app.ApplicationBasicController,
   appRoutes: {
-    '': 'home',
-    'auth': 'authentication',
-    'profile': 'profile'
+    '': 'homePage',
+    'auth': 'authenticationPage',
+    'proyects': 'proyectsPage',
+    'snippets': 'snippetsPage',
+    'user/:id': 'profileUserPage'
   }
 });

@@ -1,6 +1,6 @@
 var app = app || {};
 
-app.ProfileView = Backbone.Marionette.View.extend({
+app.ProfileView = Mn.View.extend({
   el: 'main',
   template: '#container-profile'
 });

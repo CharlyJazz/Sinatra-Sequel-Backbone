@@ -47,7 +47,7 @@ class CoreController < Sinatra::Base
   set :signing_key, signing_key
   set :verify_key, verify_key
 
-  bower_components = %w[backbone bootstrap codemirror
+  bower_components = %w[backbone bootstrap codemirror chart.js
                         components-font-awesome jquery
                         jquery-dateFormat MDBootstrap
                         tether underscore backbone.marionette

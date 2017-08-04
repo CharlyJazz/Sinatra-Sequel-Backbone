@@ -12,11 +12,15 @@ app.Application = Mn.Application.extend({
       permission_level: this.options.permission_level
     });
 
-    var applicationHeader = new app.ApplicationHeaderView();
+    new app.ApplicationHeaderView();
 
-    var applicationPagesRoutes = new app.ApplicationPagesRouter();
-  
-    Backbone.history.start();        
+    new app.ApplicationBasicRouter();
+
+    if (this.options.permission_level > 0) {
+      new app.UserAuthRouter();
+    }
+
+    Backbone.history.start();
     
   }
     

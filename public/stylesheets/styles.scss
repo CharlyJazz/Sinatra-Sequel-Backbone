@@ -67,3 +67,42 @@ body{
     }
   }
 }
+
+.card-profile-information {
+  min-height: 28.5em;
+  .card-body {
+    padding:1rem;
+  }
+  .card-text, .card-title {
+    padding-left:.5rem;
+  }
+}
+
+.card-stadistis{
+  .card-body {
+    padding:1rem
+  }
+}
+
+.four-snippet {
+  .row {
+    > div {
+      margin-top: 2rem;
+    }
+  }
+}
+
+.see-all{
+  margin-top: 2rem;
+  a {
+    font-size: 1em;
+    &:hover {
+      color: $bluelight !important;
+      -webkit-transition: .3s ease;
+      -moz-transition: .3s ease;
+      -ms-transition: .3s ease;
+      -o-transition: .3s ease;
+      transition: .3s ease;
+    }
+  }
+}

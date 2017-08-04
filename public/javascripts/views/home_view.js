@@ -1,6 +1,6 @@
 var app = app || {};
 
-app.HomeView = Backbone.Marionette.View.extend({
+app.HomeView = Mn.View.extend({
   el: 'main',
   template: '#container-home'
 });

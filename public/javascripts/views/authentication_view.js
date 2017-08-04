@@ -86,6 +86,8 @@ app.LoginSubView = Mn.View.extend({
           app.current_user.set_image_profile(response.image_profile);
           // Update current_user token
           app.current_user.add_token(response.token);
+          // Active User Auth Routes and redirect to the profile
+          new app.UserAuthRouter()
         },
         error: function (response) {
           $.toast({

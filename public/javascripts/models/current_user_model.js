@@ -13,7 +13,7 @@ app.CurrentUser = Backbone.Model.extend({
   },
   is_authenticated: function() {
     /*
-    * Check if CurrentUser is authenticate
+    * Check if CurrentUser is authenticated
     * */
     if (this.get('permission_level') > 0) {
       return true;
@@ -56,5 +56,11 @@ app.CurrentUser = Backbone.Model.extend({
       return window.localStorage.setItem('image_profile', image_string_base_64);
     }
     return false;
+  },
+  logout: function(){
+    /*
+     * Return ajax for create Promise
+     * */
+    return $.ajax({type: 'POST', url: '/auth/logout'});
   }
 });

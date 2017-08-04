@@ -9,6 +9,8 @@ module CoreAppHelpers
       # Check to see if the exp is set (we don't accept forever tokens)
       if @exp.nil?
         puts "Access token doesn't have exp set."
+
+        session['access_token'] = nil
         return GuestUser.new
       end
       @exp = Time.at(@exp.to_i)
@@ -16,12 +18,16 @@ module CoreAppHelpers
       # Make sure the token hasn't expired
       if Time.now > @exp
         puts "Access token expired."
+
+        session['access_token'] = nil
         return GuestUser.new
       end
       @user_id = payload["user_id"]
       puts "User id: #{@user_id}."
     rescue JWT::DecodeError => e
       puts "Decode Error."
+
+      session['access_token'] = nil
       return GuestUser.new
     end
 

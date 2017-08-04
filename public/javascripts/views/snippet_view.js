@@ -1,6 +1,6 @@
 var app = app || {};
 
-app.SnippetView = Backbone.Marionette.View.extend({
+app.SnippetsView = Mn.View.extend({
   el: 'main',
   template: '#container-snippets'
 });

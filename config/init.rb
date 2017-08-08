@@ -21,3 +21,5 @@ Sequel::Model.strict_param_setting = false
 Dir["./models/*.rb"].each{ |model|
   require model
 }
+
+DB = settings.database

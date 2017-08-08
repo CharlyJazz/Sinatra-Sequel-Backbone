@@ -1,4 +1,4 @@
-$bluedark:  #4C97B1;
+$grey: #e5e8df;
 $bluemedium: #6CD5FA;
 $bluelight: #D5F5FE;
 $greylight: #E4E4E4;
@@ -10,7 +10,7 @@ main{
 }
 
 body{
-  background-color: $bluedark;
+  background-color: $grey;
 }
 
 .security-high {
@@ -105,4 +105,8 @@ body{
       transition: .3s ease;
     }
   }
+}
+
+.CodeMirror.CodeMirror-wrap {
+  height: 35em ;
 }

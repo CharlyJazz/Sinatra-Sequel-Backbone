@@ -20,7 +20,8 @@ class UserNamespace < SnippetNamespace
 
     get '/:id' do
       # Read one user by id
-      check_if_resource_exist(User, params['id']).to_json :except=> :password_digest
+      check_if_resource_exist(User, params['id'])
+      User.serialize params['id']
     end
 
     post '/', :validate => [:name, :email, :password, :password_confirmation, :image_profile] do
@@ -76,7 +77,53 @@ class UserNamespace < SnippetNamespace
       delete_record(User, params['id'].split(','))
     end
 
-    patch '/:id/role/:role_name' do # esto era asi '/:role/user/:id cambiar specs
+    get '/:id/snippets' do
+      # Get the snippets that belongs to a user
+
+      # Check if $limit is a number
+      if params['$limit'] && /\A\d+\z/.match(params['$limit'])
+        limit = "LIMIT #{params['$limit']}"
+      else
+        limit = ''
+      end
+
+      user = check_if_resource_exist(User, params['id'])
+
+      DB.fetch("SELECT snippets.*,
+          (SELECT COUNT(comment_snippets.id)
+            FROM comment_snippets WHERE comment_snippets.snippet_id = snippets.id) AS comment_count,
+          (SELECT COUNT(like_snippets.id)
+            FROM like_snippets WHERE like_snippets.snippet_id = snippets.id) AS like_count
+        FROM snippets
+          WHERE snippets.user_id = #{user.id}
+          ORDER BY comment_count DESC
+        " + limit).all.to_json
+    end
+
+    get '/:id/proyects' do
+      # Get the proyects that belongs to a user
+
+      # Check if $limit is a number
+      if params['$limit'] && /\A\d+\z/.match(params['$limit'])
+        limit = "LIMIT #{params['$limit']}"
+      else
+        limit = ''
+      end
+
+      user = check_if_resource_exist(User, params['id'])
+
+      DB.fetch("SELECT proyects.*,
+          (SELECT COUNT(comment_proyects.id)
+           FROM comment_proyects WHERE comment_proyects.proyect_id = proyects.id) AS comment_count,
+          (SELECT COUNT(like_proyects.id)
+           FROM like_proyects WHERE like_proyects.proyect_id = proyects.id) AS like_count
+        FROM proyects
+          WHERE proyects.user_id = #{user.id}
+          ORDER BY comment_count DESC
+        " + limit).all.to_json
+    end
+
+    patch '/:id/role/:role_name' do
       # Update role of User
       user = User.first(:id=>params['id'])
       if user.equal?(nil)

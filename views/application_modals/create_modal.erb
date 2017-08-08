@@ -1,0 +1,38 @@
+<script type="x-template/underscore" id="modal-create">
+  <div class="modal fade" id="centralModalSm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-notify modal-success" role="document">
+      <!--Content-->
+      <div class="modal-content">
+        <!--Header-->
+        <div class="modal-header">
+          <p class="heading lead">Choose what you will create</p>
+
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="black-text">&times;</span>
+          </button>
+        </div>
+
+        <!--Body-->
+        <div class="modal-body">
+          <div class="text-center">
+            <i class="fa fa-plus fa-4x mb-3 animated rotateIn"></i>
+            <p id="option-description"></p>
+          </div>
+        </div>
+
+        <!--Footer-->
+        <div class="modal-footer justify-content-center">
+          <a type="button" class="btn btn-primary waves-effect" id="choice-proyect"
+             data-dismiss="modal" data-description="You can create a project and add snippet to it">
+            Proyect
+          </a>
+          <a type="button" class="btn btn-primary waves-effect" id="choice-snippet"
+             data-dismiss="modal" data-description="Or you can create a single snippets and tags">
+            Snippet
+          </a>
+        </div>
+      </div>
+      <!--/.Content-->
+    </div>
+  </div>
+</script>

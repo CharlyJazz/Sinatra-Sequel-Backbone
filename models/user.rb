@@ -10,6 +10,30 @@ class User < Sequel::Model(:users)
     validates_format RegexPattern::Email, :email
     validates_format RegexPattern::Username, :name
   end
+
+  def self.serialize id
+    # Return user information with proyects and snippets data
+    # Todo traerme todo esto en una sola consulta y crear JSON
+    user = first :id=>id
+
+    { :name=>user.name,
+      :email=>user.email,
+      :image_profile=>user.image_profile,
+      :relationships=>{
+        :following=>RelationShip.where(:follower_id=>id).count,
+        :followers=>RelationShip.where(:followed_id=>id).count
+      },
+      :snippets=>{
+        :count=>Snippet.where(:user_id=>id).count,
+        :all=>"/api/user/#{id}/snippets"
+      },
+      :proyects=>{
+            :count=>Proyect.where(:user_id=>id).count,
+            :all=>"/api/user/#{id}/proyects"
+      }
+    }.to_json
+
+  end
   
   many_to_many :roles
   one_to_many :snippets

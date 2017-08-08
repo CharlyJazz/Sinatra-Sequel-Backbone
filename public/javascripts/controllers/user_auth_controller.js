@@ -39,7 +39,7 @@ app.UserAuthController = {
       app.toastError(); // Show the toast error
     });
   },
-  configUserModal: function () {
+  configUserPage: function () {
     /*
     * Show modal for update User
     * Information
@@ -50,34 +50,24 @@ app.UserAuthController = {
     // var view = new app.UserConfigView();
     // view.render();
   },
-  createProyectModal: function(){
+  createProyectPage: function(){
     /*
     * Show modal for create Proyects
     * */
     if (!app.current_user.is_authenticated()){
       return Backbone.history.navigate('auth', {trigger: true});
     }
-    // var view = new app.CreateProyectsView();
-    // view.render();
+    var view = new app.CreateProyectsView();
+    view.render();
   },
-  createSnippetModal: function(){
+  createSnippetPage: function(){
     /*
     * Show modal for create Snippet
     * */
     if (!app.current_user.is_authenticated()){
       return Backbone.history.navigate('auth', {trigger: true});
     }
-    // var view = new app.CreateSnippetView();
-    // view.render();
-  },
-  createModal: function() {
-    /*
-     * Show modal for select what will create
-     * */
-    if (!app.current_user.is_authenticated()){
-      return Backbone.history.navigate('auth', {trigger: true});
-    }
-    // var view = new app.CreateView();
-    // view.render();
+    var view = new app.CreateSnippetView();
+    view.render();
   }
 };

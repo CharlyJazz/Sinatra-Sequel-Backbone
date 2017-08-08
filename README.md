@@ -105,3 +105,6 @@ the app.rsa and app.rsa.pub were generated with:
     - http://sequel.jeremyevans.net/rdoc-plugins/classes/Sequel/Plugins/Serialization.html
     - https://github.com/nickdufresne/jwt-sinatra-example/blob/master/app.rb
     - https://rietta.com/blog/2012/01/27/openssl-generating-rsa-key-from-command/
+    - http://www.odata.org/documentation/odata-version-3-0/url-conventions/
+    - http://ricostacruz.com/cheatsheets/sequel.html
+    - https://stackoverflow.com/questions/4115115/extract-a-substring-from-a-string-in-ruby-using-a-regular-expression

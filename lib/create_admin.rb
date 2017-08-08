@@ -1,11 +1,11 @@
-class String
+class String # Cool path monky
   def is_number?
     true if Float(self) rescue false
   end
 end
 
 module CreateAdmin
-
+  # CreateAdmin is a rake task for the creation of the admin user.
   def create_admin
     puts 'You will be prompted to enter an username, email and password for the new admin'
     puts 'Name: '

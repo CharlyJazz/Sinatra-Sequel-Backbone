@@ -17,7 +17,7 @@ app.Application = Mn.Application.extend({
     new app.ApplicationBasicRouter();
 
     if (this.options.permission_level > 0) {
-      new app.UserAuthRouter();
+      app.userAuthRouter = new app.UserAuthRouter();
     }
 
     Backbone.history.start();

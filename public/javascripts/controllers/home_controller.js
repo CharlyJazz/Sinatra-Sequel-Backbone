@@ -23,7 +23,8 @@ app.ApplicationBasicController = {
     view.render();
   },
   profileUserPage: function(id){
-    var view = new app.ProfileView();
-    view.render();
+    var view = new app.ProfileView({
+      model: new app.User({id:id})
+    });
   }
 };

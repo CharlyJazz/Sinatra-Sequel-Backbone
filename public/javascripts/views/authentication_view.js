@@ -87,7 +87,7 @@ app.LoginSubView = Mn.View.extend({
           // Update current_user token
           app.current_user.add_token(response.token);
           // Active User Auth Routes and redirect to the profile
-          new app.UserAuthRouter()
+          app.userAuthRouter = new app.UserAuthRouter();
         },
         error: function (response) {
           $.toast({

@@ -6,13 +6,13 @@
         <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" alt="Card image cap">
         <div class="card-body">
           <h4 class="card-title">
-            Carlos - <small>carlos@gmail.com</small>
+            {{= name }} - <small> {{= email }} </small>
           </h4>
           <p class="card-text"></p>
           <a href="#" class="btn btn-primary btn-sm">Follow</a>
           <div class="card-footer">
-            <span>Following: 2</span>
-            <span class="float-sm-right">Followers: 2</span>
+            <span>Following: {{= relationships.following }}</span>
+            <span class="float-sm-right">Followers: {{= relationships.followers }}</span>
           </div>
         </div>
       </div>
@@ -21,11 +21,11 @@
       <div class="card card-stadistis">
         <div class="card-body">
           <div class="element">
-            Snippets: 21
+            Snippets: {{= snippets.count }}
             <a href="#" class="btn btn-primary btn-sm">Check all</a>
           </div>
           <div class="element">
-            Proyects: 12
+            Proyects: {{= proyects.count }}
             <a href="#" class="btn btn-primary btn-sm">Check all</a>
           </div>
           <div class="element">
@@ -44,16 +44,56 @@
     <div class="col-lg-12 four-snippet">
       <div class="row">
         <div class="col-lg-6">
-          <a href="#"><div id="codemirror-snippet-1"></div></a>
+          <h4>
+            <span>
+              <a href="">filaneme.py</a>
+              <i class="fa fa-file"></i>
+            </span>
+            <span class="float-right">
+              <i class="fa fa-comments"></i>   4
+              <i class="fa fa-thumbs-up "></i> 2
+            </span>
+          </h4>
+          <div id="codemirror-snippet-1"></div>
         </div>
         <div class="col-lg-6">
-          <a href="#"><div id="codemirror-snippet-2"></div></a>
+          <h4>
+            <span>
+              <a href="">filaneme.py</a>
+              <i class="fa fa-file"></i>
+            </span>
+            <span class="float-right">
+              <i class="fa fa-comments"></i>   4
+              <i class="fa fa-thumbs-up "></i> 2
+            </span>
+          </h4>
+          <div id="codemirror-snippet-2"></div>
         </div>
         <div class="col-lg-6">
-          <a href="#"><div id="codemirror-snippet-3"></div></a>
+          <h4>
+            <span>
+              <a href="">filaneme.py</a>
+              <i class="fa fa-file"></i>
+            </span>
+            <span class="float-right">
+              <i class="fa fa-comments"></i>   4
+              <i class="fa fa-thumbs-up "></i> 2
+            </span>
+          </h4>
+          <div id="codemirror-snippet-3"></div>
         </div>
         <div class="col-lg-6">
-          <a href="#"><div id="codemirror-snippet-4"></div></a>
+          <h4>
+            <span>
+              <a href="">filaneme.py</a>
+              <i class="fa fa-file"></i>
+            </span>
+            <span class="float-right">
+              <i class="fa fa-comments"></i>   4
+              <i class="fa fa-thumbs-up "></i> 2
+            </span>
+          </h4>
+          <div id="codemirror-snippet-4"></div>
         </div>
       </div>
     </div>

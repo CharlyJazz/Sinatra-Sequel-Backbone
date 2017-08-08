@@ -4,7 +4,8 @@ app.ApplicationHeaderView = Mn.View.extend({
   el: '#navbar-application-menu',
   template: '#ul-navbar-application-menu',
   events: {
-    'click a': 'navegate'
+    'click a': 'navegate',
+    'click a#button-create': 'renderModalChoice'
   },
   modelEvents: {
     'change:permission_level': 'render'
@@ -16,6 +17,10 @@ app.ApplicationHeaderView = Mn.View.extend({
   navegate: function(event) {
     $('.active').removeClass('active');
     $(event.target).parent().addClass('active');
+  },
+  renderModalChoice: function () {
+    app.modalChoiceView = new app.CreateChoiceModalView();
+    app.modalChoiceView.render();
   }
 });
 

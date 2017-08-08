@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="<%= asset_path('css/mdb.min.css') %>">
   <link rel="stylesheet" href="<%= asset_path('css/font-awesome.min.css') %>">
   <link rel="stylesheet" href="<%= asset_path('lib/codemirror.css') %>">
+  <link rel="stylesheet" href="<%= asset_path('theme/railscasts.css') %>">
   <link rel="stylesheet" href="<%= asset_path('dist/jquery.toast.min.css') %>">
   <link rel="stylesheet" href="<%= asset_path('styles.css') %>">
 
@@ -20,6 +21,11 @@
   <%= add_sub_template('application_views', 'profile') %>
   <%= add_sub_template('application_views', 'proyects') %>
   <%= add_sub_template('application_views', 'snippets') %>
+  <%= add_sub_template('application_views', 'create_snippet') %>
+  <%= add_sub_template('application_views', 'create_proyect') %>
+
+  <%= add_sub_template('application_modals', 'create_modal') %>
+
 
 </head>
 
@@ -50,6 +56,9 @@
 
   <script type="text/javascript" src="<%= asset_path('collections/user_collection.js') %>"></script>
 
+  <script type="text/javascript" src="<%= asset_path('views/create_view.js') %>"></script>
+  <script type="text/javascript" src="<%= asset_path('views/create_snippet_view.js') %>"></script>
+  <script type="text/javascript" src="<%= asset_path('views/create_proyect_view.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('views/home_view.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('views/profile_view.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('views/authentication_view.js') %>"></script>

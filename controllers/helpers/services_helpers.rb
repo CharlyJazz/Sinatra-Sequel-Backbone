@@ -6,7 +6,7 @@ module ServicesHelpers
   end
   def check_password_confirmation(password, confirmation)
     unless password == confirmation
-      halt 404, {:response=>"Password confirmation not matches"}.to_json
+      halt 404, {:response=>'Password confirmation not matches'}.to_json
     end
   end
   def check_if_data_resource_exist(model, attr, string, except_id = {})
@@ -18,17 +18,17 @@ module ServicesHelpers
       if model.first(:id=>except_id, attr.to_sym=>string) != nil
         return
       elsif model.where{Sequel.&(Sequel.~(:id=> except_id), ({attr.to_sym=>string}))}.kind_of? model
-        halt 404, {:response=>"There is already a resource with this data"}.to_json
+        halt 404, {:response=>'There is already a resource with this data'}.to_json
       end
     end
     if model.first(attr.to_sym=>string) != nil
-      halt 404, {:response=>"There is already a resource with this data"}.to_json
+      halt 404, {:response=>'There is already a resource with this data'}.to_json
     end
   end
   def check_if_resource_exist(model, id)
     record = model.first(:id=>id)
     if record.equal?(nil)
-      halt 404, {:response=>"Resource no found"}.to_json
+      halt 404, {:response=>'Resource no found'}.to_json
     end
     record
   end
@@ -42,7 +42,7 @@ module ServicesHelpers
     {:response=>"Resources deleted: #{c}"}.to_json
   end
   def params_422
-    halt 422, {:response=>"Any parameter are empty or nule"}.to_json
+    halt 422, {:response=>'Any parameter are empty or nule'}.to_json
   end
   def check_nil_string arg
     arg.each { |n|

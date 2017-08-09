@@ -4,6 +4,10 @@ app.User = Backbone.Model.extend({
   urlRoot: '/api/user/'
 });
 
-app.UserSnippets = Backbone.Model.extend({});
+app.UserSnippets = Backbone.Model.extend({
+  urlRoot: '/api/snippet/'
+});
 
-app.UserProyects = Backbone.Model.extend({});
+app.UserProyects = Backbone.Model.extend({
+
+});

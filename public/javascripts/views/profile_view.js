@@ -10,6 +10,16 @@ app.ProfileView = Mn.View.extend({
   modelEvents: {
     'sync': 'renderRegions'
   },
+  childViewEvents: {
+    'noHaveSnippets': 'hiddenSnippetHTML',
+    'noHaveProyects': 'hiddenProyectHTML'
+  },
+  ui:{
+    'title_snippets_block': 'h1#title-popular-snippets',
+    'anchor_snippets_block': 'a#anchor-popular-snippets',
+    'title_proyects_block': 'h1#title-popular-proyects',
+    'anchor_proyects_block': 'a#anchor-popular-proyects'
+  },
   initialize: function () {
     this.user_id = this.model.id;
     this.model.fetch();
@@ -22,11 +32,22 @@ app.ProfileView = Mn.View.extend({
     this.showChildView('proyectsRegion', new app.ProyectsCollectionView({
       user_id: this.user_id
     }));
+  },
+  hiddenSnippetHTML: function () {
+    this.getUI('title_snippets_block').fadeOut(300);
+    this.getUI('anchor_snippets_block').fadeOut(300);
+  },
+  hiddenProyectHTML: function () {
+    this.getUI('title_proyects_block').fadeOut(300);
+    this.getUI('anchor_proyects_block').fadeOut(300);
   }
 });
 
 app.SnippetsCollectionView = Mn.CollectionView.extend({
   className: 'row mt-3',
+  collectionEvents: {
+    'sync': 'CheckIfEmpty'
+  },
   initialize: function(options) {
     this.user_id = this.options.user_id;
     this.childView = Mn.View.extend({
@@ -38,11 +59,19 @@ app.SnippetsCollectionView = Mn.CollectionView.extend({
       limit: 4
     });
     this.collection.fetch();
+  },
+  CheckIfEmpty: function () {
+    if (this.collection.length === 0){
+      this.trigger('noHaveSnippets');
+    }
   }
 });
 
 app.ProyectsCollectionView = Mn.CollectionView.extend({
   className: 'row mt-3',
+  collectionEvents: {
+    'sync': 'CheckIfEmpty'
+  },
   initialize: function(options) {
     this.user_id = this.options.user_id;
     this.childView = Mn.View.extend({
@@ -54,5 +83,10 @@ app.ProyectsCollectionView = Mn.CollectionView.extend({
       limit: 6
     });
     this.collection.fetch();
+  },
+  CheckIfEmpty: function () {
+    if (this.collection.length === 0){
+      this.trigger('noHaveProyects');
+    }
   }
 });

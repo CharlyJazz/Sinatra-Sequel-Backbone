@@ -49,7 +49,7 @@ class CoreController < Sinatra::Base
 
   bower_components = %w[backbone bootstrap codemirror chart.js
                         components-font-awesome jquery
-                        jquery-dateFormat MDBootstrap
+                        jquery-dateFormat MDBootstrap google-code-prettify
                         tether underscore backbone.marionette
                         backbone.radio jquery-toast-plugin]
 

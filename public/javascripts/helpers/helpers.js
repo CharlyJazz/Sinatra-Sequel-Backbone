@@ -14,7 +14,7 @@ app.validateForm = function(arrIds) {
 
 app.toastError = function () {
   $.toast({
-    heading: 'There was an error, try later"',
+    heading: 'There was an error, try later',
     text: 'Are your sure have internet?',
     icon: 'warning',
     showHideTransition: 'slide'

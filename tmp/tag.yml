@@ -1,17 +1,44 @@
 ---
 javascript: language
+python: language
+haskell: language
+java: language
+php: language
+c/#: language
+c++: language
+ruby: language
+css: language
+c: language
+objective-c: language
+perl: language
+shell: language
+r: language
+scala: language
+go: language
+matlab: language
+swift: language
+clojure: language
+groovy: language
+visual basic: language
+docket: software containers
+vue: framework
+capybara: framework
+react: framework
 ember: framework
 backbone: framework
 jquery: framework
 underscore: framework
-react: framework
-inferno: framework
-python: language
 django: framework
-vue: framework
-capybara: framework
+inferno: framework
 flask: micro-framework
 nodejs: cross-platform
-docket: software containers
 github: reporitory
-haskell: language
+gitlab: reporitory
+bitbucket: reporitory
+imperative: programming paradigm
+functional: programming paradigm
+declarative: programming paradigm
+object-oriented: programming paradigm
+procedural: programming paradigm
+logic: programming paradigm
+symbolic: programming paradigm

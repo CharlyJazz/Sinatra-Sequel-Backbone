@@ -4,7 +4,7 @@ python: language
 haskell: language
 java: language
 php: language
-c/#: language
+c#: language
 c++: language
 ruby: language
 css: language
@@ -32,9 +32,9 @@ django: framework
 inferno: framework
 flask: micro-framework
 nodejs: cross-platform
-github: reporitory
-gitlab: reporitory
-bitbucket: reporitory
+github: repository
+gitlab: repository
+bitbucket: repository
 imperative: programming paradigm
 functional: programming paradigm
 declarative: programming paradigm
@@ -42,3 +42,40 @@ object-oriented: programming paradigm
 procedural: programming paradigm
 logic: programming paradigm
 symbolic: programming paradigm
+laravel: framework
+sinatra: framework
+ruby on rails: framework
+angularjs: framework
+meteorjs: framework
+BASIC: language
+CoffeeScript: language
+fortran: language
+pascal: language
+delphi: language
+sql: language
+PL/SQL: language
+aurelia: framework
+aura: framework 
+fuelphp: framework
+slim: micro-framework
+phalcon: framework  
+cakephp: framework
+zend: framework
+yii: framework
+codeigniter: framework
+symfony2: framework
+springmvc: framework
+struts2: framework
+hibernate: framework
+jsf: framework
+grails: framework
+googleWebToolKit: framework
+vaadin: framework
+kohana: framework
+pylons: framework
+catalyst: framework
+swift3: language
+polymer: framework
+knowckout: framework
+
+

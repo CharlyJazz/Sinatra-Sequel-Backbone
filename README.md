@@ -36,68 +36,8 @@ the app.rsa and app.rsa.pub were generated with:
 
 ## TODO
 
-* [x] Create Tables
-* [ ] Create task
-  * [x] db:tag:create   => Insert tag from tag file in the database
-      * [ ] Prevent create tags exist
-  * [ ] db:tag:update   => Create backup of tag registered in the database
-  * [ ] db:admin:create => Create User with the role Admin
-* [x] Create Sequel Models
-  * [x] User
-  * [x] Role
-  * [x] RoleUser
-  * [x] Snippet
-  * [x] LikeSnippet
-  * [x] CommentSnippet
-  * [x] Followers
-  * [x] Tags
-  * [x] Proyects
-  * [x] LikeProyect
-  * [x] Comment Proyect
-* [x] Unit Test for Sequel Models
-  * [x] User
-  * [x] Role
-  * [x] RoleUser
-  * [x] Snippet
-  * [x] LikeSnippet
-  * [x] CommentSnippet
-  * [x] Followers
-  * [x] Tags
-  * [x] Proyects
-  * [x] LikeProyect
-  * [x] Comment Proyect
-* [x] API REST JSON & Unit Test
-  * [x] Login & Logout
-  * [x] Change Password
-  * [x] Register User
-  * [x] CRUD For Snippet
-  * [x] UnLike/Like Snippet
-  * [x] CRUD Comment Snippet
-  * [x] Unfollow/Follow User
-  * [x] CRUD Proyect
-  * [x] CRUD Comment Proyect
-  * [x] UnLike/Like Proyect
-  * [x] Add/Remove Snippet to Proyect
-* [ ] Oauth and Login Sistem
-  * [x] Implement sequel_secure_password gem
-  * [ ] JWT
-  * [ ] Github Oauth
-* [ ] Implement Capybara for front-end testing
-* [ ] Write main front end
-* [ ]  Flash message with help the BMD
-* [ ]  Login Page
-* [ ]  Change Password
-* [ ]  User Setting
-* [ ]  User profile with Snippet gallery
-* [ ]  Followers page
-* [ ]  All Proyects Pagination Page
-* [ ]  User Proyects
-* [ ]  Create Text Editor
-* [ ]  Line specific comment
-* [ ]  General Comments snippet
-* [ ]  Like snippet
-* [ ]  Backbone App
-
+* [ ] Create endpoint for add tag to snippet
+  
 ## Resources
 
     - https://github.com/jeremyevans/sequel/blob/master/lib/sequel/plugins/json_serializer.rb

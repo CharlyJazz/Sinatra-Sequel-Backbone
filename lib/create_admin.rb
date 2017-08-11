@@ -1,5 +1,6 @@
-class String # Cool path monky
+class String
   def is_number?
+    # Cool monkey patch
     true if Float(self) rescue false
   end
 end

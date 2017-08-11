@@ -22,7 +22,7 @@ class CoreController < Sinatra::Base
     disable :show_exceptions
 
     set :template_engine, :erb
-    set :root,  Pathname(File.expand_path("../..", __FILE__))
+    set :root,  Pathname(File.expand_path('../..', __FILE__))
     set :views, 'views'
     set :public_folder, 'public'
     set :static, true
@@ -30,9 +30,9 @@ class CoreController < Sinatra::Base
     set :session_secret, '1a2s3d4f5g6h7j8k9l'
   end
 
-  signing_key_path = File.expand_path("../../app.rsa", __FILE__)
+  signing_key_path = File.expand_path('../../app.rsa', __FILE__)
 
-  verify_key_path = File.expand_path("../../app.rsa.pub", __FILE__)
+  verify_key_path = File.expand_path('../../app.rsa.pub', __FILE__)
 
   signing_key, verify_key = '', ''
 
@@ -54,11 +54,13 @@ class CoreController < Sinatra::Base
                         backbone.radio jquery-toast-plugin]
 
   set :sprockets, Sprockets::Environment.new(root) { |env|
+
     bower_components.each { | library |
-      env.append_path(root.join('public', 'bower_components', library))
+      env.append_path(root.join(public_folder, 'bower_components', library))
     }
-    env.append_path(root.join('public', 'stylesheets'))
-    env.append_path(root.join('public', 'javascripts'))
+
+    %w[stylesheets javascripts].each {|n| env.append_path(root.join(public_folder, n))}
+
     env.js_compressor  = :uglify
     env.css_compressor = :scss
   }
@@ -66,7 +68,7 @@ class CoreController < Sinatra::Base
   set(:auth) do |*roles|
     condition do
       unless logged_in? && roles.any? {|role| set_current_user.in_role? role }
-        halt 401, {:response=>"Unauthorized access"}
+        halt 401, {:response=>'Unauthorized access'}
       end
     end
   end
@@ -76,7 +78,7 @@ class CoreController < Sinatra::Base
       params_array.any? do |k|
         unless params.key?(k)
           # https://stackoverflow.com/questions/3050518/what-http-status-response-code-should-i-use-if-the-request-is-missing-a-required
-          halt 422, {:response=>"Any parameter are empty or nule"}.to_json
+          halt 422, {:response=>'Any parameter are empty or nule'}.to_json
         end
       end
       true # Return true
@@ -87,7 +89,7 @@ class CoreController < Sinatra::Base
     condition do
       @model = model[params[:id]] or halt 404
       unless @model.user_id == session[:user]
-        halt 401, {:response=>"Unauthorized access"}
+        halt 401, {:response=>'Unauthorized access'}
       end
     end
   end

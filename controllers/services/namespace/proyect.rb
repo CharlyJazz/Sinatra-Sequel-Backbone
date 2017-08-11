@@ -1,6 +1,6 @@
-require './controllers/core'
+require './controllers/services/namespace/tag'
 
-class ProyectNamespace < CoreController
+class ProyectNamespace < TagNamespace
 
   helpers ServicesHelpers
 
@@ -8,7 +8,7 @@ class ProyectNamespace < CoreController
   
     get '/' do
       # Read all proyect
-      Proyect.all().to_json
+      Proyect.all.to_json
     end
 
     get '/:id' do
@@ -118,4 +118,3 @@ class ProyectNamespace < CoreController
   end
 
 end
-

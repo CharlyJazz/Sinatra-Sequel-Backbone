@@ -8,8 +8,8 @@ namespace :db do
     task :create do
       # Create de roles admin and user
       require './config/init'
-      
-      ["admin", "user"].each { | role |
+
+      %w[admin user].each { | role |
         if Role.first(:name=>role)
           puts "The role #{role} already exist"
         else
@@ -27,25 +27,21 @@ namespace :db do
       # Create tag writed in the file tag.yml
       require './config/init'
 
-        YAML.load_file(Dir["tmp"][0] + '/tag.yml').each { |k,v|
-          Tag.create(:name=>k, :description=>v)
+        YAML.load_file(Dir['tmp'][0] + '/tag.yml').each { |k,v|
+          if Tag.first(:name=>k).equal? nil
+            puts "Creating tag named '#{k}'"
+            Tag.create(:name=>k, :description=>v).save
+          end
         }
 
     end
 
-    task :update do
-      # Update tag.yaml (Rewrite the file) if the database have new tags
+    task :backup do
+      # Create backup of tags writed in tag file
       require './config/init'
 
-      database_tags = {}
-
-      File.write(Dir["tmp"][0] + '/tag.backup.yml', YAML.dump(YAML.load(File.read(Dir["tmp"][0] + '/tag.yml'))))
-
-      Tag.all().each { |n| 
-        database_tags[n.name] = n.description
-      }
-
-      File.write(Dir["tmp"][0] + '/tag.yml', YAML.dump(database_tags))
+      File.write(Dir['tmp'][0] + '/tag.backup.yml',
+                 YAML.dump(YAML.load(File.read(Dir['tmp'][0] + '/tag.yml'))))
 
     end
     

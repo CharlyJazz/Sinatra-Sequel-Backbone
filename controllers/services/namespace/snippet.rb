@@ -8,7 +8,7 @@ class SnippetNamespace < ProyectNamespace
 
     get '/' do
       # Read all snippets
-      Snippet.all().to_json
+      Snippet.all.to_json
     end
 
     get '/:id' do

@@ -47,13 +47,13 @@ sinatra: framework
 ruby on rails: framework
 angularjs: framework
 meteorjs: framework
-BASIC: language
-CoffeeScript: language
+basic: language
+coffeescript: language
 fortran: language
 pascal: language
 delphi: language
 sql: language
-PL/SQL: language
+pl/sql: language
 aurelia: framework
 aura: framework 
 fuelphp: framework
@@ -77,5 +77,3 @@ catalyst: framework
 swift3: language
 polymer: framework
 knowckout: framework
-
-

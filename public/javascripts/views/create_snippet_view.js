@@ -4,12 +4,15 @@ app.CreateSnippetView = Mn.View.extend({
   el: 'main',
   template: '#container-create-snippet',
   events:{
-    'click @ui.submit': 'createSnippet'
+    'click @ui.submit': 'createSnippet',
+    'keypress @ui.material_input_tag': 'searchTags'
   },
   ui: {
     editor: '#editor',
     submit: '#submit',
-    input_filename: 'input#filename'
+    input_filename: 'input#filename',
+    input_tag: 'input#tags',
+    material_input_tag: '.n-tag'
   },
   onRender: function() {
     this.editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
@@ -20,6 +23,7 @@ app.CreateSnippetView = Mn.View.extend({
       styleActiveLine: true,
       lineWrapping: true
     });
+    this.getUI('input_tag').materialtags();
   },
   createSnippet: function (event) {
     /*
@@ -66,6 +70,15 @@ app.CreateSnippetView = Mn.View.extend({
         showHideTransition: 'slide'
       });
     }
+  },
+  relationSnippetWithTags: function () {
+    /*
+    * Get tags
+    * Create tag model with the correct urlRoot
+    * And call create()
+    * */
+  },
+  searchTags: function (event) {
+    console.log(event.target.value)
   }
-
 });

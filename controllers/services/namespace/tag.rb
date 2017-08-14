@@ -72,7 +72,7 @@ class TagNamespace < CoreController
     end
 
     delete '/:id' do
-      # Delete proyect
+      # Delete tag
       delete_record(Tag, params['id'].split(','))
     end
 

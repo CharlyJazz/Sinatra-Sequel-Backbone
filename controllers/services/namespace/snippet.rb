@@ -30,8 +30,8 @@ class SnippetNamespace < ProyectNamespace
       # Update snippet
       check_nil_string [params[:filename], params[:body]]
       snippet = Snippet.for_update.first(:id=>params[:id])
-      if snippet.equal?(nil)
-        halt 404, {:response=>"Resource no found"}.to_json
+      if snippet.nil?
+        halt 404, {:response=>'Resource no found'}.to_json
       else
         snippet.filename = params[:filename]
         snippet.body = params[:body]
@@ -94,6 +94,25 @@ class SnippetNamespace < ProyectNamespace
       else
         {:response=>"unlike", :likes=>like[1]}.to_json
       end
+    end
+
+    get '/:id/tag' do
+      check_if_resource_exist(Snippet, params['id']).tags.to_json
+    end
+
+    post '/:id/tag', :validate => [:name] do
+      # Create Relationship snippet with the tags
+      # If the tag not exist then create without description
+      check_nil_string [params[:name]]
+      snippet = check_if_resource_exist(Snippet, params['id'])
+      params[:name].split(',').each { |name|
+        tag = Tag.first(:name=>name)
+        if tag.nil?
+          tag = Tag.create(:name=>name).save
+        end
+        snippet.add_tag tag
+      }
+      {:response=>'Tags added successfully'}.to_json
     end
 
   end

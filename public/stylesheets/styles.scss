@@ -31,6 +31,9 @@ body{
 .hidden-element{
   display: none;
 }
+.fa.fa-close {
+  color: #AF2018
+}
 
 .inputDnD {
   .form-control-file {
@@ -109,4 +112,9 @@ body{
 
 .CodeMirror.CodeMirror-wrap {
   height: 35em ;
+}
+
+.card-tag-searched {
+  background-color: #fff;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
 }

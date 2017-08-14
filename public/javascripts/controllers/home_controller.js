@@ -2,29 +2,30 @@ var app = app || {};
 
 app.ApplicationBasicController = {
   homePage: function(){
-    var view = new app.HomeView();
-    view.render();
+    app.CurrentApplication.showView(new app.HomeView());
   },
   authenticationPage: function(){
     if (app.current_user.is_authenticated()){
       return Backbone.history.navigate(
         'user/' + app.current_user.get('id'), {trigger: true}
-        );
+      );
     }
-    var view = new app.AuthenticationView();
-    view.render();
+    app.CurrentApplication.showView(new app.AuthenticationView());
   },
   proyectsPage: function(){
-    var view = new app.ProyectsView();
-    view.render();
+    app.CurrentApplication.showView(new app.ProyectsView());
   },
   snippetsPage: function(){
-    var view = new app.SnippetsView();
-    view.render();
+    app.CurrentApplication.showView(new app.SnippetsView());
   },
   profileUserPage: function(id){
-    var view = new app.ProfileView({
-      model: new app.User({id:id})
+    var userModel = new app.User({id:id});
+    var myView = new app.ProfileView({
+      model: userModel
     });
+    userModel.on("sync", function(){
+      app.CurrentApplication.showView(myView);
+    });
+    userModel.fetch();
   }
 };

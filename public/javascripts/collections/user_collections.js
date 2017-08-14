@@ -6,7 +6,7 @@ app.UserCollection = Backbone.Collection.extend({
 });
 
 app.UserSnippetsCollection = Backbone.Collection.extend({
-  model: app.UserSnippets,
+  model: app.Snippet,
   initialize: function(models, options) {
     this.user_id = options.user_id;
     this.limit = options.limit;
@@ -20,7 +20,7 @@ app.UserSnippetsCollection = Backbone.Collection.extend({
 });
 
 app.UserProyectsCollection = Backbone.Collection.extend({
-  model: app.UserProyects,
+  model: app.Proyect,
   initialize: function(models, options) {
     this.user_id = options.user_id;
     this.limit = options.limit;

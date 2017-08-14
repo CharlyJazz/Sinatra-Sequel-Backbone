@@ -1,7 +1,6 @@
 var app = app || {};
 
 app.AuthenticationView = Mn.View.extend({
-  el: 'main',
   template: '#container-authentication',
   regions: {
     login: '#login-region',
@@ -134,10 +133,6 @@ app.RegisterSubView = Mn.View.extend({
     fieldset_information: '.fieldset-information',
     fieldset_image: '.fieldset-image'
   },
-  initialize: function(){
-    this.collection = new app.UserCollection();
-    this.listenTo(this.collection, 'add', this.toastSuccess);
-  },
   checkAlReadyUse: function (event) {
     // Check if the email or username is already use
     var input = $(event.currentTarget), data;
@@ -269,25 +264,27 @@ app.RegisterSubView = Mn.View.extend({
   registerUser: function () {
     var submitButton = this.getUI('submit'),
         switchButton = this.getUI('switch'),
-        image = $('input#inputFile').prop('files'), request,
-        users = this.collection, reader = new FileReader();
+        image = $('input#inputFile').prop('files'),
+        reader = new FileReader(), user = new app.User(),
+        that = this;
     submitButton.attr('disabled', true); // Prevent send several ajax
     if(image.length === 1){
       reader.onloadend = function() {
-        request = users.create({
+        user.save({
           'name':$('input#username').val(),
           'email':$('input#email').val(),
           'password':$('input#password').val(),
           'password_confirmation':$('input#repeat').val(),
           'image_profile': reader.result
-        },{
-            wait:true,
-            success: function () {
-              switchButton.trigger('click');  // Render login form
-            },
-            error: function () {
-              submitButton.attr('disabled', false);
-              app.toastError()
+          },{
+          wait:true,
+          success: function () {
+            switchButton.trigger('click'); // Render login form
+            that.toastSuccess();
+          },
+          error: function () {
+            submitButton.attr('disabled', false);
+            app.toastError();
           }
         });
       };

@@ -1,7 +1,6 @@
 var app = app || {};
 
 app.ProfileView = Mn.View.extend({
-  el: 'main',
   template: '#container-profile',
   regions: {
     snippetsRegion: '#snippets-region',
@@ -22,10 +21,8 @@ app.ProfileView = Mn.View.extend({
   },
   initialize: function () {
     this.user_id = this.model.id;
-    this.model.fetch();
   },
   renderRegions: function () {
-    this.render();
     this.showChildView('snippetsRegion', new app.SnippetsCollectionView({
       user_id: this.user_id
     }));

@@ -194,4 +194,47 @@ describe Snippet do
       expect(LikeSnippet.where(:snippet_id=>@snippet.id, :user_id=>@user_like.id).count).to eq(0)
     end
   end
+  context 'add tags to snippet' do
+    before :each do
+      %w[javascript python c haskell c# cpp coffeescript].each { |n|
+        Tag.create(:name=>n, :description=>'language').save
+      }
+    end
+    context 'create tag already that does exist' do
+      it 'should add one tag' do
+        post '/api/snippet/1/tag?name=javascript'
+
+        expect(JSON.parse(last_response.body)['response']).to eq 'Tags added successfully'
+        expect(@snippet.tags.count).to eq 1
+        expect(last_response.status).to eq 200
+      end
+    end
+    context 'create request without tag parameter' do
+      it 'should return status 422' do
+        post '/api/snippet/1/tag'
+
+        expect(JSON.parse(last_response.body)['response']).to_not eq 'Tags added successfully'
+        expect(@snippet.tags.count).to eq 0
+        expect(last_response.status).to eq 422
+      end
+    end
+    context 'try create tag empty' do
+      it 'should return status 422' do
+        post '/api/snippet/1/tag?name='
+
+        expect(JSON.parse(last_response.body)['response']).to_not eq 'Tags added successfully'
+        expect(@snippet.tags.count).to eq 0
+        expect(last_response.status).to eq 422
+      end
+    end
+    context 'try create new tag and add to snippet' do
+      it 'should add one tag' do
+        post '/api/snippet/1/tag?name=metalscript'
+
+        expect(JSON.parse(last_response.body)['response']).to eq 'Tags added successfully'
+        expect(@snippet.tags.count).to eq 1
+        expect(last_response.status).to eq 200
+      end
+    end
+  end
 end

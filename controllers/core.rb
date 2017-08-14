@@ -61,7 +61,7 @@ class CoreController < Sinatra::Base
 
     %w[stylesheets javascripts].each {|n| env.append_path(root.join(public_folder, n))}
 
-    env.js_compressor  = :uglify
+    # env.js_compressor  = :uglify
     env.css_compressor = :scss
   }
 

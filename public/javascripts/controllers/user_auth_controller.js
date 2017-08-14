@@ -57,8 +57,8 @@ app.UserAuthController = {
     if (!app.current_user.is_authenticated()){
       return Backbone.history.navigate('auth', {trigger: true});
     }
-    var view = new app.CreateProyectsView();
-    view.render();
+    // var view = new app.CreateProyectsView();
+    // view.render();
   },
   createSnippetPage: function(){
     /*
@@ -67,7 +67,6 @@ app.UserAuthController = {
     if (!app.current_user.is_authenticated()){
       return Backbone.history.navigate('auth', {trigger: true});
     }
-    var view = new app.CreateSnippetView();
-    view.render();
+    app.CurrentApplication.showView(new app.CreateSnippetView());
   }
 };

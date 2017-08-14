@@ -1,4 +1,4 @@
-class CommentProyect< Sequel::Model(:comment_proyects)
+class CommentProyect < Sequel::Model(:comment_proyects)
   plugin :timestamps
   plugin :validation_helpers
   plugin :json_serializer

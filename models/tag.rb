@@ -7,7 +7,6 @@ class Tag < Sequel::Model(:tags)
     super
     validates_presence [:name]
     validates_max_length 24, :name
-    validates_max_length 32, :description    
   end
 
   many_to_many :snippets

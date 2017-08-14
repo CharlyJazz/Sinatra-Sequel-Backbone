@@ -5,8 +5,8 @@ app.ApplicationBasicRouter = Backbone.Marionette.AppRouter.extend({
   appRoutes: {
     '': 'homePage',
     'auth': 'authenticationPage',
-    'proyects': 'proyectsPage',
-    'snippets': 'snippetsPage',
+    'proyects': 'proyectsPage', // TODO: id opcional para ver proyect especifico
+    'snippets': 'snippetsPage', // TODO: id opcional para ver snippet especifico
     'user/:id': 'profileUserPage'
   }
 });

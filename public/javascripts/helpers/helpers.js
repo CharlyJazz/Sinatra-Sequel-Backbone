@@ -382,13 +382,6 @@ app.toastError = function () {
         self.$input.focus();
       }, self));
 
-      if (self.options.addOnBlur && self.options.freeInput) {
-        self.$input.on('focusout', $.proxy(function (event) {
-          self.add(self.$input.val());
-
-        }, self));
-      }
-
       self.$container.on('keydown', 'input', $.proxy(function (event) {
         var $input        = $(event.target),
           $inputWrapper = self.findInputWrapper();

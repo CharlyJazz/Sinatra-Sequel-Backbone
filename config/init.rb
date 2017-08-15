@@ -23,3 +23,5 @@ Dir["./models/*.rb"].each{ |model|
 }
 
 DB = settings.database
+
+DB.extension(:pagination)

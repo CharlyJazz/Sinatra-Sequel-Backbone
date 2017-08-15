@@ -12,11 +12,51 @@ app.ApplicationBasicController = {
     }
     app.CurrentApplication.showView(new app.AuthenticationView());
   },
-  proyectsPage: function(){
-    app.CurrentApplication.showView(new app.ProyectsView());
+  proyectsPage: function(id){
+    // TODO: test and refactor
+    if(typeof(id) === "number") {
+      var proyectModel = new app.Proyect({id:id});
+      var myView = new app.ProyectView({
+        model: proyectModel
+      });
+      proyectModel.on("sync", function(){
+        app.CurrentApplication.showView(myView);
+      });
+      proyectModel.fetch();
+    } else {
+      var proyectCollection = new app.Proyect();
+      var myView = new app.ProyectView({
+        collection: proyectCollection
+      });
+      proyectCollection.on("sync", function(){
+        app.CurrentApplication.showView(myView);
+      });
+      proyectCollection.fetch();
+    }
   },
-  snippetsPage: function(){
-    app.CurrentApplication.showView(new app.SnippetsView());
+  snippetsPage: function(id){
+    if (typeof(id) === 'object') {
+      app.CurrentApplication.showView(
+        new app.SnippetsView({
+          collection: new app.SnippetCollection()
+        })
+      );
+    } else if(!isNaN(id)) {
+      // TODO: change isNaN FOR THE method underscore
+      // TODO; hacer esta verga
+      var snippetModel = new app.Snippet({id:id});
+      var myView = new app.SnippetView({
+        model: snippetModel
+      });
+      snippetModel.on("sync", function(){
+        app.CurrentApplication.showView(myView);
+      });
+      snippetModel.fetch({
+        success: function () {
+          prettyPrint() // Code Prettify
+        }
+      });
+    }
   },
   profileUserPage: function(id){
     var userModel = new app.User({id:id});

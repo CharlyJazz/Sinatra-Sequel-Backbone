@@ -1,5 +1,5 @@
 var app = app || {};
 
-app.SnippetsView = Mn.View.extend({
+app.SnippetView = Mn.View.extend({
   template: '#container-snippets'
 });

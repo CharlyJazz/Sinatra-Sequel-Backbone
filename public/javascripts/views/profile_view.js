@@ -55,7 +55,11 @@ app.SnippetsCollectionView = Mn.CollectionView.extend({
       user_id: this.user_id,
       limit: 4
     });
-    this.collection.fetch();
+    this.collection.fetch({
+      success: function () {
+        prettyPrint() // Code Prettify
+      }
+    });
   },
   CheckIfEmpty: function () {
     if (this.collection.length === 0){

@@ -3,16 +3,16 @@
   <div class="row">
     <div class="col-lg-4">
       <div class="card card-profile-information">
-        <img class="img-fluid" src="{{= image_profile }}">
+        <img class="img-fluid" src="{{=image_profile}}">
         <div class="card-body">
           <h4 class="card-title">
-            {{=name }} - <small> {{=email }} </small>
+            {{=name}} - <small> {{=email}} </small>
           </h4>
           <p class="card-text"></p>
           <a href="#" class="btn btn-primary btn-sm">Follow</a>
           <div class="card-footer">
-            <span>Following: {{=relationships.following }}</span>
-            <span class="float-sm-right">Followers: {{=relationships.followers }}</span>
+            <span>Following: {{=relationships.following}}</span>
+            <span class="float-sm-right">Followers: {{=relationships.followers}}</span>
           </div>
         </div>
       </div>
@@ -21,11 +21,11 @@
       <div class="card card-stadistis">
         <div class="card-body">
           <div class="element">
-            Snippets: {{=snippets.count }}
+            Snippets: {{=snippets.count}}
             <a href="#" class="btn btn-primary btn-sm">Check all</a>
           </div>
           <div class="element">
-            Proyects: {{=proyects.count }}
+            Proyects: {{=proyects.count}}
             <a href="#" class="btn btn-primary btn-sm">Check all</a>
           </div>
           <div class="element">
@@ -66,17 +66,16 @@
     <span>
       <a href="#snippets/{{=id}}">{{=filename}}</a>
       <i class="fa fa-file"></i>
-      <small>{{= jQuery.format.prettyDate(created_at) }}</small>
+      <small>{{=jQuery.format.prettyDate(created_at)}}</small>
     </span>
     <span class="float-right">
       <i class="fa fa-comments"></i> {{=comment_count}}
       <i class="fa fa-heart-o"></i> {{=like_count}}
     </span>
   </h4>
-  <pre>{{= body}}</pre>
-
-
+  <pre class="prettyprint linenums height-pretty"><code>{{= _.escape(body)}}</code></pre>
 </script>
+
 
 <script type="x-template/underscore" id="sub-view-proyect">
 

@@ -1,13 +1,15 @@
 var app = app || {};
 
 app.CreateSnippetView = Mn.View.extend({
-  // TODO: convertir tag input y su lista de tag en una Region apra poder hacer fetch sync
   template: '#container-create-snippet',
+  regions: {
+    tags: '#region-tags'
+  },
   events:{
     'click @ui.submit': 'createSnippet',
     'keydown @ui.material_input_tag': 'searchTag',
     'click @ui.button_add': 'addTag',
-    'click @ui.button_close_card_Tag': 'closeTag'
+    'click @ui.button_close_card_tag': 'closeTag'
   },
   ui: {
     editor: '#editor',
@@ -15,17 +17,13 @@ app.CreateSnippetView = Mn.View.extend({
     input_filename: 'input#filename',
     input_tag: 'input#tags',
     material_input_tag: '.n-tag',
-    button_add: 'i.add-tag',
     card_tag: 'div.card-tag-searched',
-    button_close_card_Tag: 'i#ui-close-card-tag'
-  },
-  initialize: function() {
-    this.tags = new app.TagCollection();
-    this.tags.fetch();
+    button_add: 'i.add-tag',
+    button_close_card_tag: 'i#ui-close-card-tag'
   },
   onRender: function() {
-    this.getUI('input_tag').materialtags();
     that = this;
+    this.getUI('input_tag').materialtags();
     setTimeout(function() {
       that.editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
         lineNumbers: true,
@@ -36,6 +34,9 @@ app.CreateSnippetView = Mn.View.extend({
         lineWrapping: true
       });
     },1);
+    this.showChildView('tags', new app.TagSearchSubView({
+      collection:new app.TagCollection()
+    }));
   },
   createSnippet: function (event) {
     /*
@@ -95,19 +96,20 @@ app.CreateSnippetView = Mn.View.extend({
   },
   searchTag: function (event) {
     var value = event.target.value;
-    if (!value.trim() == ""){
-      var tags = this.tags.search(value); // Search tags
+    if (!value.trim() == "") {
+      var tags = this.getChildView('tags').collection.search(value), // Get collection and search tags
+          ui_list = this.getChildView('tags').getUI('list');
       if (tags.size() === 0) { return undefined; } // Prevent show empty
         $("#ul-tags").html(''); // Empty list
         this.getUI('card_tag').removeClass('hidden-element'); // Show the cart
         tags.each(function(tag, index){
-          if (index >= 10) { return undefined } // Prevent shown more that 10 tags
-          var view = new Mn.View({ // Show each tag in the list
-            model: tag,
-            template: _.template("<li><i class='fa fa-plus add-tag'></i>{{=name}}</li>")
-          });
-          $("#ul-tags").append(view.render().el);
+        if (index >= 10) { return undefined } // Prevent shown more that 10 tags
+        var view = new Mn.View({ // Show each tag in the list
+          model: tag,
+          template: _.template("<li><i class='fa fa-plus add-tag'></i>{{=name}}</li>")
         });
+        ui_list.append(view.render().el);
+      });
     }
     else {
       this.getUI('card_tag').addClass('hidden-element');
@@ -125,5 +127,16 @@ app.CreateSnippetView = Mn.View.extend({
   },
   closeTag: function () {
     this.getUI('card_tag').addClass('hidden-element');
+  }
+});
+
+app.TagSearchSubView = Mn.View.extend({
+  template: '#sub-view-tags',
+  className: 'row',
+  ui:{
+    list: '#ul-tags'
+  },
+  initialize: function () {
+    this.collection.fetch();
   }
 });

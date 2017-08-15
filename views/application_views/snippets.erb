@@ -6,4 +6,20 @@
       </div>
     </div>
   </div>
+  <div id="snippets"></div>
+</script>
+
+<script type="x-template/underscore" id="sub-view-snippet-all">
+  <h4>
+    <span>
+      <a href="#snippets/{{=id}}">{{=filename}}</a>
+      <i class="fa fa-file"></i>
+      <small>{{=jQuery.format.prettyDate(created_at)}}</small>
+    </span>
+    <span class="float-right">
+      <!--<i class="fa fa-comments"></i> {#comment_count#}-->
+      <!--<i class="fa fa-heart-o"></i> {#like_count#}-->
+    </span>
+  </h4>
+  <pre class="prettyprint linenums height-pretty"><code>{{=_.escape(body)}}</code></pre>
 </script>

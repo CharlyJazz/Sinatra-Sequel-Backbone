@@ -28,16 +28,12 @@ the app.rsa and app.rsa.pub were generated with:
 ## Run
 
 
-1. Create database with the command `bundle exec rake db:create`
-2. Create roles with the command `bundle exec rake db:role:create`
-3. Create tags with the command `bundle exec rake db:tag:create`
-4. Create 2048 bit RSA Key and export the RSA Public Key
-5. Run `bundle exec rackup -p 8000`
+1. Install Front-end dependencies with the command `bower install`
+1. Create roles with the command `bundle exec rake db:role:create`
+2. Create tags with the command `bundle exec rake db:tag:create`
+3. Create 2048 bit RSA Key and export the RSA Public Key
+4. Run `bundle exec rackup -p 8000`
 
-## TODO
-
-* [ ] Create endpoint for add tag to snippet
-  
 ## Resources
 
     - https://github.com/jeremyevans/sequel/blob/master/lib/sequel/plugins/json_serializer.rb
@@ -48,3 +44,6 @@ the app.rsa and app.rsa.pub were generated with:
     - http://www.odata.org/documentation/odata-version-3-0/url-conventions/
     - http://ricostacruz.com/cheatsheets/sequel.html
     - https://stackoverflow.com/questions/4115115/extract-a-substring-from-a-string-in-ruby-using-a-regular-expression
+    - http://sequel.jeremyevans.net/rdoc-plugins/files/lib/sequel/extensions/pagination_rb.html
+    - https://workaround.org/articlesequel-model-pagination-with-padrino/
+    - https://stackoverflow.com/questions/1819614/how-do-i-globally-configure-rspec-to-keep-the-color-and-format-specdoc-o

@@ -13,6 +13,18 @@ describe Snippet do
       expect(last_response.status).to eq 200
     end
   end
+  context 'get pagination of snippets' do
+    it 'should return 200' do
+      get '/api/snippet/?page=2'
+
+      expect(last_response.status).to eq 404
+    end
+    it 'should return 200' do
+      get '/api/snippet/?page=1'
+
+      expect(last_response.status).to eq 200
+    end
+  end
   context 'get snippet by id' do
     it 'should response a user' do
       get '/api/snippet/1'

@@ -6,6 +6,10 @@ Bundler.require(:test)
 
 RSpec.configure { |config|
   RSpec::Expectations.configuration.on_potential_false_positives = :nothing
+  config.color = true
+  config.tty = true
+  config.formatter = :documentation
+  config.success_color = :white
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end

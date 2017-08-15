@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="<%= asset_path('lib/codemirror.css') %>">
   <link rel="stylesheet" href="<%= asset_path('theme/railscasts.css') %>">
   <link rel="stylesheet" href="<%= asset_path('dist/jquery.toast.min.css') %>">
+  <link rel="stylesheet" href="<%= asset_path('src/prettify.css') %>">
   <link rel="stylesheet" href="<%= asset_path('styles.css') %>">
 
   <%= add_sub_template('application_views', 'home') %>
@@ -44,6 +45,7 @@
   <script type="text/javascript" src="<%= asset_path('lib/backbone.marionette.min.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('lib/codemirror.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('dist/Chart.js') %>"></script>
+  <script type="text/javascript" src="<%= asset_path('src/prettify.js') %>"></script>
 
   <!-- B a c k b o n e -->
 
@@ -57,6 +59,8 @@
   <script type="text/javascript" src="<%= asset_path('models/tag_model.js') %>"></script>
 
   <script type="text/javascript" src="<%= asset_path('collections/user_collections.js') %>"></script>
+  <script type="text/javascript" src="<%= asset_path('collections/proyect_collection.js') %>"></script>
+  <script type="text/javascript" src="<%= asset_path('collections/snippet_collection.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('collections/tag_collection.js') %>"></script>
 
   <script type="text/javascript" src="<%= asset_path('views/create_view.js') %>"></script>
@@ -67,7 +71,9 @@
   <script type="text/javascript" src="<%= asset_path('views/authentication_view.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('views/header_view.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('views/proyect_view.js') %>"></script>
+  <script type="text/javascript" src="<%= asset_path('views/proyects_view.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('views/snippet_view.js') %>"></script>
+  <script type="text/javascript" src="<%= asset_path('views/snippets_view.js') %>"></script>
 
   <script type="text/javascript" src="<%= asset_path('controllers/home_controller.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('controllers/user_auth_controller.js') %>"></script>

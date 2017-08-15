@@ -4,8 +4,11 @@ app.UserAuthRouter = Backbone.Marionette.AppRouter.extend({
   controller: app.UserAuthController,
   appRoutes: {
     'logout': 'logoutUserAction',
+
     'config': 'configUserPage',
+
     'create/snippet': 'createSnippetPage',
+
     'create/proyect': 'createProyectPage'
   },
   initialize: function () {

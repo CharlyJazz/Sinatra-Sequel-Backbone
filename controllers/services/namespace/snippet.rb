@@ -8,6 +8,13 @@ class SnippetNamespace < ProyectNamespace
 
     get '/' do
       # Read all snippets
+      if params[:page] && !params[:page].empty? && !params[:page].nil?
+        unless /\A\d+\z/.match(params[:page])
+          halt 422, {:response=>'The page parameter is invalid'}.to_json
+        end
+        page = Snippet.dataset.paginate(params[:page].to_i, 4)
+        page.count == 0 ? halt(404) : halt(200, page.to_json)
+      end
       Snippet.all.to_json
     end
 

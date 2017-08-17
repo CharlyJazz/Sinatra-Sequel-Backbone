@@ -12,3 +12,8 @@ Gemfile.lock
 /public/bower_components/
 /app.rsa
 /app.rsa.pub
+/.bin --global/
+/.bundle/
+/vendor/
+.idea/
+spec/spec_support/

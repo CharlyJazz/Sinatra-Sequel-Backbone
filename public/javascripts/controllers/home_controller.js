@@ -38,12 +38,12 @@ app.ApplicationBasicController = {
     if (typeof(id) === 'object') {
       app.CurrentApplication.showView(
         new app.SnippetsView({
-          collection: new app.SnippetCollection()
+          collection: new app.SnippetCollection([],{
+            page:1
+          })
         })
       );
     } else if(!isNaN(id)) {
-      // TODO: change isNaN FOR THE method underscore
-      // TODO; hacer esta verga
       var snippetModel = new app.Snippet({id:id});
       var myView = new app.SnippetView({
         model: snippetModel
@@ -53,7 +53,10 @@ app.ApplicationBasicController = {
       });
       snippetModel.fetch({
         success: function () {
-          prettyPrint() // Code Prettify
+          // TODO: Ver si hay que renderizar el CodeMirror en este callback
+        },
+        error: function () {
+          // TODO: Redireccionar y mostrar un $.toast()
         }
       });
     }

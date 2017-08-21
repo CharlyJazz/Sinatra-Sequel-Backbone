@@ -22,7 +22,7 @@ app.CreateSnippetView = Mn.View.extend({
     button_close_card_tag: 'i#ui-close-card-tag'
   },
   onRender: function() {
-    that = this;
+    var that = this;
     this.getUI('input_tag').materialtags();
     setTimeout(function() {
       that.editor = CodeMirror.fromTextArea(document.getElementById("editor"), {

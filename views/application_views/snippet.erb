@@ -1,0 +1,60 @@
+<script type="x-template/underscore" id="container-snippet">
+
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+      <div class="card">
+        <div class="card-header">
+          {{= filename}}
+          <span class="float-right">
+            {{= jQuery.format.prettyDate(created_at) }}
+          </span>
+        </div>
+        <div class="card-body">
+          <textarea id="editor" class="editor"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8 offset-lg-2 mt-2">
+      <button type="button" class="btn btn-li waves-effect waves-light btn-success animate" id="ui-button-toggleForm">
+        <i class="fa fa-pencil right"></i>
+        Write a comment
+      </button>
+      <div class="z-depth-3 mt-2" id="createComment-region"></div>
+    </div>
+
+    <div class="col-lg-8 offset-lg-2 mt-2">
+      <h4>Comments <i class="fa fa-comments"></i> </h4>
+      <div class="row" id="comments-region"></div>
+    </div>
+  </div>
+
+</script>
+
+<script type="x-template/underscore" id="sub-view-comments">
+
+  <div class="media mb-1">
+    <a class="media-left waves-light">
+      <img class="rounded-circle" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-10.jpg">
+    </a>
+    <div class="media-body">
+      <h4 class="media-heading"><a href="#user/{{=user_id}}">Karla</a></h4>
+      <h2>{{=title}} <small><i class="fa fa-clock-o"></i> {{= jQuery.format.prettyDate(created_at) }}</small></h2>
+      <small>{{=body}}</small>
+    </div>
+  </div>
+
+</script>
+
+<script type="x-template/underscore" id="sub-view-create-comment">
+    <div class="col-lg-2">
+      <img class="img-fluid ml-1 mt-3" src={{=image_profile.call()}} width="300">
+    </div>
+    <div class="col-lg-10">
+      <div class="md-form mt-2">
+        <textarea type="text" id="textarea-comment" class="md-textarea"></textarea>
+        <label for="textarea-comment">Your comment</label>
+      </div>
+      <button class="btn btn-primary waves-effect waves-light" id="submit">Submit</button>
+    </div>
+</script>

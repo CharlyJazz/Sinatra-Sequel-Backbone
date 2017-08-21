@@ -110,6 +110,19 @@ body{
   }
 }
 
+.animate {
+  &.left {
+    transform: translate3d(20px, 40px, 0);
+    transition: all 300ms ease;
+  }
+  &.right {
+    transform: translateX(0%);
+    transition: all 300ms ease;
+  }
+}
+
+
+
 .CodeMirror.CodeMirror-wrap {
   height: 35em ;
 }

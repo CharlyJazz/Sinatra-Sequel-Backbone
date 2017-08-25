@@ -35,19 +35,19 @@ context Tag do
       expect(@snippet.tags.count).to eq(0)
     end
   end
-  context "Search tag for the name" do
+  context 'Search tag for the name' do
     before :each do
       YAML.load_file(Dir['tmp'][0] + '/tag.yml').each { |k,v|
         Tag.create(:name=>k, :description=>v).save
       }
     end
-    context "Search and count `ruby` matches" do
-      it "should have two matches" do
+    context 'Search and count `ruby` matches' do
+      it 'should have two matches' do
         expect(Tag.where(Sequel.like(:name, '%ruby%')).count).to eq 2
       end
     end
-    context "Search `co` matches" do
-      it "should return coffeescript and codeigniter" do
+    context 'Search `co` matches' do
+      it 'should return coffeescript and codeigniter' do
         expect(Tag.where(Sequel.like(:name, '%co%')).map(:name)).to eq %w[underscore coffeescript phalcon codeigniter]
       end
     end

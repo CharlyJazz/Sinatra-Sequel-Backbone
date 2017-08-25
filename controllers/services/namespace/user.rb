@@ -20,51 +20,51 @@ class UserNamespace < SnippetNamespace
 
     get '/:id' do
       # Read one user by id
-      check_if_resource_exist(User, params['id'])
-      User.serialize params['id']
+      check_if_resource_exist(User, params[:id])
+      User.serialize params[:id]
     end
 
-    post '/', :validate => [:name, :email, :password, :password_confirmation, :image_profile] do
+    post '/', :validate => %i(name email password password_confirmation image_profile) do
       # Create user
-      check_regex(Username, params['name'])
-      check_regex(Email, params['email'])
-      check_password_confirmation(params['password'], params['password_confirmation'])
-      check_if_data_resource_exist(User, 'name', params['name'])
-      check_if_data_resource_exist(User, 'email', params['email'])
-      user = User.create(:name=>params['name'],
-                  :email=>params['email'],
-                  :password=>params['password'],
-                  :password_confirmation=>params['password_confirmation'],
-                  :image_profile=>params['image_profile']
+      check_regex(Username, params[:name])
+      check_regex(Email, params[:email])
+      check_password_confirmation(params[:password], params[:password_confirmation])
+      check_if_data_resource_exist(User, 'name', params[:name])
+      check_if_data_resource_exist(User, 'email', params[:email])
+      user = User.create(:name=>params[:name],
+                  :email=>params[:email],
+                  :password=>params[:password],
+                  :password_confirmation=>params[:password_confirmation],
+                  :image_profile=>params[:image_profile]
       ).save()
       Role.add_role_to_user Role.first(:name=>'user'), user # Create role relationship
       user.to_json :except=> :password_digest
     end
 
-    put '/:id', :validate => [:name, :email, :password, :password_confirmation, :image_profile] do
+    put '/:id', :validate => %i(name email password password_confirmation image_profile) do
       # Update User
-      user = User.for_update.first(:id=>params['id'])
+      user = User.for_update.first(:id=>params[:id])
       if user.equal?(nil)
-        halt 404, {:response=>"Resource no found"}.to_json
+        halt 404, {:response=>'Resource no found'}.to_json
       else
-        check_regex(Username, params['name'])
-        check_regex(Email, params['email'])
-        check_password_confirmation(params['password'], params['password_confirmation'])
-        check_if_data_resource_exist(User, 'name', params['name'], params[:id])
-        check_if_data_resource_exist(User, 'email', params['email'], params[:id])
-        user.name = params['name']
-        user.email = params['email']
-        user.password = params['password']
-        user.password_confirmation = params['password_confirmation']
+        check_regex(Username, params[:name])
+        check_regex(Email, params[:email])
+        check_password_confirmation(params[:password], params[:password_confirmation])
+        check_if_data_resource_exist(User, 'name', params[:name], params[:id])
+        check_if_data_resource_exist(User, 'email', params[:email], params[:id])
+        user.name = params[:name]
+        user.email = params[:email]
+        user.password = params[:password]
+        user.password_confirmation = params[:password_confirmation]
         user.save.to_json :except=> :password_digest
       end
     end
 
-    patch '/:id/:attr' , :validate => [:value] do
+    patch '/:id/:attr' , :validate => %i(value) do
       # Update one attribute of user
-      user = User.for_update.first(:id=>params['id'])
+      user = User.for_update.first(:id=>params[:id])
       if user.equal?(nil)
-        halt 404, {:response=>"Resource no found"}.to_json
+        halt 404, {:response=>'Resource no found'}.to_json
       else
         eval("user." + params[:attr] + " = '#{params[:value]}'")
         user.save :validate=>false # Prevent exception for validation plugin
@@ -74,7 +74,7 @@ class UserNamespace < SnippetNamespace
 
     delete '/:id' do
       # Delete user
-      delete_record(User, params['id'].split(','))
+      delete_record(User, params[:id].split(','))
     end
 
     get '/:id/snippets' do
@@ -87,7 +87,7 @@ class UserNamespace < SnippetNamespace
         limit = ''
       end
 
-      user = check_if_resource_exist(User, params['id'])
+      user = check_if_resource_exist(User, params[:id])
 
       DB.fetch("SELECT snippets.*,
           (SELECT COUNT(comment_snippets.id)
@@ -110,7 +110,7 @@ class UserNamespace < SnippetNamespace
         limit = ''
       end
 
-      user = check_if_resource_exist(User, params['id'])
+      user = check_if_resource_exist(User, params[:id])
 
       DB.fetch("SELECT proyects.*,
           (SELECT COUNT(comment_proyects.id)
@@ -125,50 +125,50 @@ class UserNamespace < SnippetNamespace
 
     patch '/:id/role/:role_name' do
       # Update role of User
-      user = User.first(:id=>params['id'])
+      user = User.first(:id=>params[:id])
       if user.equal?(nil)
-        halt 404, {:response=>"Resource no found"}.to_json
+        halt 404, {:response=>'Resource no found'}.to_json
       else
         if Role.role_exist? params[:role_name]
           # Check si el usuario tiene ese rol con el methodo de user_have_role?
           if RoleUser.user_have_role? params[:id], Role.first(:name=>params[:role_name]).id
           # Si el usuario tiene el rol retornamos un mensaje diciendoloe
-            halt 404, {:response=>"Action not allowed, this user already has this role"}.to_json
+            halt 404, {:response=>'Action not allowed, this user already has this role'}.to_json
           else
           # Si el usuario no tiene ese rol se lo asignamos
           # y retornamos un mensaje diciendolo, pero eliminamos su rol anterior
-            if params[:role_name].equal? "admin"
-              Role.remove_role_from_user user, Role.first(:name=>"user")
-              Role.add_role_to_user user, Role.first(:name=>"admin")
-            elsif params[:role_name].equal? "user"
-              Role.remove_role_from_user user, Role.first(:name=>"admin")
-              Role.add_role_to_user user, Role.first(:name=>"user")
+            if params[:role_name].equal? 'admin'
+              Role.remove_role_from_user user, Role.first(:name=>'user')
+              Role.add_role_to_user user, Role.first(:name=>'admin')
+            elsif params[:role_name].equal? 'user'
+              Role.remove_role_from_user user, Role.first(:name=>'admin')
+              Role.add_role_to_user user, Role.first(:name=>'user')
             end
-            {:response=>"Added role successfully"}.to_json
+            {:response=>'Added role successfully'}.to_json
           end
         else
           # Si el rol no existe
-          halt 404, {:response=>"Action not allowed, role does not exist"}.to_json
+          halt 404, {:response=>'Action not allowed, role does not exist'}.to_json
         end
       end
     end
 
     get '/:id/follow' do
       # User count all follow
-      user = check_if_resource_exist(User, params['id'])
+      user = check_if_resource_exist(User, params[:id])
       {:response=>RelationShip.where(:follower_id=>user.id).count}.to_json
     end
 
     get '/:id/followers' do
       # User count all followers
-      user = check_if_resource_exist(User, params['id'])
+      user = check_if_resource_exist(User, params[:id])
       {:response=>RelationShip.where(:followed_id=>user.id).count}.to_json
     end
 
     post '/:follower_id/follow/:followed_id' do
       # User :followed_id follow user :follower_id
-      followed = check_if_resource_exist(User, params['followed_id'])
-      follower = check_if_resource_exist(User, params['follower_id'])
+      followed = check_if_resource_exist(User, params[:followed_id])
+      follower = check_if_resource_exist(User, params[:follower_id])
       RelationShip.follow_or_unfollow follower, followed
       {:response=>RelationShip.where(:followed_id=>followed.id).count}.to_json
     end

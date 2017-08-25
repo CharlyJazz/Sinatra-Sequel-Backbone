@@ -13,10 +13,10 @@ class ProyectNamespace < TagNamespace
 
     get '/:id' do
       # Read one proyect by id
-      check_if_resource_exist(Proyect, params['id']).to_json
+      check_if_resource_exist(Proyect, params[:id]).to_json
     end
 
-    post '/', :validate => [:name, :description, :user_id] do
+    post '/', :validate => %i(name description user_id) do
       # Create proyect
       check_nil_string [params[:name], params[:description], params[:user_id]]
       Proyect.create(:name=>params[:name],
@@ -24,7 +24,7 @@ class ProyectNamespace < TagNamespace
                      :user_id=>params[:user_id]).save().to_json
     end
 
-    put '/:id', :validate => [:name, :description] do
+    put '/:id', :validate => %i(name description) do
       # Edit proyect
       check_nil_string [params[:name], params[:description]]
       proyect = Proyect.for_update.first(:id=>params[:id])
@@ -39,38 +39,38 @@ class ProyectNamespace < TagNamespace
 
     delete '/:id' do
       # Delete proyect
-      delete_record(Proyect, params['id'].split(','))
+      delete_record(Proyect, params[:id].split(','))
     end
 
     get '/:id/comment' do
       # Read Comments of snippet
-      check_if_resource_exist(Proyect, params['id']).comment_proyects.to_json
+      check_if_resource_exist(Proyect, params[:id]).comment_proyects.to_json
     end
 
-    post '/:id/comment', :validate => [:body, :user_id] do
+    post '/:id/comment', :validate => %i(body user_id) do
       # Create comment
       check_nil_string [params[:body], params[:user_id]]
-      check_if_resource_exist(User, params['user_id'])
-      check_if_resource_exist(Proyect, params['id']).add_comment_proyect(
+      check_if_resource_exist(User, params[:user_id])
+      check_if_resource_exist(Proyect, params[:id]).add_comment_proyect(
           CommentProyect.create(:body=>params[:body],
                                 :user_id=>params[:user_id],
                                 :proyect_id=>params[:id])).to_json
     end
 
-    put '/:id/comment/:comment_id', :validate => [:body] do
+    put '/:id/comment/:comment_id', :validate => %i(body) do
       # Edit comment
       check_nil_string [params[:body]]
-      check_if_resource_exist(Proyect, params['id'])
-      comment = CommentProyect.for_update.first(:id=>params['comment_id'])
+      check_if_resource_exist(Proyect, params[:id])
+      comment = CommentProyect.for_update.first(:id=>params[:comment_id])
       comment.body = params[:body]
       comment.save.to_json
     end
 
     delete '/:id/comment/:comment_id' do
       # Delete Comments of proyet
-      check_if_resource_exist(Proyect, params['id'])
+      check_if_resource_exist(Proyect, params[:id])
       c = 0
-      params['comment_id'].split(',').each { |id|
+      params[:comment_id].split(',').each { |id|
         check_if_resource_exist(CommentProyect, id)
         CommentProyect.delete_comment id
         c += 1

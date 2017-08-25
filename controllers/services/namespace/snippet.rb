@@ -20,10 +20,10 @@ class SnippetNamespace < ProyectNamespace
 
     get '/:id' do
       # Read one snippet by id
-      check_if_resource_exist(Snippet, params['id']).to_json
+      check_if_resource_exist(Snippet, params[:id]).to_json
     end
 
-    post '/', :validate => [:filename, :body, :user_id] do
+    post '/', :validate => %i(filename body user_id) do
       # Create snippet
       check_nil_string [:filename=>params[:filename],
                         :body=>params[:body],
@@ -33,7 +33,7 @@ class SnippetNamespace < ProyectNamespace
                      :user_id=>params[:user_id]).save().to_json
     end
 
-    put '/:id', :validate => [:filename, :body] do
+    put '/:id', :validate => %i(filename body) do
       # Update snippet
       check_nil_string [params[:filename], params[:body]]
       snippet = Snippet.for_update.first(:id=>params[:id])
@@ -56,11 +56,11 @@ class SnippetNamespace < ProyectNamespace
       check_if_resource_exist(Snippet, params['id']).comment_snippets.to_json
     end
 
-    post '/:id/comment', :validate => [:title, :body, :line_code, :user_id ] do
+    post '/:id/comment', :validate => %i(title body line_code user_id) do
       # Create comment
       check_nil_string [params[:title], params[:body], params[:line_code], params[:user_id]]
-      check_if_resource_exist(User, params['user_id'])
-      check_if_resource_exist(Snippet, params['id']).add_comment_snippet(
+      check_if_resource_exist(User, params[:user_id])
+      check_if_resource_exist(Snippet, params[:id]).add_comment_snippet(
           CommentSnippet.create(:title=>params[:title],
                                 :body=>params[:body],
                                 :line_code=>params[:line_code],
@@ -68,11 +68,11 @@ class SnippetNamespace < ProyectNamespace
                                 :snippet_id=>params[:id])).to_json
     end
 
-    put '/:id/comment/:comment_id', :validate => [:title, :body, :line_code] do
+    put '/:id/comment/:comment_id', :validate => %i(title body line_code) do
       # Edit comment
       check_nil_string [params[:title], params[:body], params[:line_code]]
-      check_if_resource_exist(Snippet, params['id'])
-      comment = CommentSnippet.for_update.first(:id=>params['comment_id'])
+      check_if_resource_exist(Snippet, params[:id])
+      comment = CommentSnippet.for_update.first(:id=>params[:comment_id])
       comment.title = params[:title]
       comment.body = params[:body]
       comment.line_code = params[:line_code]
@@ -81,9 +81,9 @@ class SnippetNamespace < ProyectNamespace
 
     delete '/:id/comment/:comment_id' do
       # Delete comment
-      check_if_resource_exist(Snippet, params['id'])
+      check_if_resource_exist(Snippet, params[:id])
       c = 0
-      params['comment_id'].split(',').each { |id|
+      params[:comment_id].split(',').each { |id|
         check_if_resource_exist(CommentSnippet, id)
         CommentSnippet.delete_comment id
         c += 1
@@ -107,7 +107,7 @@ class SnippetNamespace < ProyectNamespace
       check_if_resource_exist(Snippet, params['id']).tags.to_json
     end
 
-    post '/:id/tag', :validate => [:name] do
+    post '/:id/tag', :validate => %i(name) do
       # Create Relationship snippet with the tags
       # If the tag not exist then create without description
       check_nil_string [params[:name]]

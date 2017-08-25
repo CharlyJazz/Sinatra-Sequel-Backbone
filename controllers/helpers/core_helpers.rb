@@ -5,29 +5,29 @@ module CoreAppHelpers
     # Try decode token
     begin
       payload, header = JWT.decode(@token, settings.verify_key, true)
-      @exp = header["exp"]
+      @exp = header['exp']
       # Check to see if the exp is set (we don't accept forever tokens)
       if @exp.nil?
-        puts "Access token doesn't have exp set."
+        puts 'Access token doesn\'t have exp set.'
 
-        session['access_token'] = nil
+        session[:access_token] = nil
         return GuestUser.new
       end
       @exp = Time.at(@exp.to_i)
       puts @exp # DEBUG
       # Make sure the token hasn't expired
       if Time.now > @exp
-        puts "Access token expired."
+        puts 'Access token expired.'
 
-        session['access_token'] = nil
+        session[:access_token] = nil
         return GuestUser.new
       end
-      @user_id = payload["user_id"]
+      @user_id = payload['user_id']
       puts "User id: #{@user_id}."
     rescue JWT::DecodeError => e
-      puts "Decode Error."
+      puts 'Decode Error.'
 
-      session['access_token'] = nil
+      session[:access_token] = nil
       return GuestUser.new
     end
 
@@ -36,10 +36,10 @@ module CoreAppHelpers
     puts "User: #{user.name}."
 
     if RoleUser.user_have_role? user.id, 'user'
-      puts "Current user should be a AuthUser."
+      puts 'Current user should be a AuthUser.'
       AuthUser.new(user.name, user.email, user.image_profile, user.id)
     elsif RoleUser.user_have_role? user.id, 'admin'
-      puts "Current user should be a Admin."
+      puts 'Current user should be a Admin.'
       Admin.new(user.name, user.email, user.image_profile, user.id)
     end
 
@@ -65,7 +65,7 @@ module CoreAppHelpers
 
     path = File.join(directory, filename)
 
-    File.open(path, "wb") { |f| f.write(tmpfile.read) }
+    File.open(path, 'wb') { |f| f.write(tmpfile.read) }
 
     filename
   end
@@ -88,7 +88,7 @@ module CoreAppHelpers
     end
 
     # or check the session for the access_token
-    token = session["access_token"]
+    token = session[:access_token]
 
     if token
       return token

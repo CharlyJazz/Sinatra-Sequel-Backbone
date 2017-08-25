@@ -9,7 +9,7 @@ class AuthController < CoreController
     set_current_user
   end
 
-  post '/login', :validate => [:email, :password] do
+  post '/login', :validate => %i(email password) do
     @user = User.first(:email=>params[:email])
     if @user
       if @user.authenticate params[:password]

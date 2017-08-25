@@ -40,7 +40,7 @@ describe 'Login and Logout' do
   end
   context 'Trying to log user correctly' do
     before :each do
-
+      %w[admin user].each { | role | Role.new(:name=>role).save }
     end
     it "should return 'User Logged successfully'" do
       post '/auth/login?email=SnippetMan@gmail.com&password=123456'
@@ -48,10 +48,13 @@ describe 'Login and Logout' do
       expect(JSON.parse(last_response.body)['response']).to eq 'User Logged successfully'
       expect(last_response.status).to eq 200
 
-      @token = expect(JSON.parse(last_response.body)['token'])
-      payload, header = JWT.decode(@token, verify_key, true)
+      token = JSON.parse(last_response.body)['token']
+      payload, header = JWT.decode(token, verify_key, true)
 
-      expect(payload).to eq 1
+      expect(header['exp']).to eq Time.now.to_i + 60*30
+      expect(header['alg'] ).to eq 'RS256'
+      expect(header['typ'] ).to eq 'JWT'
+      expect(payload['user_id']).to eq 1
     end
   end
   context 'Trying to logout user without before login' do
@@ -64,6 +67,7 @@ describe 'Login and Logout' do
   end
   context 'Trying to logout user correctly' do
     before :each do
+      %w[admin user].each { | role | Role.new(:name=>role).save }
       post '/auth/login?email=SnippetMan@gmail.com&password=123456'
     end
     it "should return 'User Logout successfully'" do

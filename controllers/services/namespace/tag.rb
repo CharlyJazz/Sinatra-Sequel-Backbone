@@ -9,24 +9,24 @@ class TagNamespace < CoreController
     get '/' do
       limit = params[:$limit] || 10
       # Read all tags, filter for the name of description and / or count
-      if params['$count'] && !params['$filter']
+      if params[:$count] && !params[:$filter]
         halt 200, {:response=>Tag.count}.to_json
-      elsif !params['$count'] && params['$filter']
-        if params['name']
-          query = Tag.where(Sequel.like(:name, '%' + params['name'] + '%')).select(
+      elsif !params[:$count] && params[:$filter]
+        if params[:name]
+          query = Tag.where(Sequel.like(:name, '%' + params[:name] + '%')).select(
               :id, :name, :description).limit(limit)
           halt 200, query.to_json
-        elsif params['description']
-          query = Tag.where(Sequel.like(:name, '%' + params['description'] + '%')).select(
+        elsif params[:description]
+          query = Tag.where(Sequel.like(:name, '%' + params[:description] + '%')).select(
               :id, :name, :description).limit(limit)
           halt 200, query.to_json
         end
-      elsif params['$count'] && params['$filter']
-        if params['name']
-          query = Tag.where(Sequel.like(:name, '%' + params['name'] + '%')).count
+      elsif params[:$count] && params[:$filter]
+        if params[:name]
+          query = Tag.where(Sequel.like(:name, '%' + params[:name] + '%')).count
           halt 200, {:response=>query}.to_json
-        elsif params['description']
-          query = Tag.where(Sequel.like(:name, '%' + params['description'] + '%')).count
+        elsif params[:description]
+          query = Tag.where(Sequel.like(:name, '%' + params[:description] + '%')).count
           halt 200, {:response=>query}.to_json
         end
       end
@@ -38,7 +38,7 @@ class TagNamespace < CoreController
       check_if_resource_exist(Tag, params['id']).to_json
     end
 
-    post '/', :validate => [:name] do
+    post '/', :validate => %i(name) do
       # Create tag
       if params[:description]
         check_nil_string [params[:description], params[:name]]
@@ -49,24 +49,18 @@ class TagNamespace < CoreController
       end
     end
 
-    put '/:id', :validate => [:name] do
+    put '/:id', :validate => %i(name) do
       # Edit tag
-      puts "debug"
       check_nil_string [params[:name]]
-      puts "debug passing name validator"
       tag = Tag.for_update.first(:id=>params[:id])
       if tag.equal?(nil)
-        puts "debug 404"
         halt 404, {:response=>'Resource no found'}.to_json
       else
-        puts "debug name"
         tag.name = params[:name]
         if params[:description]
-          puts "debug description"
           check_nil_string [params[:description]]
           tag.description = params[:description]
         end
-        puts "debug save"
         tag.save.to_json
       end
     end

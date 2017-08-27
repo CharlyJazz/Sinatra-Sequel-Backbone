@@ -1,7 +1,13 @@
 var app = app || {};
 
 app.CommentCollection = Backbone.Collection.extend({
-  model: Backbone.Model,
+  model: Backbone.Model.extend({
+    defaults: {
+      created_at: Date.now(),
+      title: '',
+      line_code: '',
+    }
+  }),
   url: function(){
     return  '/api/' + this.modelParent + '/' + this.idParent + '/comment'
   },

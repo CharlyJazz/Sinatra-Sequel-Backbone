@@ -46,7 +46,7 @@ module ServicesHelpers
   end
   def check_nil_string arg
     arg.each { |n|
-      if n.empty? || n.nil?
+      if n.to_s.empty? || n.nil?
         params_422
       end
     }

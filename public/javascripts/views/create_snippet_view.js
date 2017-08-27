@@ -71,8 +71,7 @@ app.CreateSnippetView = Mn.View.extend({
               icon: 'success',
               showHideTransition: 'slide'
             });
-            // TODO: Redirect al snippet con su id en la url
-            app.applicationBasicRouter.navigate('snippets', {trigger: true});
+            app.applicationBasicRouter.navigate('snippets/' + response.id , {trigger: true});
           }
         });
       }

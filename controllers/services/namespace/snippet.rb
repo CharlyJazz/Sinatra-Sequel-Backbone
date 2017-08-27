@@ -56,16 +56,26 @@ class SnippetNamespace < ProyectNamespace
       check_if_resource_exist(Snippet, params['id']).comment_snippets.to_json
     end
 
-    post '/:id/comment', :validate => %i(title body line_code user_id) do
-      # Create comment
-      check_nil_string [params[:title], params[:body], params[:line_code], params[:user_id]]
+    post '/:id/comment', :validate => %i(body user_id) do
+      # Create comment, the line_code or title are optional
+      check_nil_string [params[:body], params[:user_id]]
+
+      attr = {:body=>params[:body], :snippet_id=>params[:id]}
+
+      unless params[:title].to_s.empty? || params[:title].nil?
+        attr[:title] = params[:title]
+      end
+
+      unless params[:line_code].to_s.empty? || params[:line_code].nil?
+        attr[:line_code] = params[:line_code]
+      end
+
       check_if_resource_exist(User, params[:user_id])
+
+      attr[:user_id] = params[:user_id]
+
       check_if_resource_exist(Snippet, params[:id]).add_comment_snippet(
-          CommentSnippet.create(:title=>params[:title],
-                                :body=>params[:body],
-                                :line_code=>params[:line_code],
-                                :user_id=>params[:user_id],
-                                :snippet_id=>params[:id])).to_json
+          CommentSnippet.create(attr)).to_json
     end
 
     put '/:id/comment/:comment_id', :validate => %i(title body line_code) do

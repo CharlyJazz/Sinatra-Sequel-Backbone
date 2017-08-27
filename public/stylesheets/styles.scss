@@ -31,6 +31,16 @@ body{
 .hidden-element{
   display: none;
 }
+
+.input-parent-visibility-hidden {
+  input {
+    visibility: hidden;
+  }
+  label {
+    color: $greydark;
+  }
+}
+
 .fa.fa-close {
   color: #AF2018
 }

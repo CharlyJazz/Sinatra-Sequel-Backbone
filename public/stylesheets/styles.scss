@@ -203,3 +203,61 @@ li.L9 { background: none !important }
 .height-pretty {
   max-height: 30em;
 }
+
+.block__comment {
+  .comment_picture {
+    img {
+      width: 85px;
+      margin-top: 1em;
+    }
+  }
+
+  .comment_content {
+    word-break: break-word;
+
+    .comment_username {
+      a {
+        color: darken($greydark, 80)
+      }
+    }
+
+    .comment_title {
+
+      .comment_created_at {
+        position: absolute;
+        font-size: .850rem;
+        right: 0;
+        top: 0;
+      }
+    }
+
+    .comment_body {
+      button.get_line_code {
+        background: darken($bluemedium, 20);
+        border: 1px solid darken($bluemedium, 25);
+        cursor: pointer;
+        -webkit-box-shadow: 0 0 3px 0px black;
+        -moz-box-shadow: 0 0 3px 0px black;
+        box-shadow: 0 0 3px 0px black;
+        transition: all .4s;
+        &:hover {
+          transition: all .4s;
+          -webkit-box-shadow: 0 0 5px -1px black;
+          -moz-box-shadow: 0 0 5px -1px black;
+          box-shadow: 0 0 5px -1px black;
+        }
+        &:active {
+          -webkit-box-shadow: initial;
+          -moz-box-shadow: initial;
+          box-shadow: initial;
+        }
+      }
+    }
+  }
+}
+#comments-region > div > div:not(:last-child) > .block__comment {
+  .comment_content {
+    padding-bottom: 2em;
+    border-bottom: 2px solid $greydark;
+  }
+}

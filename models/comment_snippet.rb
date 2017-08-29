@@ -16,6 +16,18 @@ class CommentSnippet < Sequel::Model(:comment_snippets)
     validates_max_length 120, :body
   end
 
+  def user_name
+    self[:user_name] || users.name
+  end
+
+  def user_picture
+    self[:user_picture] || users.image_profile
+  end
+
+  def user_id
+    self[:user_id] || users.id
+  end
+
   many_to_one :users
   many_to_one :snippets
 

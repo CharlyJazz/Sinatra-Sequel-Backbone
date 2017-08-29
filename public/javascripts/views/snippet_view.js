@@ -129,6 +129,8 @@ app.CreateCommentSnippet = Mn.View.extend({
     } else {
       dict.body = text_area_value;
       dict.user_id = app.current_user.get('id');
+      dict.user_name = app.current_user.get('username');
+      dict.user_picture = app.current_user.get('image_profile').call();
       if (!titleInput.parent('div').hasClass('input-parent-visibility-hidden')
         && !$.trim(titleInput.val()) === false) {
           dict.title = titleInput.val();

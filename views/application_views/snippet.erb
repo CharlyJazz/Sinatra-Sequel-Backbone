@@ -25,7 +25,7 @@
 
     <div class="col-lg-8 offset-lg-2 mt-2">
       <h4>Comments <i class="fa fa-comments"></i> </h4>
-      <div class="row" id="comments-region"></div>
+      <section id="comments-region"></section>
     </div>
   </div>
 
@@ -33,14 +33,25 @@
 
 <script type="x-template/underscore" id="sub-view-comments">
 
-  <div class="media mb-1">
-    <a class="media-left waves-light">
-      <img class="rounded-circle" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-10.jpg">
+  <div class="media mb-1 block__comment">
+    <a class="media-left waves-light comment_picture">
+      <img class="rounded-circle" src="{{=user_picture}}">
     </a>
-    <div class="media-body">
-      <h4 class="media-heading"><a href="#user/{{=user_id}}">Karla</a></h4>
-      <h2>{{=title}} <small><i class="fa fa-clock-o"></i> {{= jQuery.format.prettyDate(created_at) }}</small></h2>
-      <small>{{=body}}</small>
+    <div class="media-body comment_content">
+      <h4 class="media-heading comment_username"><a href="#user/{{=user_id}}">{{=user_name}}</a></h4>
+      <h2 class="comment_title">{{=title}}
+        <small class="comment_created_at"><i class="fa fa-clock-o"></i>
+          {{= jQuery.format.prettyDate(created_at) }}
+        </small>
+      </h2>
+      <p class="comment_body">
+
+        {{ if (line_code) { }}
+          <button class="get_line_code">{{=line_code}}</button>
+        {{ } }}
+
+        {{=body}}
+      </p>
     </div>
   </div>
 

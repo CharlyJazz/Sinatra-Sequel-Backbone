@@ -52,11 +52,16 @@ app.ApplicationBasicController = {
         app.CurrentApplication.showView(myView);
       });
       snippetModel.fetch({
-        success: function () {
-          // TODO: Ver si hay que renderizar el CodeMirror en este callback
-        },
         error: function () {
-          // TODO: Redireccionar y mostrar un $.toast()
+          $.toast({
+            heading: 'Wow!',
+            text: 'This page does not exist',
+            icon: 'error',
+            showHideTransition: 'slide'
+          });
+          Backbone.history.navigate(
+            'snippets', {trigger: true}
+          );
         }
       });
     }

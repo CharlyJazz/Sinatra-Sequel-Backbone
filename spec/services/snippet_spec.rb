@@ -109,8 +109,11 @@ describe Snippet do
   end
   describe 'Snippet Comments' do
     before :each do
-      @user_comment = User.new(:name => 'SuperMan', :email=>'SuperMan@gmail.com',
-                               :password=>'123456', :password_confirmation=>'123456').save
+      @user_comment = User.new(:name => 'SuperMan',
+                               :image_profile=>'img.png',
+                               :email=>'SuperMan@gmail.com',
+                               :password=>'123456',
+                               :password_confirmation=>'123456').save
     end
     context 'get all comments of snippet' do
       before :each do

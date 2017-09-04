@@ -65,16 +65,56 @@ app.SnippetView = Mn.View.extend({
 
 app.CommentsCollectionView = Mn.CollectionView.extend({
   className: 'row mt-3',
+  ui: {
+    editButton: '.ui-edit',
+    deleteButton: '.ui-delete'
+  },
+  events: {
+    'click @ui.editButton': 'toggleModal'
+  },
   initialize: function(options) {
+    this.modal = undefined;
     this.childView = Mn.View.extend({
       template: "#sub-view-comments",
       className: 'col-lg-12'
     });
     this.collection = new app.CommentCollection([], {
-      modelParent: options.modelParent,
       idParent: options.idParent
     });
     this.collection.fetch();
+  },
+  toggleModal: function (event) {
+    // https://lostechies.com/derickbailey/2011/10/11/backbone-js-getting-the-model-for-a-clicked-element/
+
+    var id = $(event.currentTarget).data("id"),
+        item = this.collection.get(id);
+
+    this.modal = new app.EditModalView({
+      id: id,
+      collection: this.collection,
+      fields: {
+        title: {
+          value: item.get('title'),
+          type: 'text',
+          max: 120,
+          require: false
+        },
+        body: {
+          value: item.get('body'),
+          type: 'textarea',
+          max: 24,
+          require: true
+        },
+        line_code: {
+          value: item.get('line_code'),
+          type: 'number',
+          max: 120,
+          require: false
+        }
+      }
+    });
+
+    this.modal.render()
   }
 });
 

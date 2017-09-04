@@ -5,9 +5,9 @@ app.TagCollection = Backbone.Collection.extend({
   url: '/api/tag/',
   search : function(letters){
     if(letters === '') return this;
-    var pattern = new RegExp(letters,"gi");
+    var pattern = new RegExp(letters, 'gi');
     return _(this.filter(function(data) {
-      return pattern.test(data.get("name"));
+      return pattern.test(data.get('name'));
     }));
   }
 });

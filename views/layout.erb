@@ -27,6 +27,7 @@
   <%= add_sub_template('application_views', 'create_proyect') %>
 
   <%= add_sub_template('application_modals', 'create_modal') %>
+  <%= add_sub_template('application_modals', 'edit_modal') %>
 
 </head>
 
@@ -58,6 +59,7 @@
   <script type="text/javascript" src="<%= asset_path('models/snippet_model.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('models/proyect_model.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('models/tag_model.js') %>"></script>
+  <script type="text/javascript" src="<%= asset_path('models/comment_snippet_model.js') %>"></script>
 
   <script type="text/javascript" src="<%= asset_path('collections/user_collections.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('collections/proyect_collection.js') %>"></script>
@@ -65,7 +67,8 @@
   <script type="text/javascript" src="<%= asset_path('collections/tag_collection.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('collections/comment_collection.js') %>"></script>
 
-  <script type="text/javascript" src="<%= asset_path('views/create_view.js') %>"></script>
+  <script type="text/javascript" src="<%= asset_path('views/create_modal_view.js') %>"></script>
+  <script type="text/javascript" src="<%= asset_path('views/edit_modal_view.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('views/create_snippet_view.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('views/create_proyect_view.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('views/home_view.js') %>"></script>

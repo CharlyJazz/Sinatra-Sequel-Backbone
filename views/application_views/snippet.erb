@@ -52,6 +52,10 @@
 
         {{=body}}
       </p>
+      {{ if (typeof(id) !== "undefined" && user_authenticated_is_the_owner(user_id)) { }}
+        <button class="ui-edit" data-id="{{= id }}"><i class="fa fa-edit"></i></button>
+        <button class="ui-delete" data-id="{{= id }}"><i class="fa fa-trash-o"></i></button>
+      {{ } }}
     </div>
   </div>
 

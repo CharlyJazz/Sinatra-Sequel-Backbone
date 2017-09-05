@@ -70,13 +70,21 @@ app.CommentsCollectionView = Mn.CollectionView.extend({
     deleteButton: '.ui-delete'
   },
   events: {
-    'click @ui.editButton': 'toggleModal'
+    'click @ui.editButton': 'toggleModal',
+    'click @ui.deleteButton': 'deleteComment'
   },
   initialize: function(options) {
     this.modal = undefined;
     this.childView = Mn.View.extend({
       template: "#sub-view-comments",
-      className: 'col-lg-12'
+      className: 'col-lg-12',
+      templateContext: function() {
+        return {
+          user_authenticated_is_the_owner: function(id_user) {
+            return app.current_user.is_authenticated() && app.current_user.get('id') == id_user
+          }
+        }
+      }
     });
     this.collection = new app.CommentCollection([], {
       idParent: options.idParent
@@ -115,6 +123,9 @@ app.CommentsCollectionView = Mn.CollectionView.extend({
     });
 
     this.modal.render()
+  },
+  deleteComment: function (event) {
+    this.collection.get(event.currentTarget.dataset.id).destroy()
   }
 });
 

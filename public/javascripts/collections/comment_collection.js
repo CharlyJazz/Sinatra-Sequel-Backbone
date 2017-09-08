@@ -6,6 +6,6 @@ app.CommentCollection = Backbone.Collection.extend({
     return  '/api/snippet/' + this.idParent + '/comment'
   },
   initialize: function (models, options) {
-    this.idParent = options.idParent; // id of parent model
+    this.idParent = options.idParent;
   }
 });

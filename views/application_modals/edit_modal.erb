@@ -1,53 +1,51 @@
 <script type="x-template/underscore" id="modal-edit">
 
+  <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalEdit" aria-hidden="true">
 
-<div class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog cascading-modal" role="document">
-    <!--Content-->
-    <div class="modal-content">
+    <div class="modal-dialog cascading-modal" role="document">
 
-      <!--Header-->
-      <div class="modal-header light-blue darken-3 white-text">
-        <h4 class="title"><i class="fa fa-user-plus"></i> Register</h4>
-        <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+      <div class="modal-content">
+
+        <div class="modal-header light-blue darken-3 white-text">
+          <h4 class="title"><i class="fa fa-pencil"></i> {{= title }}</h4>
+        </div>
+
+        <form id="ui-form">
+
+          <div class="modal-body">
+            {{ _.each(fields, function(field) { }}
+            {{ if ( _.contains( ['password', 'number', 'text', 'email', 'textarea'] , field.type ) ) { }}
+
+            <div class="md-form form-sm">
+              {{ if (field.type === 'textarea') { }}
+              <textarea type="text" id="{{=field.name}}" name="{{=field.name}}" max="{{=field.max}}" min="{{=field.min}}" class="md-textarea mb-0" {{ if (field.required) { }} required {{ } }}>{{=field.value}}</textarea>
+              {{ } else { }}
+              <input type="{{=field.type}}" id="{{=field.name}}" name="{{=field.name}}" max="{{=field.max}}" min="{{=field.min}}" class="form-control" value="{{=field.value}}" {{ if (field.required) { }} required {{ } }}>
+              {{ } }}
+              <label for="{{=field.name}}">{{=field.label}}</label>
+            </div>
+
+
+            {{ } }}
+            {{ }) }}
+          </div>
+
+          <div class="text-center mt-2">
+            <input class="btn btn-info" id="ui-submit" type="submit" value="Edit!">
+          </div>
+
+        </form>
+
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close</button>
+
+        </div>
+
       </div>
-      <!--Body-->
-      <div class="modal-body">
-        <div class="md-form form-sm">
-          <i class="fa fa-envelope prefix"></i>
-          <input type="text" id="form32" class="form-control">
-          <label for="form32">Your email</label>
-        </div>
 
-        <div class="md-form form-sm">
-          <i class="fa fa-lock prefix"></i>
-          <input type="password" id="form33" class="form-control">
-          <label for="form33">Your password</label>
-        </div>
-
-        <div class="md-form form-sm">
-          <i class="fa fa-lock prefix"></i>
-          <input type="password" id="form34" class="form-control">
-          <label for="form34">Repeat password</label>
-        </div>
-
-        <div class="text-center mt-2">
-          <button class="btn btn-info">Sign up <i class="fa fa-sign-in ml-1"></i></button>
-        </div>
-
-      </div>
-      <!--Footer-->
-      <div class="modal-footer">
-        <div class="options text-center text-md-right mt-1">
-          <p>Already have an account? <a href="#">Log In</a></p>
-        </div>
-        <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close</button>
-      </div>
     </div>
-    <!--/.Content-->
+
   </div>
-</div>
 
 </script>

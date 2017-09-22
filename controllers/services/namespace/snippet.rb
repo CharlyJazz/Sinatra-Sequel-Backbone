@@ -78,14 +78,16 @@ class SnippetNamespace < ProyectNamespace
           CommentSnippet.create(attr)).to_json
     end
 
-    put '/:id/comment/:comment_id', :validate => %i(title body line_code) do
+    put '/:id/comment/:comment_id', :validate => %i(body) do
       # Edit comment
-      check_nil_string [params[:title], params[:body], params[:line_code]]
+      check_nil_string [params[:body]]
+
       check_if_resource_exist(Snippet, params[:id])
+
       comment = CommentSnippet.for_update.first(:id=>params[:comment_id])
+      comment.line_code = params[:line_code]
       comment.title = params[:title]
       comment.body = params[:body]
-      comment.line_code = params[:line_code]
       comment.save.to_json
     end
 

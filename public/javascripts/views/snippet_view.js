@@ -4,7 +4,8 @@ app.SnippetView = Mn.View.extend({
   template: '#container-snippet',
   regions: {
     commentsRegion: '#comments-region',
-    createCommentRegion:'#createComment-region'
+    createCommentRegion: '#createComment-region',
+    editModalRegion: '#modalEdit-region'
   },
   ui: {
     buttonWriteComment: '#ui-button-toggleForm'
@@ -36,7 +37,8 @@ app.SnippetView = Mn.View.extend({
   renderComments: function () {
     this.showChildView('commentsRegion', new app.CommentsCollectionView({
       modelParent: 'snippet',
-      idParent: this.snippet_id
+      idParent: this.snippet_id,
+      parent: this
     }));
   },
   toggleRenderFormComment: function () {
@@ -74,6 +76,7 @@ app.CommentsCollectionView = Mn.CollectionView.extend({
     'click @ui.deleteButton': 'deleteComment'
   },
   initialize: function(options) {
+    this.parent = options.parent;
     this.modal = undefined;
     this.childView = Mn.View.extend({
       template: "#sub-view-comments",
@@ -92,37 +95,40 @@ app.CommentsCollectionView = Mn.CollectionView.extend({
     this.collection.fetch();
   },
   toggleModal: function (event) {
-    // https://lostechies.com/derickbailey/2011/10/11/backbone-js-getting-the-model-for-a-clicked-element/
-
     var id = $(event.currentTarget).data("id"),
-      item = this.collection.get(id);
+        item = this.collection.get(id);
 
-    this.modal = new app.EditModalView({
+    this.parent.showChildView('editModalRegion', new app.EditModalView({
       id: id,
       collection: this.collection,
-      fields: {
-        title: {
+      title: 'Edit your comment',
+      fields: [
+        {
+          name: 'title',
+          label: 'The title',
           value: item.get('title'),
           type: 'text',
           max: 120,
-          require: false
+          required: false
         },
-        body: {
+        {
+          name:'body',
+          label: 'The text body',
           value: item.get('body'),
           type: 'textarea',
           max: 24,
-          require: true
+          required: true
         },
-        line_code: {
+        {
+          name: 'line_code',
+          label: 'The line in the code editor',
           value: item.get('line_code'),
           type: 'number',
-          max: 120,
-          require: false
+          max: this.getOption('parent').editor.lineCount(),
+          required: false
         }
-      }
-    });
-
-    this.modal.render()
+      ]
+    }));
   },
   deleteComment: function (event) {
     this.collection.get(event.currentTarget.dataset.id).destroy()
@@ -145,9 +151,6 @@ app.CreateCommentSnippet = Mn.View.extend({
     'click @ui.buttonHideTitleInput': 'toggleDisabledInput',
     'click @ui.buttonHideLineNumberInput': 'toggleDisabledInput',
     'click @ui.submit': 'createComment'
-  },
-  collectionEvents: {
-    'sync': 'toastCreateComment'
   },
   templateContext: function() {
     /*
@@ -208,7 +211,8 @@ app.CreateCommentSnippet = Mn.View.extend({
        */
       this.collection.create(dict, {
         wait: true
-      })
+      });
+      this.toastCreateComment();
     }
   },
   toastInvalidComment: function () {

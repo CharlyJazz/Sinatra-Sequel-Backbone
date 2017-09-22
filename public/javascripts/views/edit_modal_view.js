@@ -1,4 +1,4 @@
-var app = app || {}; // https://mdbootstrap.com/javascript/modals/
+var app = app || {};
 
 app.EditModalView = Mn.View.extend({
   /*
@@ -18,7 +18,6 @@ app.EditModalView = Mn.View.extend({
    *   - type: Input type
    *   - value: Value of input
    * */
-  //el: '#container-modal',
   template: '#modal-edit',
   ui: {
     modal: '.modal',
@@ -26,6 +25,9 @@ app.EditModalView = Mn.View.extend({
   },
   events: {
     'submit @ui.form': 'submitForm'
+  },
+  triggers: {
+    'hidden.bs.modal @ui.modal': 'modalIsClose'
   },
   initialize: function () {
     /*
@@ -76,5 +78,7 @@ app.EditModalView = Mn.View.extend({
     else if (this.model) {
       this.model.set(dict).save()
     }
+
+    this.getUI('modal').modal('hide');
   }
 });

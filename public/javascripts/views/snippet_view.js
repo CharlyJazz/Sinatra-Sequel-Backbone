@@ -16,6 +16,9 @@ app.SnippetView = Mn.View.extend({
   modelEvents: {
     'sync': 'renderComments'
   },
+  childViewEvents: {
+    'modalIsClose': 'destroyModelView'
+  },
   initialize: function () {
     this.snippet_id = this.model.id;
   },
@@ -62,6 +65,10 @@ app.SnippetView = Mn.View.extend({
         })
       );
     }
+  },
+  destroyModelView: function () {
+    var regionView = this.getChildView('editModalRegion');
+    regionView.destroy();
   }
 });
 
@@ -74,6 +81,9 @@ app.CommentsCollectionView = Mn.CollectionView.extend({
   events: {
     'click @ui.editButton': 'toggleModal',
     'click @ui.deleteButton': 'deleteComment'
+  },
+  collectionEvents: {
+    'change': 'render'
   },
   initialize: function(options) {
     this.parent = options.parent;
@@ -124,7 +134,7 @@ app.CommentsCollectionView = Mn.CollectionView.extend({
           label: 'The line in the code editor',
           value: item.get('line_code'),
           type: 'number',
-          max: this.getOption('parent').editor.lineCount(),
+          max: this.parent.editor.lineCount(),
           required: false
         }
       ]

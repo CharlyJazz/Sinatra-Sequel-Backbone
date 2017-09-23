@@ -49,59 +49,20 @@
   <script type="text/javascript" src="<%= asset_path('dist/Chart.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('src/prettify.js') %>"></script>
 
-  <!-- B a c k b o n e -->
-
-  <script type="text/javascript" src="<%= asset_path('helpers/helpers.js') %>"></script>
+  <!-- B a c k b o n e  A p p-->
 
 
-  <script type="text/javascript" src="<%= asset_path('models/current_user_model.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('models/user_model.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('models/snippet_model.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('models/proyect_model.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('models/tag_model.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('models/comment_snippet_model.js') %>"></script>
+  <script id="config" type="text/json">
+    {
+      "is_authenticated": <%= @current_user.is_authenticated %>,
+      "username": <%= @current_user.username.to_json %>,
+      "email": <%= @current_user.email.to_json  %>,
+      "id": <%= @current_user.id %>,
+      "permission_level": <%= @current_user.permission_level %>
+    }
+   </script>
 
-  <script type="text/javascript" src="<%= asset_path('collections/user_collections.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('collections/proyect_collection.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('collections/snippet_collection.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('collections/tag_collection.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('collections/comment_collection.js') %>"></script>
-
-  <script type="text/javascript" src="<%= asset_path('views/create_modal_view.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('views/edit_modal_view.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('views/create_snippet_view.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('views/create_proyect_view.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('views/home_view.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('views/profile_view.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('views/authentication_view.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('views/header_view.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('views/proyect_view.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('views/proyects_view.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('views/snippet_view.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('views/snippets_view.js') %>"></script>
-
-  <script type="text/javascript" src="<%= asset_path('controllers/home_controller.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('controllers/user_auth_controller.js') %>"></script>
-
-  <script type="text/javascript" src="<%= asset_path('routes/home_routes.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('routes/user_auth_routes.js') %>"></script>
-
-  <script type="text/javascript" src="<%= asset_path('app.js') %>"></script>
-
-  <script>
-    $(document).ready(function(){
-      app.CurrentApplication = new app.Application({
-            is_authenticated: <%= @current_user.is_authenticated %>,
-            username: <%= @current_user.username.to_json %>,
-            email: <%= @current_user.email.to_json  %>,
-            id: <%= @current_user.id %>,
-            permission_level: <%= @current_user.permission_level %>
-      });
-
-      app.CurrentApplication.start();
-
-    });
-  </script>
+  <script type="text/javascript" src="<%= asset_path('bin/app.bundle.js') %>"></script>
 
 </body>
 </html>

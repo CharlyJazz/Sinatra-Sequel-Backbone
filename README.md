@@ -29,10 +29,11 @@ the app.rsa and app.rsa.pub were generated with:
 
 
 1. Install Front-end dependencies with the command `bower install`
-1. Create roles with the command `bundle exec rake db:role:create`
-2. Create tags with the command `bundle exec rake db:tag:create`
-3. Create 2048 bit RSA Key and export the RSA Public Key
-4. Run `bundle exec rackup -p 8000`
+2. Run the command `webpack` for create bundle app file
+3. Create roles with the command `bundle exec rake db:role:create`
+4. Create tags with the command `bundle exec rake db:tag:create`
+5. Create 2048 bit RSA Key and export the RSA Public Key
+6. Run `bundle exec rackup -p 8000`
 
 ## Resources
 

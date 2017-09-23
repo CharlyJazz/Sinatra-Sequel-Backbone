@@ -1,0 +1,1 @@
+module.exports = Mn.Application.extend({region: 'main'});

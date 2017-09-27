@@ -19,8 +19,7 @@ module.exports = Mn.CollectionView.extend({
   },
   CheckIfEmpty: function () {
     if (this.collection.length === 0){
-      this.trigger('noHaveProyects'); // TODO: refactorizar esto con
-      // TODO: https://marionettejs.com/docs/v2.4.3/marionette.collectionview.html#collectionviews-isempty
+      this.trigger('noHaveProyects');
     }
   }
 });

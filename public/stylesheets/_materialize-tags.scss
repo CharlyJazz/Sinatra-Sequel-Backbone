@@ -131,6 +131,7 @@
   padding: 1% 2% 0 2%;
   width: 100%;
   left: 0;
+
   ul {
     li {
       &:not(:first-child) {
@@ -151,5 +152,9 @@
         }
       }
     }
+  }
+
+  &.edit {
+    position: initial
   }
 }

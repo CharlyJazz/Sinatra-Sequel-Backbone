@@ -121,5 +121,20 @@
   <input type="text" id="tags" class="form-control" disabled>
   {{ } else { }}
   <input type="text" id="tags" class="form-control">
+  <a type="button" class="btn-floating green accent-3 my-1 btn-li waves-effect waves-light hidden-element">
+    <i class="fa fa-check"></i>
+  </a>
+  <div class="card-tag-searched edit hidden-element">
+    <div class="row">
+      <div class="col-lg-10">
+        <ul id="ul-tags">
+
+        </ul>
+      </div>
+      <div class="col-lg-2">
+        <i class="fa fa-2x fa-close float-right" id="ui-close-card-tag"></i>
+      </div>
+    </div>
+  </div>
   {{ } }}
 </script>

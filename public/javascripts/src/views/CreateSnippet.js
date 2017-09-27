@@ -127,9 +127,7 @@ module.exports = Mn.View.extend({
     * Get tag name, add and clear
     * input value of @ui.material_input_tag
     * */
-    this.getUI('input_tag').materialtags('add',
-      event.target.parentElement.innerText
-    );
+    this.getUI('input_tag').materialtags('add', event.target.parentElement.innerText);
     $('.n-tag').val('');
   },
   closeTag: function () {

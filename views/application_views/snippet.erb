@@ -1,14 +1,33 @@
 <script type="x-template/underscore" id="container-snippet">
 
   <div class="row">
-    <div class="col-lg-8 offset-lg-2">
+    <div class="col-lg-8 offset-lg-2 block__snippet">
       <div class="card">
-        <div class="card-header">
-          {{= filename}}
-          <span class="float-right">
+        <div class="card-header snippet_information">
+
+          <span class="snippet_filename">{{= filename}}</span>
+
+          {{ if (user_authenticated_is_the_owner(user_id)) { }}
+          <button class="ui-edit btn btn-success waves-effect btn-sm"><i class="fa fa-edit"></i></button>
+          <button class="ui-delete btn btn-danger waves-effect btn-sm"><i class="fa fa-trash-o"></i></button>
+          {{ } }}
+
+          <span class="float-right snippet_timestamp">
+            {{ if (updated_at.length) { }}
+            {{= jQuery.format.prettyDate(updated_at) }}
+            {{ } else { }}
             {{= jQuery.format.prettyDate(created_at) }}
+            {{ } }}
           </span>
         </div>
+
+        {{ if (user_authenticated_is_the_owner(user_id)) { }}
+        <div class="card-header snippet_editing hidden-element">
+          <input type="text" id="filename" class="w-25" maxlength="60" value="{{= filename}}">
+          <button class="ui-submit-edit btn btn-success waves-effect btn-sm"><i class="fa fa-check"></i></button>
+        </div>
+        {{ } }}
+
         <div class="card-body">
           <textarea id="editor" class="editor"></textarea>
         </div>
@@ -24,7 +43,7 @@
     </div>
 
     <div class="col-lg-8 offset-lg-2 mt-2">
-      <h4>Comments <i class="fa fa-comments"></i> </h4>
+      <h4>Comments <i class="fa fa-comments"></i></h4>
       <section id="comments-region"></section>
     </div>
   </div>
@@ -49,15 +68,15 @@
       <p class="comment_body">
 
         {{ if (line_code) { }}
-          <button class="get_line_code">{{=line_code}}</button>
+        <button class="get_line_code">{{=line_code}}</button>
         {{ } }}
 
         {{=body}}
       </p>
 
       {{ if (user_authenticated_is_the_owner(user_id)) { }}
-        <button class="ui-edit" data-id="{{= id }}"><i class="fa fa-edit"></i></button>
-        <button class="ui-delete" data-id="{{= id }}"><i class="fa fa-trash-o"></i></button>
+      <button class="ui-edit" data-id="{{= id }}"><i class="fa fa-edit"></i></button>
+      <button class="ui-delete" data-id="{{= id }}"><i class="fa fa-trash-o"></i></button>
       {{ } }}
     </div>
   </div>
@@ -73,28 +92,28 @@
     </div>
   </div>
   {{ } else { }}
-    <div class="col-lg-2">
-      <img class="img-fluid ml-1 mt-3" src={{=image_profile.call()}} width="300">
-    </div>
-    <div class="col-lg-10">
-      <form>
-        <div class="md-form mt-2 mb-2">
-          <input type="number" id="line-number" class="w-25" min="1">
-          <i class="fa fa-times-circle" id="ui-button-hide-line-number"></i>
-          <label for="line-number">Line number</label>
-        </div>
-        <div class="md-form mt-2 mb-2 ">
-          <input type="text" id="title-comment" class="w-75" maxlength="24">
-          <i class="fa fa-times-circle" id="ui-button-hide-title"></i>
-          <label for="title-comment">Comment header</label>
-        </div>
-        <div class="md-form mt-2">
-          <textarea type="text" id="textarea-comment" class="md-textarea w-75" maxlength="120"></textarea>
-          <label for="textarea-comment">Your comment</label>
-        </div>
-        <button class="btn btn-primary waves-effect waves-light" id="submit" type="submit">Submit</button>
-      </form>
-    </div>
+  <div class="col-lg-2">
+    <img class="img-fluid ml-1 mt-3" src={{=image_profile.call()}} width="300">
+  </div>
+  <div class="col-lg-10">
+    <form>
+      <div class="md-form mt-2 mb-2">
+        <input type="number" id="line-number" class="w-25" min="1">
+        <i class="fa fa-times-circle" id="ui-button-hide-line-number"></i>
+        <label for="line-number">Line number</label>
+      </div>
+      <div class="md-form mt-2 mb-2 ">
+        <input type="text" id="title-comment" class="w-75" maxlength="24">
+        <i class="fa fa-times-circle" id="ui-button-hide-title"></i>
+        <label for="title-comment">Comment header</label>
+      </div>
+      <div class="md-form mt-2">
+        <textarea type="text" id="textarea-comment" class="md-textarea w-75" maxlength="120"></textarea>
+        <label for="textarea-comment">Your comment</label>
+      </div>
+      <button class="btn btn-primary waves-effect waves-light" id="submit" type="submit">Submit</button>
+    </form>
+  </div>
   {{ } }}
 
 </script>

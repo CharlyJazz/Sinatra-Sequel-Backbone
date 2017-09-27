@@ -1,4 +1,4 @@
-migration "create the comment_proyects table" do
+migration 'create the comment_proyects table' do
   database.create_table :comment_proyects do
     primary_key :id
     String :body, :size=>250, :null=>false

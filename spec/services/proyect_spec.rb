@@ -38,14 +38,14 @@ describe Proyect do
     it 'should no create proyect' do
       post route_parameter_empty
 
-      expect(JSON.parse(last_response.body)['response']).to eq 'Any parameter are empty or nule'
+      expect(JSON.parse(last_response.body)['response']).to eq 'Any parameter are empty or null'
       expect(last_response.status).to eq 422
     end
 
     it 'should no create proyect' do
       post route_without_parameter
 
-      expect(JSON.parse(last_response.body)['response']).to eq 'Any parameter are empty or nule'
+      expect(JSON.parse(last_response.body)['response']).to eq 'Any parameter are empty or null'
       expect(last_response.status).to eq 422
     end
   end

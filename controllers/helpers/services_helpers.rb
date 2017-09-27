@@ -42,9 +42,9 @@ module ServicesHelpers
     {:response=>"Resources deleted: #{c}"}.to_json
   end
   def params_422
-    halt 422, {:response=>'Any parameter are empty or nule'}.to_json
+    halt 422, {:response=>'Any parameter are empty or null'}.to_json
   end
-  def check_nil_string arg
+  def check_nil_string(arg)
     arg.each { |n|
       if n.to_s.empty? || n.nil?
         params_422

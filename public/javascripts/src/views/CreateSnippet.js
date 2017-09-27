@@ -97,7 +97,10 @@ module.exports = Mn.View.extend({
      * */
     let tags = this.getUI('input_tag').materialtags('items').toString(),
         new_tag = new SnippetTag({"name":tags, snippet_id:id});
-    new_tag.save({wait: true});
+
+    if (tags.length) {
+      new_tag.save({wait: true});
+    }
   },
   searchTag: function (event) {
     let value = event.target.value;

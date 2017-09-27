@@ -1,4 +1,4 @@
-migration "create the proyects table" do
+migration 'create the proyects table' do
   database.create_table :proyects do
     primary_key :id
     String :name, :size=>80

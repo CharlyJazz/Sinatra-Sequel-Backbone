@@ -14,6 +14,7 @@ class Snippet < Sequel::Model(:snippets)
     super
     validates_presence [:filename, :body]
     validates_format RegexPattern::Filename, :filename
+    validates_max_length 60, :filename
   end
 
   many_to_one :users

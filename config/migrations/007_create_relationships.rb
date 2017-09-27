@@ -1,4 +1,4 @@
-migration "create the relationships table" do
+migration 'create the relationships table' do
   database.create_table :relationships do
     primary_key :id
     foreign_key :followed_id, :users, :on_update => :cascade, :on_delete => :cascade

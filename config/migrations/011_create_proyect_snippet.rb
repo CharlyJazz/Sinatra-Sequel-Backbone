@@ -1,4 +1,4 @@
-migration "create the proyect_has_snippet table" do
+migration 'create the proyect_has_snippet table' do
   database.create_table :proyect_has_snippet do
     primary_key :id
     Timestamp :created_at, null: false

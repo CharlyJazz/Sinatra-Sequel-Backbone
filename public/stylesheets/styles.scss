@@ -131,8 +131,6 @@ body{
   }
 }
 
-
-
 .CodeMirror.CodeMirror-wrap {
   height: 35em ;
 }
@@ -142,13 +140,12 @@ body{
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
 }
 
-
 /*Code Prettify Custom Style*/
 
 .pln { color: #4a4a4a !important}  /* plain text */
 
 @media screen {
-    .str { color: darkgreen }  /* string content */
+  .str { color: darkgreen }  /* string content */
   .kwd { color: #008 }  /* a keyword */
   .com { color: #800 }  /* a comment */
   .typ { color: darkslateblue }  /* a type name */
@@ -240,12 +237,14 @@ li.L9 { background: none !important }
         -moz-box-shadow: 0 0 3px 0px black;
         box-shadow: 0 0 3px 0px black;
         transition: all .4s;
+
         &:hover {
           transition: all .4s;
           -webkit-box-shadow: 0 0 5px -1px black;
           -moz-box-shadow: 0 0 5px -1px black;
           box-shadow: 0 0 5px -1px black;
         }
+
         &:active {
           -webkit-box-shadow: initial;
           -moz-box-shadow: initial;
@@ -255,9 +254,32 @@ li.L9 { background: none !important }
     }
   }
 }
+
 #comments-region > div > div:not(:last-child) > .block__comment {
   .comment_content {
     padding-bottom: 2em;
     border-bottom: 2px solid $greydark;
+  }
+}
+
+.block__snippet {
+  .card {
+    transition: box-shadow .3s ease;
+
+    .card-header {
+      button {
+        &.ui-edit {
+          margin: 0 0 0 5%;
+        }
+
+        &.ui-delete {
+          margin: 0 0 0 0;
+        }
+      }
+    }
+
+    &.focus {
+      box-shadow: 0 0 16px 3px #607D8B;
+    }
   }
 }

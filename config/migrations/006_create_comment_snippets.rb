@@ -1,4 +1,4 @@
-migration "create the comment_snippets table" do
+migration 'create the comment_snippets table' do
   database.create_table :comment_snippets do
     primary_key :id
     String :title, :size=>24, :null=>true

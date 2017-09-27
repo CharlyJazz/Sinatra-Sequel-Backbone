@@ -132,12 +132,20 @@ body{
 }
 
 .CodeMirror.CodeMirror-wrap {
-  height: 35em ;
+  height: 35em;
+  border-bottom: 1px solid $greylight;
+  border-top: 1px solid $greylight;
 }
+
 
 .card-tag-searched {
   background-color: #fff;
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
 }
 
 /*Code Prettify Custom Style*/

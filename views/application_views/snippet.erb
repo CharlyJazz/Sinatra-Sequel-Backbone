@@ -1,17 +1,14 @@
 <script type="x-template/underscore" id="container-snippet">
 
-  <div class="row">
+  <div class="row h-100 justify-content-center align-items-center">
     <div class="col-lg-8 offset-lg-2 block__snippet">
       <div class="card">
         <div class="card-header snippet_information">
-
           <span class="snippet_filename">{{= filename}}</span>
-
           {{ if (user_authenticated_is_the_owner(user_id)) { }}
           <button class="ui-edit btn btn-success waves-effect btn-sm"><i class="fa fa-edit"></i></button>
           <button class="ui-delete btn btn-danger waves-effect btn-sm"><i class="fa fa-trash-o"></i></button>
           {{ } }}
-
           <span class="float-right snippet_timestamp">
             {{ if (updated_at.length) { }}
             {{= jQuery.format.prettyDate(updated_at) }}
@@ -20,18 +17,19 @@
             {{ } }}
           </span>
         </div>
-
         {{ if (user_authenticated_is_the_owner(user_id)) { }}
         <div class="card-header snippet_editing hidden-element">
           <input type="text" id="filename" class="w-25" maxlength="60" value="{{= filename}}">
           <button class="ui-submit-edit btn btn-success waves-effect btn-sm"><i class="fa fa-check"></i></button>
         </div>
         {{ } }}
-
         <div class="card-body">
           <textarea id="editor" class="editor"></textarea>
         </div>
       </div>
+
+      <section id="tags-region"></section>
+
     </div>
 
     <div class="col-lg-8 offset-lg-2 mt-2">
@@ -116,4 +114,12 @@
   </div>
   {{ } }}
 
+</script>
+
+<script type="x-template/underscore" id="sub-view-tags-snippet">
+  {{ if (is_disabled()) { }}
+  <input type="text" id="tags" class="form-control" disabled>
+  {{ } else { }}
+  <input type="text" id="tags" class="form-control">
+  {{ } }}
 </script>

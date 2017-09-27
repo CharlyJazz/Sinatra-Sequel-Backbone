@@ -67,6 +67,7 @@ describe Snippet do
         expect(Snippet.all.length).to eq 1
         @snippet.delete
         expect(Snippet.all.length).to eq 0
+        expect(Tag.all.length).to eq 1
       end
     end
   end

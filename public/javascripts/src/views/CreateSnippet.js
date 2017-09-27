@@ -34,7 +34,6 @@ module.exports = Mn.View.extend({
       that.editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
         lineNumbers: true,
         mode: 'htmlmixed',
-        theme: 'railscasts',
         showCursorWhenSelecting:true,
         styleActiveLine: true,
         lineWrapping: true
@@ -95,10 +94,10 @@ module.exports = Mn.View.extend({
     /*
      * Get tags and call save
      * */
-    let tags = this.getUI('input_tag').materialtags('items').toString(),
-        new_tag = new SnippetTag({"name":tags, snippet_id:id});
+    let tags = this.getUI('input_tag').materialtags('items').toString();
 
     if (tags.length) {
+      let new_tag = new SnippetTag({"name":tags, snippet_id:id});
       new_tag.save({wait: true});
     }
   },

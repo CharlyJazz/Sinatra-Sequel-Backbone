@@ -10,8 +10,7 @@ const UserAuthRouter = require('./routes/AuthRouter')
 
 const config = GetConfigObject()
 
-let App = new Application(config)
-
+const App = new Application(config)
 const BasicRouterClass = ApplicationBasicRouter(App);
 const AuthRouterClass = UserAuthRouter(App);
 

@@ -1,5 +1,6 @@
 const CreateCommentSnippetSubView = require('./snippet_subviews/CreateCommentSnippetSubView')
 const CommentsCollectionSubView = require('./snippet_subviews/CommentsCollectionSubView')
+const TagsSubView = require('./snippet_subviews/TagSubView')
 const toastError = require('../helpers/toastConnectionError')
 
 module.exports = Mn.View.extend({
@@ -8,6 +9,7 @@ module.exports = Mn.View.extend({
     commentsRegion: '#comments-region',
     createCommentRegion: '#createComment-region',
     editModalRegion: '#modalEdit-region',
+    tagsRegion: '#tags-region'
   },
   ui: {
     buttonWriteComment: '#ui-button-toggleForm',
@@ -28,7 +30,7 @@ module.exports = Mn.View.extend({
     'click @ui.submitEditButton': 'submitEditSnippet'
   },
   modelEvents: {
-    //'change:body': 'updateEditorValue'
+    'destroy': 'redirectToProfile'
   },
   childViewEvents: {
     'modalIsClose': 'destroyModelView'
@@ -47,11 +49,11 @@ module.exports = Mn.View.extend({
   },
   onRender: function () {
     var that = this;
+
     setTimeout(function() {
       that.editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
         lineNumbers: true,
         mode: 'htmlmixed',
-        theme: 'railscasts',
         showCursorWhenSelecting:true,
         styleActiveLine: true,
         lineWrapping: true,
@@ -59,13 +61,23 @@ module.exports = Mn.View.extend({
       });
       that.editor.setValue(that.model.get('body'))
     },1);
+
     this.renderComments();
+    this.renderTags();
+
   },
   renderComments: function () {
     this.showChildView('commentsRegion', new CommentsCollectionSubView({
       modelParent: 'snippet',
       idParent: this.snippet_id,
       parent: this
+    }));
+  },
+  renderTags: function () {
+    this.showChildView('tagsRegion', new TagsSubView({
+      idParent: this.snippet_id,
+      idUserParent: this.model.get('user_id'),
+      current_user: this.current_user
     }));
   },
   toggleRenderFormComment: function () {
@@ -105,24 +117,48 @@ module.exports = Mn.View.extend({
     this.editor.setOption('readOnly', false);
   },
   submitEditSnippet: function () {
+    /*
+    *Validate file format and if the data entered is really different from the model
+    * */
     this.getUI('card').removeClass('focus');
     this.getUI('headerInformation').removeClass('hidden-element')
     this.getUI('headerEditing').addClass('hidden-element')
     this.editor.setOption('readOnly', true);
 
-    var filename = this.getUI('filenameInput').val(),
+    var filename = this.getUI('filenameInput').val().trim(),
         body = this.editor.getValue(),
         filenameUI = this.getUI('filename'),
         timestampUI = this.getUI('timestamp');
 
-    this.model.save({filename:filename, body: body}, {
-      success: function (model) {
-        filenameUI.text(model.get('filename'));
-        timestampUI.text(jQuery.format.prettyDate(model.get('updated_at')));
-      },
-      error: function () {
-        toastError();
+    if (/^[\w,\s-]+\.[A-Za-z]{1,5}$/.test(filename)) {
+      if (this.model.get('filename') !== filename || this.model.get('body') !== body) {
+        this.model.save({filename:filename, body: body}, {
+          success: function (model) {
+            filenameUI.text(model.get('filename'));
+            timestampUI.text(jQuery.format.prettyDate(model.get('updated_at')));
+          },
+          error: function () {
+            toastError();
+          }
+        });
       }
+    }
+    else {
+      $.toast({
+        heading: 'Filename is invalid',
+        text: 'Remember to add the file extension: Filename.py',
+        icon: 'warning',
+        showHideTransition: 'slide'
+      });
+    }
+  },
+  redirectToProfile: function () {
+    this.getOption('application').BasicRouter.navigate('user/' + this.current_user.id , {trigger: true});
+    $.toast({
+      heading: 'Success',
+      text: 'The snippet has was deleted',
+      icon: 'success',
+      showHideTransition: 'slide'
     });
   }
 });

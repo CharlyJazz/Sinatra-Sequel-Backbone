@@ -1,5 +1,5 @@
 <script type="x-template/underscore" id="container-create-snippet">
-  <div class="row">
+  <div class="row h-100 justify-content-center align-items-center">
     <div class="col-lg-10 offset-lg-1">
       <div class="card">
         <div class="card-block">
@@ -8,15 +8,15 @@
           </div>
           <form class="mt-2">
             <div class="col-6">
-              <div class="md-form">
+              <div class="md-form mb-3 mt-3 px-4">
+                <h6> Write the filename </h6>
                 <input type="text" id="filename" class="form-control" required>
-                <label for="filename">Write the filename</label>
               </div>
             </div>
             <textarea id="editor" class="editor"></textarea>
-            <div class="md-form mt-2 mb-3">
+            <div class="md-form mt-2 mb-3 mt-3 px-4">
+              <h6> Add tags </h6>
               <input type="text" id="tags" class="form-control" required>
-              <label for="tags">Add a tag</label>
               <div id="region-tags" class="card-tag-searched hidden-element"></div>
             </div>
             <div class="card-footer">

@@ -48,7 +48,7 @@ class CoreController < Sinatra::Base
   set :verify_key, verify_key
 
   bower_components = %w[backbone bootstrap codemirror chart.js
-                        components-font-awesome jquery
+                        components-font-awesome jquery popper.js
                         jquery-dateFormat MDBootstrap google-code-prettify
                         tether underscore backbone.marionette
                         backbone.radio jquery-toast-plugin]
@@ -61,7 +61,6 @@ class CoreController < Sinatra::Base
 
     %w[stylesheets javascripts].each {|n| env.append_path(root.join(public_folder, n))}
 
-    # env.js_compressor  = :uglify
     env.css_compressor = :scss
   }
 
@@ -78,7 +77,7 @@ class CoreController < Sinatra::Base
       params_array.any? do |k|
         unless params.key?(k)
           # https://stackoverflow.com/questions/3050518/what-http-status-response-code-should-i-use-if-the-request-is-missing-a-required
-          halt 422, {:response=>'Any parameter are empty or nule'}.to_json
+          halt 422, {:response=>'Any parameter are empty or null'}.to_json
         end
       end
       true # Return true

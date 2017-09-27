@@ -29,7 +29,7 @@ class ProyectNamespace < TagNamespace
       check_nil_string [params[:name], params[:description]]
       proyect = Proyect.for_update.first(:id=>params[:id])
       if proyect.equal?(nil)
-        halt 404, {:response=>"Resource no found"}.to_json
+        halt 404, {:response=>'Resource no found'}.to_json
       else
         proyect.name = params[:name]
         proyect.description = params[:description]
@@ -87,7 +87,7 @@ class ProyectNamespace < TagNamespace
       # Add snippet to proyect
       proyect = check_if_resource_exist(Proyect, params[:id])
       c = 0
-      params[:id_snippet].split(",").each { |n|
+      params[:id_snippet].split(',').each { |n|
         snippet = check_if_resource_exist(Snippet, n)
         if Proyect.proyect_have_snippet? proyect.id, snippet.id
           halt 404, {:response=>"Proyect al ready have this snippet #{params[:id_snippet]}"}.to_json
@@ -103,7 +103,7 @@ class ProyectNamespace < TagNamespace
       # Remove snippet to proyect
       proyect = check_if_resource_exist(Proyect, params[:id])
       c = 0
-      params[:id_snippet].split(",").each { |n|
+      params[:id_snippet].split(',').each { |n|
         snippet = check_if_resource_exist(Snippet, n)
         if !Proyect.proyect_have_snippet? proyect.id, snippet.id
           halt 404, {:response=>"Proyect not have the snippet #{params[:id_snippet]}"}.to_json

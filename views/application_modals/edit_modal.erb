@@ -18,9 +18,30 @@
 
             <div class="md-form form-sm">
               {{ if (field.type === 'textarea') { }}
-              <textarea type="text" id="{{=field.name}}" name="{{=field.name}}" max="{{=field.max}}" min="{{=field.min}}" class="md-textarea mb-0" {{ if (field.required) { }} required {{ } }}>{{=field.value}}</textarea>
-              {{ } else { }}
-              <input type="{{=field.type}}" id="{{=field.name}}" name="{{=field.name}}" max="{{=field.max}}" min="{{=field.min}}" class="form-control" value="{{=field.value}}" {{ if (field.required) { }} required {{ } }}>
+              <textarea type="text"
+                        id="{{=field.name}}"
+                        name="{{=field.name}}"
+                        class="md-textarea mb-0"
+                        {{ if (field.required) { }} required {{ } }}>{{=field.value}}
+              </textarea>
+              {{ } else if (field.type === 'password' || field.type === 'text' || field.type === 'email') { }}
+              <input type="{{=field.type}}"
+                     id="{{=field.name}}"
+                     name="{{=field.name}}"
+                     pattern=".{{= '{'+ (field.min || 1)+','+field.max+'}' }}"
+                     title="{{= (field.min || 1) + ' characters minimun and ' + field.max +  ' maximun'}}"
+                     class="form-control"
+                     value="{{=field.value}}"
+                     {{ if (field.required) { }} required {{ } }}>
+              {{ } else if (field.type === 'number') { }}
+              <input type="{{=field.type}}"
+                     id="{{=field.name}}"
+                     name="{{=field.name}}"
+                     max="{{=field.max}}"
+                     min="{{=field.min}}"
+                     class="form-control"
+                     value="{{=field.value}}"
+                     {{ if (field.required) { }} required {{ } }}>
               {{ } }}
               <label for="{{=field.name}}">{{=field.label}}</label>
             </div>

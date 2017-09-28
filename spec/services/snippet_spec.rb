@@ -193,7 +193,7 @@ describe Snippet do
   context 'like and unlike the snippet' do
     before :each do
       @user_like = User.new(:name => 'Audrey', :email=>'Audrey@gmail.com',
-                              :password=>'123456', :password_confirmation=>'123456').save
+                            :password=>'123456', :password_confirmation=>'123456').save
     end
     it 'should create like and delete like' do
       post '/api/snippet/1/like/2'
@@ -249,6 +249,36 @@ describe Snippet do
         expect(JSON.parse(last_response.body)['response']).to eq 'Tags added successfully'
         expect(@snippet.tags.count).to eq 1
         expect(last_response.status).to eq 200
+      end
+    end
+    context 'try add tags to snippet and remove' do
+      it 'should add two tags and remove one tag correctly' do
+        snippet = Snippet[1]
+
+        [Tag[1], Tag[2]].each { |n| snippet.add_tag n}
+
+        expect(snippet.tags.count).to eq 2
+
+        delete '/api/snippet/1/tag?name=javascript'
+
+        snippet = Snippet[1]
+        expect(snippet.tags.count).to eq 1
+        expect(last_response.status).to eq 200
+        expect(JSON.parse(last_response.body)['response']).to eq 'Tags removed successfully'
+      end
+      it 'should add four tags and remove all tag correctly' do
+        snippet = Snippet[1]
+
+        [Tag[1], Tag[2], Tag[3], Tag[4]].each { |n| snippet.add_tag n}
+
+        expect(snippet.tags.count).to eq 4
+
+        delete '/api/snippet/1/tag?name=javascript,python,c,haskell'
+
+        snippet = Snippet[1]
+        expect(snippet.tags.count).to eq 0
+        expect(last_response.status).to eq 200
+        expect(JSON.parse(last_response.body)['response']).to eq 'Tags removed successfully'
       end
     end
   end

@@ -10,7 +10,7 @@ module.exports = Mn.View.extend({
   },
   events:{
     'click @ui.submit': 'createSnippet',
-    'keydown @ui.material_input_tag': 'searchTag',
+    'keyup @ui.material_input_tag': 'searchTag',
     'click @ui.button_add': 'addTag',
     'click @ui.button_close_card_tag': 'closeTag'
   },
@@ -103,7 +103,7 @@ module.exports = Mn.View.extend({
   },
   searchTag: function (event) {
     let value = event.target.value;
-    if (!value.trim() == "") {
+    if (value.trim()) {
       let tags = this.getChildView('tags').collection.search(value), // Get collection and search tags
           ui_list = this.getChildView('tags').getUI('list');
       if (tags.size() === 0) { return undefined; } // Prevent show empty

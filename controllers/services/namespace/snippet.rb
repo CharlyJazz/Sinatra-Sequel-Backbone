@@ -116,6 +116,7 @@ class SnippetNamespace < ProyectNamespace
     end
 
     get '/:id/tag' do
+      # Get all tags of the snippet
       check_if_resource_exist(Snippet, params['id']).tags.to_json
     end
 
@@ -132,6 +133,19 @@ class SnippetNamespace < ProyectNamespace
         snippet.add_tag tag
       }
       {:response=>'Tags added successfully'}.to_json
+    end
+
+    delete '/:id/tag', :validate => %i(name) do
+      # Remove tag relationship
+      check_nil_string [params[:name]]
+      snippet = check_if_resource_exist(Snippet, params['id'])
+      params[:name].split(',').each { |name|
+        tag = Tag.first(:name=>name)
+        unless tag.nil?
+          snippet.remove_tag tag
+        end
+      }
+      {:response=>'Tags removed successfully'}.to_json
     end
 
   end

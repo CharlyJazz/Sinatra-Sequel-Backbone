@@ -331,7 +331,8 @@ li.L9 { background: none !important }
 .block__tags__snippet {
   position: relative;
 
-  a.btn-floating {
+  button.btn-floating {
+    border: none;
     position: absolute;
     right: -15%;
     top: 0;

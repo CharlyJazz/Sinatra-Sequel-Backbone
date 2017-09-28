@@ -11,13 +11,13 @@ module.exports = Mn.View.extend({
     button_add: 'i.add-tag',
     button_close_card_tag: 'i#ui-close-card-tag',
     ui_list: '#ul-tags',
-    buttonSaveTags: '.btn-floating'
+    button_save_tags: 'button.btn-floating'
   },
   events: {
-    'keydown @ui.material_input_tag': 'searchTag',
+    'keyup @ui.material_input_tag': 'searchTag',
     'click @ui.button_add': 'addTagToInput',
     'click @ui.button_close_card_tag': 'closeTag',
-    'click @ui.buttonSaveTags': 'saveTagsChanges',
+    'click @ui.button_save_tags': 'saveTagsChanges',
     'itemAdded @ui.input': 'addTag',
     'itemRemoved @ui.input': 'removeTag'
   },
@@ -55,7 +55,7 @@ module.exports = Mn.View.extend({
   },
   searchTag: function (event) {
     let value = event.target.value;
-    if (!value.trim() == "") {
+    if (value.trim()) {
       let tags = this.tagCollection.search(value), // Get collection and search tags
           ui_list = this.getUI('ui_list');
       if (tags.size() === 0) { return undefined; } // Prevent show empty
@@ -86,7 +86,7 @@ module.exports = Mn.View.extend({
     this.getUI('card_tag').addClass('hidden-element');
   },
   ShowButtonSaveTags: function() {
-    var button = this.getUI('buttonSaveTags');
+    var button = this.getUI('button_save_tags');
     if (!button.is(":visible")) {
       button.removeClass('hidden-element');
     }
@@ -137,9 +137,40 @@ module.exports = Mn.View.extend({
     * Create ajax's for save new tags and remove tags
     * Prevent send ajax data empty
     * */
-    console.log(
-      this._tagsRemoved,
-      this._tagsAdded
-    )
+
+    var deferreds = [],
+        that = this,
+        cardTag = button = this.getUI('card_tag');
+
+    cardTag.addClass('hidden-element');
+
+    if (this._tagsRemoved.length) {
+      deferreds.push(this.collection.removeTags(this._tagsRemoved));
+    }
+    if (this._tagsAdded.length) {
+      deferreds.push(this.collection.addTags(this._tagsAdded));
+    }
+
+    if (deferreds.length) {
+      $('button.btn-floating')
+        .prop('disabled', true)
+        .find('i')
+        .removeClass('fa-check')
+        .addClass('fa-spin fa-refresh');
+
+      $.when.apply($, deferreds).then(function() {
+        that.collection.fetch();
+        that._tagsAdded = [];
+        that._tagsRemoved = [];
+
+        $('button.btn-floating')
+          .addClass('hidden-element')
+          .prop('disabled', false)
+          .find('i')
+          .removeClass('fa-spin fa-refresh')
+          .addClass('fa-check');
+
+      });
+    }
   }
 });

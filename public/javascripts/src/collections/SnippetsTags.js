@@ -6,5 +6,25 @@ module.exports = Backbone.Collection.extend({
   },
   url: function() {
     return '/api/snippet/' + this.snippet_id + '/tag';
+  },
+  removeTags: function(array_tags_name) {
+    /*
+    * Passing array with the names
+    * */
+    return $.ajax({
+      type: 'DELETE',
+      url: this.url(),
+      data: {name: array_tags_name.toString()}
+    });
+  },
+  addTags: function(array_tags_name) {
+    /*
+     * Passing array with the names
+     * */
+    return $.ajax({
+      type: 'POST',
+      url: this.url(),
+      data: {name: array_tags_name.toString()}
+    });
   }
 });

@@ -18,7 +18,7 @@ describe 'Login and Logout' do
     it "should return 'Any parameter are empty or nule' " do
       post '/auth/login?email=SnippetMan@gmail.com'
 
-      expect(JSON.parse(last_response.body)['response']).to eq 'Any parameter are empty or nule'
+      expect(JSON.parse(last_response.body)['response']).to eq 'Any parameter are empty or null'
       expect(last_response.status).to eq 422
     end
   end

@@ -2,9 +2,10 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe 'Validation route, useful for ajax validation form' do
   before(:each) do
-    @user = User.new(:name => 'SnippetMan', :email=>'SnippetMan@gmail.com',
-                     :password=>'123456', :password_confirmation=>'123456').save
-    @snippet = Snippet.new(:filename=>'file.js', :body=>'lorem', :user_id=>1).save
+    @user = User.new(:name => 'SnippetMan',
+                     :email=>'SnippetMan@gmail.com',
+                     :password=>'123456',
+                     :password_confirmation=>'123456').save
   end
   context 'Check if username already use' do
     it 'should return status fail' do

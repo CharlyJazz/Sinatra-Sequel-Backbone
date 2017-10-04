@@ -103,15 +103,21 @@ class SnippetNamespace < ProyectNamespace
       {:response=>"Resources deleted: #{c}"}.to_json
     end
 
+    get '/:id/like' do
+      snippet  = check_if_resource_exist(Snippet, params['id'])
+      likes = LikeSnippet.where(:snippet_id=>snippet.id).count
+      {:response=>'likes count', :likes=>likes}.to_json
+    end
+
     post '/:id/like/:user_id' do
       # Create or Delete like
       snippet  = check_if_resource_exist(Snippet, params['id'])
       user = check_if_resource_exist(User, params['user_id'])
       like = LikeSnippet.destroy_or_create(snippet, user)
       if like[0]
-        {:response=>"like", :likes=>like[1]}.to_json
+        {:response=>'like', :likes=>like[1]}.to_json
       else
-        {:response=>"unlike", :likes=>like[1]}.to_json
+        {:response=>'unlike', :likes=>like[1]}.to_json
       end
     end
 

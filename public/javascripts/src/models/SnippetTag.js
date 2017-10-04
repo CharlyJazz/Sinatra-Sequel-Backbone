@@ -1,5 +1,5 @@
 module.exports = Backbone.Model.extend({
-  initialize: function(options){
+  initialize: function(options) {
     if (!isNaN(options.snippet_id)) {
       this.snippet_id = options.snippet_id ;
     }

@@ -290,6 +290,29 @@ li.L9 { background: none !important }
       box-shadow: 0 0 16px 3px #607D8B;
     }
   }
+
+  button[role="like"] {
+    position: absolute;
+    right: -15%;
+    width: 55px;
+    height: 55px;
+    border: none;
+
+    &:after {
+      content: attr(data-likes);
+      font-size: 1em;
+      right: 12px;
+      color: white;
+      position: static;
+      line-height: 75px;
+    }
+
+    i {
+      position: absolute;
+      top: -4px;
+      right: 0;
+    }
+  }
 }
 
 .dropdown .dropdown-menu .dropdown-item:active,
@@ -320,7 +343,7 @@ li.L9 { background: none !important }
   i {
     width: inherit;
     font-size: 1.25rem;
-    line-height: 47px;
+    line-height: 40px;
     text-align: center;
     display: inline-block;
     color: #fff;

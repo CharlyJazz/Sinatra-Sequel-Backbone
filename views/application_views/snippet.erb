@@ -23,6 +23,9 @@
           <button class="ui-submit-edit btn btn-success waves-effect btn-sm"><i class="fa fa-check"></i></button>
         </div>
         {{ } }}
+        <button role="like" type="submit" class="btn-floating green accent-3 my-1 btn-li waves-effect waves-light" id="ui-like-action">
+          <i class="fa fa-star-o"></i>
+        </button>
         <div class="card-body">
           <textarea id="editor" class="editor"></textarea>
         </div>
@@ -121,7 +124,7 @@
   <input type="text" id="tags" class="form-control" disabled>
   {{ } else { }}
   <input type="text" id="tags" class="form-control">
-  <button type="submit" class="btn-floating green accent-3 my-1 btn-li waves-effect waves-light hidden-element">
+  <button type="submit" id="save_tag" class="btn-floating green accent-3 my-1 btn-li waves-effect waves-light hidden-element">
     <i class="fa fa-check"></i>
   </button>
   <div class="card-tag-searched edit hidden-element">

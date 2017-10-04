@@ -190,6 +190,35 @@ describe Snippet do
       end
     end
   end
+  context 'get all likes count of the snippet' do
+    before :each do
+      @user_like_1 = User.new(:name => 'Name1', :email=>'Name1@gmail.com',
+                              :password=>'123456', :password_confirmation=>'123456').save
+      @user_like_2 = User.new(:name => 'Name2', :email=>'Name2@gmail.com',
+                              :password=>'123456', :password_confirmation=>'123456').save
+      @user_like_3 = User.new(:name => 'Name3', :email=>'Name3@gmail.com',
+                              :password=>'123456', :password_confirmation=>'123456').save
+    end
+    it 'should return 3 likes' do
+      LikeSnippet.destroy_or_create(@snippet, @user_like_1)
+      LikeSnippet.destroy_or_create(@snippet, @user_like_2)
+      LikeSnippet.destroy_or_create(@snippet, @user_like_3)
+
+      get '/api/snippet/1/like'
+
+      expect(JSON.parse(last_response.body)['response']).to eq 'likes count'
+      expect(JSON.parse(last_response.body)['likes']).to eq 3
+      expect(last_response.status).to eq 200
+    end
+
+    it 'should return 0 likes' do
+      get '/api/snippet/1/like'
+
+      expect(JSON.parse(last_response.body)['response']).to eq 'likes count'
+      expect(JSON.parse(last_response.body)['likes']).to eq 0
+      expect(last_response.status).to eq 200
+    end
+  end
   context 'like and unlike the snippet' do
     before :each do
       @user_like = User.new(:name => 'Audrey', :email=>'Audrey@gmail.com',

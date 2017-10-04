@@ -11,7 +11,7 @@ module.exports = Mn.View.extend({
     button_add: 'i.add-tag',
     button_close_card_tag: 'i#ui-close-card-tag',
     ui_list: '#ul-tags',
-    button_save_tags: 'button.btn-floating'
+    button_save_tags: "button#save_tag"
   },
   events: {
     'keyup @ui.material_input_tag': 'searchTag',
@@ -152,7 +152,7 @@ module.exports = Mn.View.extend({
     }
 
     if (deferreds.length) {
-      $('button.btn-floating')
+      $('button#save_tag')
         .prop('disabled', true)
         .find('i')
         .removeClass('fa-check')
@@ -163,7 +163,7 @@ module.exports = Mn.View.extend({
         that._tagsAdded = [];
         that._tagsRemoved = [];
 
-        $('button.btn-floating')
+        $('button#save_tag')
           .addClass('hidden-element')
           .prop('disabled', false)
           .find('i')

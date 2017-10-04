@@ -16,6 +16,7 @@ module.exports = Mn.View.extend({
     editButton: '.ui-edit',
     deleteButton: '.ui-delete',
     submitEditButton: '.ui-submit-edit',
+    likeButton: '#ui-like-action',
     headerInformation: '.snippet_information',
     headerEditing: '.snippet_editing',
     filenameInput: 'input#filename',
@@ -27,7 +28,8 @@ module.exports = Mn.View.extend({
     'click @ui.buttonWriteComment': 'toggleRenderFormComment',
     'click @ui.editButton': 'editSnippet',
     'click @ui.deleteButton': 'deleteSnippet',
-    'click @ui.submitEditButton': 'submitEditSnippet'
+    'click @ui.submitEditButton': 'submitEditSnippet',
+    'click @ui.likeButton': 'toggleLike'
   },
   modelEvents: {
     'destroy': 'redirectToProfile'
@@ -64,6 +66,7 @@ module.exports = Mn.View.extend({
 
     this.renderComments();
     this.renderTags();
+    this.renderLikes();
 
   },
   renderComments: function () {
@@ -79,6 +82,12 @@ module.exports = Mn.View.extend({
       idUserParent: this.model.get('user_id'),
       current_user: this.current_user
     }));
+  },
+  renderLikes: function () {
+    var button = this.getUI('likeButton');
+    $.when(this.model.getLikesCount()).then(function(data) {
+      button.attr('data-likes', data.likes);
+    });
   },
   toggleRenderFormComment: function () {
     var regionView = this.getChildView('createCommentRegion');
@@ -118,17 +127,17 @@ module.exports = Mn.View.extend({
   },
   submitEditSnippet: function () {
     /*
-    *Validate file format and if the data entered is really different from the model
-    * */
+     *Validate file format and if the data entered is really different from the model
+     * */
     this.getUI('card').removeClass('focus');
     this.getUI('headerInformation').removeClass('hidden-element')
     this.getUI('headerEditing').addClass('hidden-element')
     this.editor.setOption('readOnly', true);
 
     var filename = this.getUI('filenameInput').val().trim(),
-        body = this.editor.getValue(),
-        filenameUI = this.getUI('filename'),
-        timestampUI = this.getUI('timestamp');
+      body = this.editor.getValue(),
+      filenameUI = this.getUI('filename'),
+      timestampUI = this.getUI('timestamp');
 
     if (/^[\w,\s-]+\.[A-Za-z]{1,5}$/.test(filename)) {
       if (this.model.get('filename') !== filename || this.model.get('body') !== body) {
@@ -160,5 +169,8 @@ module.exports = Mn.View.extend({
       icon: 'success',
       showHideTransition: 'slide'
     });
+  },
+  toggleLike: function (event) {
+    console.log(event)
   }
 });

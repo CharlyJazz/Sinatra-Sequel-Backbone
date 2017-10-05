@@ -16,10 +16,11 @@ const AuthRouterClass = UserAuthRouter(App);
 
 App.on('before:start', function () {
   this.current_user = new CurrentUser({
-    username: this.options.username,
+    name: this.options.name,
     email: this.options.email,
     id: this.options.id,
-    permission_level: this.options.permission_level
+    permission_level: this.options.permission_level,
+    image_profile: this.options.image_profile
   })
 });
 

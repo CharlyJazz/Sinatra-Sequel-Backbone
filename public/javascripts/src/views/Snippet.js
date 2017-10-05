@@ -35,7 +35,8 @@ module.exports = Mn.View.extend({
     'destroy': 'redirectToProfile'
   },
   childViewEvents: {
-    'modalIsClose': 'destroyModelView'
+    'modalIsClose': 'destroyModelView',
+    'commentCreated': 'destroyCommentView'
   },
   initialize: function () {
     this.snippet_id = this.model.id;
@@ -91,17 +92,23 @@ module.exports = Mn.View.extend({
   },
   toggleRenderFormComment: function () {
     var regionView = this.getChildView('createCommentRegion');
+
     if (regionView) {
+
       this.getUI('buttonWriteComment')
         .addClass('right')
         .removeClass('left btn-warning')
         .html('<i class="fa fa-pencil"></i> Write a comment');
+
       regionView.destroy();
+
     } else {
+
       this.getUI('buttonWriteComment')
         .addClass('left btn-warning')
         .removeClass('right')
         .html('<i class="fa fa-window-close"></i> Cancel');
+
       this.showChildView('createCommentRegion',
         new CreateCommentSnippetSubView({
           snippet_id: this.model.get('id'),
@@ -110,10 +117,20 @@ module.exports = Mn.View.extend({
           current_user: this.current_user
         })
       );
+
     }
   },
   destroyModelView: function () {
     var regionView = this.getChildView('editModalRegion');
+    regionView.destroy();
+  },
+  destroyCommentView: function () {
+    this.getUI('buttonWriteComment')
+      .addClass('right')
+      .removeClass('left btn-warning')
+      .html('<i class="fa fa-pencil"></i> Write a comment');
+
+    var regionView = this.getChildView('createCommentRegion');
     regionView.destroy();
   },
   deleteSnippet: function () {
@@ -170,7 +187,21 @@ module.exports = Mn.View.extend({
       showHideTransition: 'slide'
     });
   },
-  toggleLike: function (event) {
-    console.log(event)
+  toggleLike: function () {
+    var button = this.getUI('likeButton'),
+        id_user = this.current_user.get('id');
+
+    if (id_user) {
+      $.when(this.model.createOrDeleteLike(id_user)).then(function(data) {
+        button.attr('data-likes', data.likes);
+      });
+    } else {
+      $.toast({
+        heading: 'Ups',
+        text: 'You need loggin for create a like',
+        icon: 'info',
+        showHideTransition: 'slide'
+      });
+    }
   }
 });

@@ -56,10 +56,11 @@
   <script id="config" type="text/json">
     {
       "is_authenticated": <%= @current_user.is_authenticated %>,
-      "username": <%= @current_user.username.to_json %>,
+      "name": <%= @current_user.username.to_json %>,
       "email": <%= @current_user.email.to_json  %>,
       "id": <%= @current_user.id %>,
-      "permission_level": <%= @current_user.permission_level %>
+      "permission_level": <%= @current_user.permission_level %>,
+      "image_profile": <%= @current_user.picture.to_json %>
     }
    </script>
 

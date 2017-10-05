@@ -14,7 +14,8 @@ module.exports = Mn.View.extend({
     'modalIsClose': 'destroyModalChoice'
   },
   modelEvents: {
-    'change:permission_level': 'render'
+    'change:permission_level': 'render',
+    'change:name': 'render'
   },
   initialize: function(){
     this.model = this.getOption('application').current_user

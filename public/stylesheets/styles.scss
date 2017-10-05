@@ -4,12 +4,12 @@ $bluelight: #D5F5FE;
 $greylight: #E4E4E4;
 $greydark:  #CBCBCB;
 
-main{
+main {
   margin-top: 5em;
   margin-bottom: 5em;
 }
 
-body{
+body {
   background-color: $grey;
 }
 
@@ -27,6 +27,16 @@ body{
   border-bottom: 1px solid #AF2018 !important;
   box-shadow: 0 1px 0 0 #AF2018 !important;
 }
+
+.fieldset-image {
+  .view.overlay {
+    img {
+      margin: auto;
+      margin-bottom: 2em;
+    }
+  }
+}
+
 
 .hidden-element {
   display: none !important;

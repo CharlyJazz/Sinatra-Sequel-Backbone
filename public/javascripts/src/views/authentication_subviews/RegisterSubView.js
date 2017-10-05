@@ -1,6 +1,7 @@
 const validateFormInputClass = require('../../helpers/validateFormInputClass')
 const toastError = require('../../helpers/toastConnectionError')
 const User = require('../../models/User')
+const CurrentUser = require('../../models/CurrentUser')
 
 module.exports = Mn.View.extend({
   template: '#sub-view-register',
@@ -23,27 +24,61 @@ module.exports = Mn.View.extend({
     'keypress input#password': 'checkSecurityLevel',
     'click button#continue':   'showFieldsetImage',
     'click button#back':       'showFieldsetInformation',
+    'click button#submit':     'submitForm',
+    'change input#inputFile':  'readUrl',
     'click button#trigger-image-input': 'triggerFileUpload',
-    'click button#submit':'registerUser',
-    'change input#inputFile': 'readUrl'
   },
   ui: {
     submit: '#submit',
     switch: 'a.switch',
     image_preview: '#preview-image',
     fieldset_information: '.fieldset-information',
-    fieldset_image: '.fieldset-image'
+    fieldset_image: '.fieldset-image',
+    inputEmail: 'input#email',
+    inputUsername: 'input#username',
+    inputImage: 'input#inputFile',
+    inputRepeat: 'input#repeat',
+    inputPassword: 'input#password'
+  },
+  templateContext: function () {
+    return {
+      mode: this.getOption('mode')
+    }
+  },
+  onRender: function () {
+    if (this.model) {
+      var input = this.getUI('inputImage'),
+          image_preview = this.getUI('image_preview'),
+          submit = this.getUI('submit'),
+          img = new Image();
+
+      this.getUI('inputEmail').addClass('valid');
+      this.getUI('inputUsername').addClass('valid');
+
+      img.onload = function(e) {
+        input.attr('data-title', 'Current image');
+        image_preview.attr('src', e.target.src);
+        submit.attr('disabled', false);
+      }
+
+      img.src = this.model.get('image_profile');
+    }
   },
   checkAlReadyUse: function (event) {
     // Check if the email or username is already use
     var input = $(event.currentTarget), data,
-        min_length = 6;
+      min_length = 6;
     if (input.is('#email')) {
-      data = {email: input.val()}
+      data = {email: input.val().trim()}
     } else if (input.is('#username')) {
-      data = {username: input.val()}
+      data = {username: input.val().trim()}
     }
-    if (input.val().length >= min_length) {
+
+    if (this.model && (data.email === this.model.get('email') ||
+      data.username === this.model.get('username'))) {
+      input.removeClass('invalid');
+      input.addClass('valid');
+    } else if (input.val().length >= min_length) {
       $.ajax({
         url: '/api/validation',
         type: 'GET',
@@ -99,7 +134,7 @@ module.exports = Mn.View.extend({
      * Add username and email preview data and
      * Show fieldset image or show toast if not have image profile
      * */
-    if (validateFormInputClass(this._inputs)) {
+    if (validateFormInputClass(this._inputs)) { // TODO: Quitar esta mierda y validar bien
       $('#preview-username').html(
         this._username_preview({
           username:$('input#username').val()
@@ -129,7 +164,7 @@ module.exports = Mn.View.extend({
     this.getUI('fieldset_information').removeClass('hidden-element');
     this.getUI('fieldset_image').addClass('hidden-element');
   },
-  readUrl: function(event){
+  readUrl: function(event) {
     // Validate size of image and show image preview
     var input = event.currentTarget,
       _URL = window.URL || window.webkitURL,
@@ -143,8 +178,8 @@ module.exports = Mn.View.extend({
         var width = img.naturalWidth, height = img.naturalHeight;
         if (width <= max_width && height <= max_height ) {
           input.setAttribute('data-title', input.files[0].name);
-          image_preview.attr('src', e.target.src); // transform to UI element
-          submit.attr('disabled', false);// transform to UI element
+          image_preview.attr('src', e.target.src);
+          submit.attr('disabled', false);
         }
         else {
           $.toast({
@@ -160,28 +195,37 @@ module.exports = Mn.View.extend({
     }
   },
   triggerFileUpload: function () {
-    document.getElementById('inputFile').click()
+    document.getElementById('inputFile').click();
   },
-  registerUser: function () {
+  submitForm: function () {
     var submitButton = this.getUI('submit'),
-      switchButton = this.getUI('switch'),
-      image = $('input#inputFile').prop('files'),
-      reader = new FileReader(), user = new User(),
-      that = this;
+        switchButton = this.getUI('switch'),
+        image = $('input#inputFile').prop('files'),
+        reader = new FileReader(), user = this.model || new User(),
+        that = this;
+
     submitButton.attr('disabled', true); // Prevent send several ajax
-    if(image.length === 1){
-      reader.onloadend = function() {
+
+    if (image.length === 1) {
+      /*
+      * If the input file have a image
+      * */
+      reader.onloadend = function () {
         user.save({
-          'name':$('input#username').val(),
-          'email':$('input#email').val(),
-          'password':$('input#password').val(),
-          'password_confirmation':$('input#repeat').val(),
-          'image_profile': reader.result
-        },{
-          wait:true,
+          name: $('input#username').val().trim(),
+          email: $('input#email').val().trim(),
+          password: $('input#password').val().trim(),
+          password_confirmation: $('input#repeat').val().trim(),
+          image_profile: reader.result
+        }, {
+          wait: true,
           success: function () {
             switchButton.trigger('click'); // Render login form
             that.toastSuccess();
+            if (user instanceof CurrentUser) {
+              user.unset('password')
+              user.unset('password_confirmation')
+            }
           },
           error: function () {
             submitButton.attr('disabled', false);
@@ -189,10 +233,39 @@ module.exports = Mn.View.extend({
           }
         });
       };
+
       reader.readAsDataURL(image[0]);
-    } else {
+    }
+
+    else if (user instanceof CurrentUser && image.length === 0) {
+      /*
+       * If user authenticated try edit profile but no change the image profile
+       * */
+      user.save({
+        name: $('input#username').val().trim(),
+        email: $('input#email').val().trim(),
+        password: $('input#password').val().trim(),
+        password_confirmation: $('input#repeat').val().trim(),
+        image_profile: user.get('image_profile'),
+      }, {
+        wait: true,
+        success: function () {
+          that.toastSuccess();
+          user.unset('password');
+          user.unset('password_confirmation');
+        },
+        error: function () {
+          submitButton.attr('disabled', false);
+          toastError();
+        }
+      });
+    }
+
+    else {
+      /*
+       * If guest user try register without image profile
+       * */
       submitButton.attr('disabled', false);
-      throw 'File input are empty';
     }
   },
   toastSuccess: function(){

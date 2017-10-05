@@ -59,8 +59,8 @@ module.exports = Mn.View.extend({
        * */
       dict.body = text_area_value;
       dict.user_id = this.current_user.get('id');
-      dict.user_name = this.current_user.get('username');
-      dict.user_picture = this.current_user.get('image_profile').call();
+      dict.user_name = this.current_user.get('name');
+      dict.user_picture = this.current_user.get('image_profile');
       if (!titleInput.parent('div').hasClass('input-parent-visibility-hidden')
         && !$.trim(titleInput.val()) === false) {
         dict.title = titleInput.val();
@@ -77,6 +77,7 @@ module.exports = Mn.View.extend({
         wait: true
       });
       this.toastCreateComment();
+      this.trigger('commentCreated');
     }
   },
   toastInvalidComment: function () {

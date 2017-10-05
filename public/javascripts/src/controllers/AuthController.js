@@ -1,5 +1,6 @@
 const toastError = require('../helpers/toastConnectionError')
 const CreateSnippet = require('../views/CreateSnippet')
+const ConfigPage = require('../views/Config')
 
 module.exports = function(application) {
   return {
@@ -14,10 +15,11 @@ module.exports = function(application) {
        * Update Current User attributes,
        * remove token and redirect to auth
        * */
-      if (!application.current_user.is_authenticated()){
+      if (!application.current_user.is_authenticated()) {
         return Backbone.history.navigate('auth', {trigger: true});
       }
-      $.when(application.current_user.logout()).done(function(response){
+
+      $.when(application.current_user.logout()).done(function(response) {
         $.toast({
           heading: 'Good bye.',
           text: response.response,
@@ -37,7 +39,7 @@ module.exports = function(application) {
         window.localStorage.removeItem('image_profile');
         // Show toast
         Backbone.history.navigate('auth', {trigger: true});
-      }).fail(function(){
+      }).fail(function() {
         toastError(); // Show the toast error
       });
     },
@@ -46,19 +48,22 @@ module.exports = function(application) {
        * Show modal for update User
        * Information
        * */
-      if (!application.current_user.is_authenticated()){
+      if (!application.current_user.is_authenticated()) {
         return Backbone.history.navigate('auth', {trigger: true});
       }
-      // var view = new app.UserConfigView();
-      // view.render();
+
+      application.showView(new ConfigPage({
+        application: application
+      }));
     },
     createProyectPage: function() {
       /*
        * Show modal for create Proyects
        * */
-      if (!application.current_user.is_authenticated()){
+      if (!application.current_user.is_authenticated()) {
         return Backbone.history.navigate('auth', {trigger: true});
       }
+
       // var view = new app.CreateProyectsView();
       // view.render();
     },
@@ -66,9 +71,10 @@ module.exports = function(application) {
       /*
        * Show modal for create Snippet
        * */
-      if (!application.current_user.is_authenticated()){
+      if (!application.current_user.is_authenticated()) {
         return Backbone.history.navigate('auth', {trigger: true});
       }
+
       application.showView(new CreateSnippet({
         application: application
       }));

@@ -55,14 +55,12 @@ module.exports = Mn.View.extend({
 
           // Update current_user attributes
           that.application.current_user.set({
-            username: response.username,
+            name: response.username,
             email: response.email,
             id: response.id,
-            permission_level: response.permission_level
+            permission_level: response.permission_level,
+            image_profile: response.image_profile
           });
-
-          // Update current_user profile image
-          that.application.current_user.set_image_profile(response.image_profile);
 
           // Update current_user token
           that.application.current_user.add_token(response.token);

@@ -46,23 +46,28 @@
     <div class="card-block">
       <!--Header-->
       <div class="text-center">
-        <h3><i class="fa fa-lock"></i> Register:</h3>
+        <h3>
+          {{ if (mode === 'register') { }}
+          <i class="fa fa-lock"></i>
+          Register:
+          {{ } else if (mode === 'edit') { }}
+          <i class="fa fa-edit"></i>
+          Edit:
+          {{ } }}
+        </h3>
         <hr class="mt-2 mb-2">
       </div>
       <!--Body-->
       <form id="form-register" enctype="multipart/form-data">
         <fieldset class="fieldset-information"> <!--First Step-->
-          <div class="text-center">
-            <legend>Personal information:</legend>
-          </div>
           <div class="md-form">
             <i class="fa fa-user prefix"></i>
-            <input type="text" id="username" class="form-control" required>
+            <input type="text" id="username" class="form-control" value="{{ try { }} {{= name }} {{ } catch(e) { }} {{= '' }} {{ } }}" required>
             <label for="username" data-error="Username already using">Your username</label>
           </div>
           <div class="md-form">
             <i class="fa fa-envelope prefix"></i>
-            <input type="email" id="email" class="form-control" required>
+            <input type="email" id="email" class="form-control" value="{{ try { }} {{= email }} {{ } catch(e) { }} {{= '' }} {{ } }}" required>
             <label for="email" data-error="Email already using">Your email</label>
           </div>
           <div class="md-form">
@@ -119,10 +124,12 @@
       </form>
     </div>
     <!--Footer-->
+    {{ if (mode === 'register') { }}
     <div class="modal-footer text-center">
       <div class="options text-center col-12">
         <p>Are you member? <a href="" class="switch">Log in</a></p> <!--Login-->
       </div>
     </div>
+    {{ } }}
   </div>
 </script>

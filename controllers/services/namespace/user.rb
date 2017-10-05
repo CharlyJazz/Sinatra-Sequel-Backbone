@@ -56,6 +56,7 @@ class UserNamespace < SnippetNamespace
         user.email = params[:email]
         user.password = params[:password]
         user.password_confirmation = params[:password_confirmation]
+        user.image_profile = params[:image_profile]
         user.save.to_json :except=> :password_digest
       end
     end

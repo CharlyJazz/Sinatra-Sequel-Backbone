@@ -14,7 +14,9 @@ module.exports = Mn.View.extend({
     this.renderLogin();
   },
   renderRegister: function() {
-    this.showChildView('form', new RegisterSubView());
+    this.showChildView('form', new RegisterSubView({
+      mode: 'register'
+    }));
   },
   renderLogin: function() {
     this.showChildView('form', new LoginSubView({

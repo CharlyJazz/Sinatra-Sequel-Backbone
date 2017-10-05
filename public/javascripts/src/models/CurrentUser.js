@@ -1,22 +1,18 @@
-module.exports = Backbone.Model.extend({
+const User = require('./User')
+
+module.exports = User.extend({
   /*
   * Current user using the appication
   * When the User login then create this Model
   * */
   defaults: {
-    permission_level: 0,
-    image_profile: (function(){
-      return window.localStorage.getItem('image_profile')
-    })
+    permission_level: 0
   },
   is_authenticated: function() {
     /*
-    * Check if CurrentUser is authenticated
+    * Check if current user is authenticated
     * */
-    if (this.get('permission_level') > 0) {
-      return true;
-    }
-    return false;
+    return this.get('permission_level');
   },
   add_token: function (token) {
     /*
@@ -45,17 +41,7 @@ module.exports = Backbone.Model.extend({
     }
     return false;
   },
-  set_image_profile: function(image_string_base_64) {
-    /*
-    * Check if user is authenticated then set image in Storage
-    * and return true else return false
-    * */
-    if (this.is_authenticated()) {
-      return window.localStorage.setItem('image_profile', image_string_base_64);
-    }
-    return false;
-  },
-  logout: function(){
+  logout: function() {
     /*
      * Return ajax for create Promise
      * */

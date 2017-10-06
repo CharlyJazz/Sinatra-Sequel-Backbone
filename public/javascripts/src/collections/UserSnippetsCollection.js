@@ -5,11 +5,24 @@ module.exports = Backbone.Collection.extend({
   initialize: function(models, options) {
     this.user_id = options.user_id;
     this.limit = options.limit;
+    this.page = options.page || 1;
   },
   url: function() {
-    if (typeof(this.limit) === "number") {
+    if (typeof(this.limit) === 'number') {
       return '/api/user/' + this.user_id + '/snippets?$limit=' + this.limit;
     }
+    else if (typeof(this.page) === 'number') {
+      return '/api/user/' + this.user_id + '/snippets?page=' + this.page;
+    }
     return '/api/user/' + this.user_id + '/snippets';
+  },
+  update_url: function(new_page){
+    /*
+     * Update url with the new page if is a integer
+     * */
+    if (!isNaN(parseInt(new_page)) && new_page === parseInt(new_page, 10)) {
+      return this.url = '/api/user/' + this.user_id + '/snippets?page=' + new_page;
+    }
+    throw 'The new page index should a integer'
   }
 });

@@ -10,6 +10,8 @@ module.exports = function(application) {
 
       'user/:id': 'profileUserPage',
 
+      'user/:id/snippets': 'userSnippetsPage',
+
       'snippets': 'snippetsPage',
 
       'snippets/:id': 'snippetsPage',

@@ -6,6 +6,7 @@ const SnippetsView = require('../views/Snippets')
 const User = require('../models/User')
 const Snippet = require('../models/Snippet')
 const Snippets = require('../collections/Snippets')
+const UserSnippets = require('../collections/UserSnippetsCollection')
 
 module.exports = function(application) {
   return {
@@ -24,14 +25,27 @@ module.exports = function(application) {
       }));
     },
     profileUserPage: function(id) {
-      let userModel = new User({id: id});
-      let myView = new ProfileView({
-        model: userModel
-      });
-      userModel.on("sync", function () {
-        application.showView(myView);
-      });
-      userModel.fetch()
+      if (!isNaN(id)) {
+        let userModel = new User({id: id});
+        let myView = new ProfileView({
+          model: userModel
+        });
+        userModel.on("sync", function () {
+          application.showView(myView);
+        });
+        userModel.fetch();
+      }
+    },
+    userSnippetsPage: function (id) {
+      if (!isNaN(id)) {
+        application.showView(
+          new SnippetsView({
+            collection: new UserSnippets([],{
+              user_id: id
+            })
+          })
+        );
+      }
     },
     snippetsPage: function(id) {
       if (typeof(id) === 'object') {
@@ -42,7 +56,8 @@ module.exports = function(application) {
             })
           })
         );
-      } else if(!isNaN(id)) {
+      }
+      else if (!isNaN(id)) {
         let snippetModel = new Snippet({id:id});
         let myView = new SnippetView({
           model: snippetModel,

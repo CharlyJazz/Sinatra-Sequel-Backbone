@@ -118,7 +118,11 @@
           <!--/.Card content-->
           <div class="text-center">
             <button class="btn btn-deep-purple" id="back">Back to form </button>
+            {{ if (mode === 'register') { }}
             <button class="btn btn-deep-purple" id="submit" disabled>Join to community</button>
+            {{ } else if (mode === 'edit') { }}
+            <button class="btn btn-deep-purple" id="submit" disabled>Edit your info</button>
+            {{ } }}
           </div>
         </fieldset>
       </form>

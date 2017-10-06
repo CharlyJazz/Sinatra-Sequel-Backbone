@@ -15,7 +15,7 @@ module.exports = Mn.View.extend({
   * this variable prevents further creation of ajax
   * */
   page_final_viewed: false,
-  initialize: function(){
+  initialize: function() {
     /*
     * Create object that extend of Backbone.Events
     * for listen the scroll event

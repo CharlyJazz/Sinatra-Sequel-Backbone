@@ -12,7 +12,6 @@ gem 'sequel_secure_password'
 gem 'sequel'
 gem 'rake', '~> 12.0.0'
 gem 'language_sniffer', :git => 'git://github.com/grosser/language_sniffer.git', require: false
-gem 'octicons' #https://github.com/primer/octicons_gem
 gem 'uglifier'
 gem 'sprockets'
 gem 'sass'

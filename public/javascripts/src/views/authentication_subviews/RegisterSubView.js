@@ -67,7 +67,7 @@ module.exports = Mn.View.extend({
   checkAlReadyUse: function (event) {
     // Check if the email or username is already use
     var input = $(event.currentTarget), data,
-      min_length = 6;
+        min_length = 6;
     if (input.is('#email')) {
       data = {email: input.val().trim()}
     } else if (input.is('#username')) {
@@ -103,20 +103,18 @@ module.exports = Mn.View.extend({
   checkSecurityLevel: function(event) {
     // Add a color border
     var input = $(event.currentTarget);
-    if(input.val().length <= 6) {
-      input.removeClass(
-        'security-medium security-high valid'
-      ).addClass('security-down');
+
+    if (input.val().length <= 6) {
+      input.removeClass('security-medium security-high valid')
+        .addClass('security-down');
     }
-    else if(input.val().length > 6 && input.val().length <= 12) {
-      input.removeClass(
-        'security-down security-high'
-      ).addClass('security-medium valid')
+    else if (input.val().length > 6 && input.val().length <= 12) {
+      input.removeClass('security-down security-high')
+        .addClass('security-medium valid')
     }
     else {
-      input.removeClass(
-        'security-medium security-down'
-      ).addClass('security-high valid')
+      input.removeClass('security-medium security-down')
+        .addClass('security-high valid')
     }
   },
   checkPasswordMatches: function(event) {

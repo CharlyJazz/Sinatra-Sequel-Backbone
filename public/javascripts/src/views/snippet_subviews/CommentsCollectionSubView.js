@@ -4,7 +4,7 @@ const EditModal = require('../ModalEdit')
 module.exports = Mn.CollectionView.extend({
   className: 'row mt-3',
   ui: {
-    editButton: '.ui-edit',
+    editButton: '.ui-edit-comment',
     deleteButton: '.ui-delete'
   },
   events: {

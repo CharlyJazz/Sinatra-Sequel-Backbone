@@ -1,0 +1,279 @@
+---
+# Data fake for populate the data base
+-
+    name: charlyjazz
+    email: charlyjazz@gmail.com
+    password_digest: 123456789
+    image_profile: https://avatars1.githubusercontent.com/u/12489333?v=4&s=460
+    snippets:
+        -
+            filename: main.py
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}   
+            tags: ['jinja2', 'python', 'flask']
+        -
+            filename: learned.py
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['jinja2', 'python', 'django']
+        -
+            filename: chunk.py
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['jinja2', 'python', 'flask', 'django']
+        -
+            filename: yellow_terminal.py
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['jinja2', 'python', 'bash']
+        -
+            filename: haskell_loop.hs
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['iteration', 'haskell']
+        -
+            filename: game_loop.hs
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['iteration', 'haskell', 'functional']
+        -
+            filename: sad_code.js
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['iteration', 'javascript', 'ecmascript']
+        -
+            filename: main.js
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['javascript', 'ecmascript', 'front end']
+        -
+            filename: learned.js
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['javascript']
+        -
+            filename: chunk.js
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['iteration', 'javascript', 'ecmascript']
+        -
+            filename: backbone_view.js
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['javascript', 'backbone', 'webpack']
+        -
+            filename: controller.cpp
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['c++', 'arduino', 'robot']
+        -
+            filename: robots.cpp
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['c++', 'arduino', 'robot']
+        -
+            filename: middleware.cpp
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['c++', 'raspberry pi', 'robot']
+        -
+            filename: database.php
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'php', 'web']
+        -
+            filename: view_pet.php
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'php', 'symfony2']
+        -
+            filename: view.php
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'laravel', 'php', 'symfony2']
+        -
+            filename: view_home.php
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'php', 'symfony2']
+        -
+            filename: exercice_1.java
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['java']
+        -
+            filename: exercice_2.java
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['java']
+        -
+            filename: exercice_3.java
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['java']
+        -
+            filename: exercice_4.java
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['java']
+        -
+            filename: exercice_5.java
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['java']
+        -
+            filename: exercice_6.java
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['java']
+        -
+            filename: exercice_7.java
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['java']
+        -
+            filename: web_virus.r
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['r']
+        -
+            filename: crack.r
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['r']
+        -
+            filename: view_pet.go
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'php', 'symfony2']
+        -
+            filename: view.go
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'go', 'api', 'restful']
+        -
+            filename: view_home.go
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'go', 'restful', 'rest']
+        -
+            filename: database.sql
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'sql']
+        -
+            filename: tables.sql
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'sql']
+        -
+            filename: other_tables.sql
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'sql']
+-
+    name: benjaminjazz
+    email: benjamin@gmail.com
+    password_digest: 123456789
+    image_profile: https://avatars1.githubusercontent.com/u/12489333?v=4&s=460
+    snippets:
+        -
+            filename: main.py
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['jinja2', 'python', 'flask']
+        -
+            filename: learned.py
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['jinja2', 'python', 'django']
+        -
+            filename: chunk.py
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['jinja2', 'python', 'flask', 'django']
+        -
+            filename: yellow_terminal.py
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['jinja2', 'python', 'bash']
+        -
+            filename: haskell_loop.hs
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['iteration', 'haskell']
+        -
+            filename: game_loop.hs
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['iteration', 'haskell']
+        -
+            filename: sad_code.js
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['iteration', 'javascript', 'ecmascript']
+        -
+            filename: main.js
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['javascript', 'ecmascript', 'front end']
+        -
+            filename: learned.js
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['javascript']
+        -
+            filename: chunk.js
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['iteration', 'javascript', 'ecmascript']
+        -
+            filename: backbone_view.js
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['javascript', 'backbone', 'webpack']
+        -
+            filename: controller.cpp
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['c++', 'arduino', 'robot']
+        -
+            filename: robots.cpp
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['c++', 'arduino', 'robot']
+        -
+            filename: middleware.cpp
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['c++', 'raspberry pi', 'robot']
+        -
+            filename: database.php
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'php', 'web']
+        -
+            filename: view_pet.php
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'php', 'symfony2']
+        -
+            filename: view.php
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'laravel', 'php', 'symfony2']
+        -
+            filename: view_home.php
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'php', 'symfony2']
+        -
+            filename: exercice_1.java
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['java']
+        -
+            filename: exercice_2.java
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['java']
+        -
+            filename: exercice_3.java
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['java']
+        -
+            filename: exercice_4.java
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['java']
+        -
+            filename: exercice_5.java
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['java']
+        -
+            filename: exercice_6.java
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['java']
+        -
+            filename: exercice_7.java
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['java']
+        -
+            filename: web_virus.r
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['r']
+        -
+            filename: crack.r
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['r']
+        -
+            filename: view_pet.go
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'php', 'symfony2']
+        -
+            filename: view.go
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'go', 'api', 'restful']
+        -
+            filename: view_home.go
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'go', 'restful', 'rest']
+        -
+            filename: database.sql
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'sql']
+        -
+            filename: tables.sql
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'sql']
+        -
+            filename: other_tables.sql
+            body: print('This a test, hello world') 4 + 4 => { console.log( 0 || undefined )}  
+            tags: ['back end', 'sql']
+...

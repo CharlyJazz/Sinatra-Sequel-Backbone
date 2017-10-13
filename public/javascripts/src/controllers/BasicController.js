@@ -3,6 +3,7 @@ const AuthenticationView = require('../views/Authentication')
 const ProfileView = require('../views/Profile')
 const SnippetView = require('../views/Snippet')
 const SnippetsView = require('../views/Snippets')
+const ProyectsView = require('../views/Proyects')
 const User = require('../models/User')
 const Snippet = require('../models/Snippet')
 const Snippets = require('../collections/Snippets')
@@ -26,8 +27,8 @@ module.exports = function(application) {
     },
     profileUserPage: function(id) {
       if (!isNaN(id)) {
-        let userModel = new User({id: id});
-        let myView = new ProfileView({
+        var userModel = new User({id: id});
+        var myView = new ProfileView({
           model: userModel
         });
         userModel.on("sync", function () {
@@ -58,12 +59,12 @@ module.exports = function(application) {
         );
       }
       else if (!isNaN(id)) {
-        let snippetModel = new Snippet({id:id});
-        let myView = new SnippetView({
+        var snippetModel = new Snippet({id:id});
+        var myView = new SnippetView({
           model: snippetModel,
           application: application
         });
-        snippetModel.on("sync", function() {
+        snippetModel.on('sync', function() {
           application.showView(myView);
         });
         snippetModel.fetch({
@@ -78,6 +79,9 @@ module.exports = function(application) {
           }
         });
       }
+    },
+    proyectsPage: function(id) {
+      application.showView(new ProyectsView());
     }
   }
 };

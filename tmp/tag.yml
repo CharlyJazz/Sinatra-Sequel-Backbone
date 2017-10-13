@@ -9,6 +9,7 @@ c++: language
 ruby: language
 css: language
 c: language
+ecmascript: language
 objective-c: language
 perl: language
 shell: language
@@ -42,6 +43,7 @@ object-oriented: programming paradigm
 procedural: programming paradigm
 logic: programming paradigm
 symbolic: programming paradigm
+iteration: programming paradigm
 laravel: framework
 sinatra: framework
 ruby on rails: framework
@@ -77,3 +79,16 @@ catalyst: framework
 swift3: language
 polymer: framework
 knowckout: framework
+webpack: config
+eslint: config
+arduino: technology
+robot: technology
+raspberry pi: technology
+web: technology
+front end: technology
+back end: technology
+restful: technology
+rest: technology
+api: technology
+jinja2: framework
+bash: language

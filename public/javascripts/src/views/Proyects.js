@@ -1,3 +1,3 @@
-exports.module = Mn.View.extend({
+module.exports = Mn.View.extend({
   template: '#container-proyects'
 });

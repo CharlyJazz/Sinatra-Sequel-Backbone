@@ -15,6 +15,8 @@ module.exports = function(application) {
       'snippets': 'snippetsPage',
 
       'snippets/:id': 'snippetsPage',
+
+      'proyects': 'proyectsPage'
     }
   })
 }

@@ -5,10 +5,10 @@ module.exports = Mn.CollectionView.extend({
   collectionEvents: {
     'sync': 'CheckIfEmpty'
   },
-  initialize: function(options) {
+  initialize: function() {
     this.user_id = this.options.user_id;
     this.childView = Mn.View.extend({
-      template: "#sub-view-snippet",
+      template: '#sub-view-snippet',
       className: 'col-lg-6'
     });
     this.collection = new Collection([], {

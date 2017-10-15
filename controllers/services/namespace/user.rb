@@ -13,7 +13,7 @@ class UserNamespace < SnippetNamespace
       # Prevent send the password
       users = User.all
       users.map { |user|
-          user.json_serializer_opts(:except=>:password_digest)
+        user.json_serializer_opts(:except=>:password_digest)
       }
       users.to_json
     end
@@ -32,10 +32,10 @@ class UserNamespace < SnippetNamespace
       check_if_data_resource_exist(User, 'name', params[:name])
       check_if_data_resource_exist(User, 'email', params[:email])
       user = User.create(:name=>params[:name],
-                  :email=>params[:email],
-                  :password=>params[:password],
-                  :password_confirmation=>params[:password_confirmation],
-                  :image_profile=>params[:image_profile]
+                         :email=>params[:email],
+                         :password=>params[:password],
+                         :password_confirmation=>params[:password_confirmation],
+                         :image_profile=>params[:image_profile]
       ).save()
       Role.add_role_to_user Role.first(:name=>'user'), user # Create role relationship
       user.to_json :except=> :password_digest
@@ -134,11 +134,11 @@ class UserNamespace < SnippetNamespace
         if Role.role_exist? params[:role_name]
           # Check si el usuario tiene ese rol con el methodo de user_have_role?
           if RoleUser.user_have_role? params[:id], Role.first(:name=>params[:role_name]).id
-          # Si el usuario tiene el rol retornamos un mensaje diciendoloe
+            # Si el usuario tiene el rol retornamos un mensaje diciendoloe
             halt 404, {:response=>'Action not allowed, this user already has this role'}.to_json
           else
-          # Si el usuario no tiene ese rol se lo asignamos
-          # y retornamos un mensaje diciendolo, pero eliminamos su rol anterior
+            # Si el usuario no tiene ese rol se lo asignamos
+            # y retornamos un mensaje diciendolo, pero eliminamos su rol anterior
             if params[:role_name].equal? 'admin'
               Role.remove_role_from_user user, Role.first(:name=>'user')
               Role.add_role_to_user user, Role.first(:name=>'admin')
@@ -171,8 +171,30 @@ class UserNamespace < SnippetNamespace
       # User :followed_id follow user :follower_id
       followed = check_if_resource_exist(User, params[:followed_id])
       follower = check_if_resource_exist(User, params[:follower_id])
+
       RelationShip.follow_or_unfollow follower, followed
       {:response=>RelationShip.where(:followed_id=>followed.id).count}.to_json
+    end
+
+    get '/:id/statistics/languages' do
+      user = check_if_resource_exist(User, params[:id])
+
+      query = DB[:users]
+          .join(:snippets, user_id: :id)
+          .join(:snippets_tags, snippet_id: :id)
+          .join(:tags, id: :tag_id)
+          .where {
+              Sequel.&(
+                {:user_id=>user.id},
+                {Sequel[:tags][:description]=>'language'}
+              )
+          }
+          .group_and_count(Sequel[:tags][:id])
+          .select_append(Sequel[:tags][:name])
+          .limit(6)
+          .all
+
+      query.length == 0 ? halt(404) : halt(200, query.to_json)
     end
 
   end

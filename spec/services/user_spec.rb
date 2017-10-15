@@ -121,7 +121,7 @@ describe User do
     describe 'Role functionality' do
       before :each do
         @admin = User.new(:name => 'admin_user', :email=>'admin@gmail.com',
-                         :password=>'123456', :password_confirmation=>'123456').save
+                          :password=>'123456', :password_confirmation=>'123456').save
         @role = Role.new(:name=>'admin').save
         Role.add_role_to_user(@role, @admin)
       end
@@ -213,16 +213,16 @@ describe User do
                                  :password=>'123456',
                                  :password_confirmation=>'123456').save
         snippet_1 = Snippet.new(:filename => 'filename.js',
-                    :body=>'Lorem ipsum...',
-                    :user_id=>@user.id).save
+                                :body=>'Lorem ipsum...',
+                                :user_id=>@user.id).save
         2.times {
           @user_comment.add_comment_snippet(:title=>'The sad code',
-                                          :body=>'Sad', :line_code=>2,
-                                          :snippet_id=>snippet_1.id)
+                                            :body=>'Sad', :line_code=>2,
+                                            :snippet_id=>snippet_1.id)
         }
         snippet_2 = Snippet.new(:filename => 'filename.py',
-                    :body=>'Lorem ipsum...',
-                    :user_id=>@user.id).save
+                                :body=>'Lorem ipsum...',
+                                :user_id=>@user.id).save
         3.times {
           @user_comment.add_comment_snippet(:title=>'The sad code',
                                             :body=>'Sad', :line_code=>2,
@@ -303,6 +303,73 @@ describe User do
 
         expect(JSON.parse(last_response.body).count).to eq 2
         expect(JSON.parse(last_response.body)[0]['name']).to eq 'proyect_2'
+      end
+    end
+    context 'Get statistics resources' do
+      before :each do
+        @user_fake = User.new(:name => 'Audrey', :email=>'Audrey@gmail.com',
+                         :password=>'123456', :password_confirmation=>'123456').save
+      end
+      context 'Get the languages most used by the user' do
+        it 'should return 4 languages' do
+
+          %w[javascript python c haskell c# cpp coffeescript].each { |n|
+            Tag.create(:name=>n, :description=>'language').save
+          }
+
+          %w[docker].each { |n|
+            Tag.create(:name=>n, :description=>'technology').save
+          }
+
+          snippet_1 = Snippet.new(:filename => 'filename.js',
+                                :body=>'Lorem ipsum...',
+                                :user_id=>@user.id).save
+
+          snippet_1.add_tag(Tag.first(:name=>'javascript'))
+          snippet_1.add_tag(Tag.first(:name=>'python'))
+          snippet_1.add_tag(Tag.first(:name=>'c'))
+          snippet_1.add_tag(Tag.first(:name=>'haskell'))
+          snippet_1.add_tag(Tag.first(:name=>'docker')) # Should ignore this
+
+          snippet_2 = Snippet.new(:filename => 'filename.js',
+                                  :body=>'Lorem ipsum...',
+                                  :user_id=>@user.id).save
+
+          snippet_2.add_tag(Tag.first(:name=>'javascript'))
+          snippet_2.add_tag(Tag.first(:name=>'python'))
+
+          snippet_3 = Snippet.new(:filename => 'filename.js',
+                                  :body=>'Lorem ipsum...',
+                                  :user_id=>@user_fake.id).save
+
+          snippet_3.add_tag(Tag.first(:name=>'javascript'))
+          snippet_3.add_tag(Tag.first(:name=>'python'))
+          snippet_3.add_tag(Tag.first(:name=>'coffeescript'))
+          snippet_3.add_tag(Tag.first(:name=>'cpp'))
+
+          snippet_4 = Snippet.new(:filename => 'filename.js',
+                                  :body=>'Lorem ipsum...',
+                                  :user_id=>@user.id).save
+
+          snippet_5 = Snippet.new(:filename => 'filename.js',
+                                  :body=>'Lorem ipsum...',
+                                  :user_id=>@user.id).save
+
+          snippet_4.add_tag(Tag.first(:name=>'javascript'))
+          snippet_4.add_tag(Tag.first(:name=>'haskell'))
+          snippet_5.add_tag(Tag.first(:name=>'haskell'))
+
+          get '/api/user/1/statistics/languages'
+
+          puts last_response.body
+          expect(JSON.parse(last_response.body).count).to eq 4
+          expect(last_response.status).to eq 200
+        end
+        it 'should return 404 because there no have enough data' do
+          get '/api/user/1/statistics/languages'
+
+          expect(last_response.status).to eq 404
+        end
       end
     end
   end

@@ -1,11 +1,13 @@
 const ProyectsCollectionSubView = require('./profile_subviews/ProyectsCollectionSubView')
 const SnippetsCollectionSubView = require('./profile_subviews/SnippetsCollectionSubView')
+const ChartsSubView =require('./profile_subviews/ChartsBarSubView')
 
 module.exports = Mn.View.extend({
   template: '#container-profile',
   regions: {
     snippetsRegion: '#snippets-region',
-    proyectsRegion: '#proyects-region'
+    proyectsRegion: '#proyects-region',
+    chartsRegion: '#charts-region'
   },
   modelEvents: {
     'sync': 'renderRegions'
@@ -14,7 +16,7 @@ module.exports = Mn.View.extend({
     'noHaveSnippets': 'hiddenSnippetHTML',
     'noHaveProyects': 'hiddenProyectHTML'
   },
-  ui:{
+  ui: {
     'title_snippets_block': 'h1#title-popular-snippets',
     'anchor_snippets_block': 'a#anchor-popular-snippets',
     'title_proyects_block': 'h1#title-popular-proyects',
@@ -28,6 +30,9 @@ module.exports = Mn.View.extend({
       user_id: this.user_id
     }));
     this.showChildView('proyectsRegion', new ProyectsCollectionSubView({
+      user_id: this.user_id
+    }));
+    this.showChildView('chartsRegion', new ChartsSubView({
       user_id: this.user_id
     }));
   },

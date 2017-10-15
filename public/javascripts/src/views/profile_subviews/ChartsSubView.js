@@ -35,32 +35,45 @@ module.exports = Mn.View.extend({
       technologys:  ['Times used this technology', this.CollectionTechnologys]
     }
 
-    this.listenTo(this.statistic_types[this.default_statistic_type][1], 'add', this.renderDefaultChart);
+    this.listenTo(this.statistic_types[this.default_statistic_type][1], 'sync', this.renderDefaultChart);
   },
   renderChart: function (event) {
     var that = this,
         button = $(event.target);
 
-    // TODO: Fix esto: Esta renderizando el chart aunque ya este renderizado este tipo
     if (!button.hasClass('active')) {
       var chart_type = button.data('chart');
 
-      button.addClass('active');
-
       $('.btn-sm.active').removeClass('active');
 
-      this.Chart.config.data.datasets[0].label = this.statistic_types[chart_type][0];
+      button.addClass('active');
 
+      this.Chart.config.data.datasets[0].label = this.statistic_types[chart_type][0];
+      this.resetChartData();
       this.statistic_types[chart_type][1].each(function(model) {
         that.moveChart(model.get('count'), model.get('name'));
       })
     }
   },
+  resetChartData: function () {
+    this.Chart.data.labels = [];
+    this.Chart.data.datasets.forEach(function(dataset) {
+      dataset.data = []
+    });
+  },
   renderDefaultChart: function (model) {
     /*
      * Render per default de chart of languages when render de view
      * */
-    this.moveChart(model.get('count'), model.get('name'));
+    var that = this;
+
+    this.Chart.config.data.datasets[0].label = this.statistic_types[this.default_statistic_type][0];
+
+    this.resetChartData();
+
+    this.statistic_types[this.default_statistic_type][1].each(function(model) {
+      that.moveChart(model.get('count'), model.get('name'));
+    })
   },
   onBeforeRender: function () {
     this.CollectionLanguages.fetch();
@@ -68,20 +81,23 @@ module.exports = Mn.View.extend({
     this.CollectionTechnologys.fetch();
   },
   onRender: function () {
+    var default_type = this.default_statistic_type;
+
     this.renderInitialChart();
 
-    // TODO: Fix esto: no agrega la clase active al boton del statistic type por defecto
-    $("button[data-chart='" + this.default_statistic_type + "']").addClass('active');
+    _.each(this.getUI('button-switch-chart'), function (button) {
+      if ($(button).data('chart') === default_type) {
+        $(button).addClass('active');
+      }
+    })
   },
   renderInitialChart: function () {
-    var initial_datasets_labels = this.statistic_types[this.default_statistic_type][0];
-
     this.Chart = new Chart(this.$el.find('canvas'), {
       type: 'bar',
       data: {
-        labels: ['', '', '', '', '', ''],
+        labels: ['Loading', 'Loading', 'Loading', 'Loading', 'Loading', 'Loading'],
         datasets: [{
-          label: initial_datasets_labels,
+          label: 'Loading . . .',
           data: [1, 1, 1, 1, 1, 1],
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
@@ -117,11 +133,9 @@ module.exports = Mn.View.extend({
   },
   moveChart: function(data, label) {
     this.Chart.data.labels.push(label);  // Add new label at end
-    this.Chart.data.labels.splice(0, 1); // Remove first label
 
     this.Chart.data.datasets.forEach(function(dataset) {
       dataset.data.push(data);           // Add new data at end
-      dataset.data.splice(0, 1);         // Remove first data point
     });
 
     this.Chart.update();

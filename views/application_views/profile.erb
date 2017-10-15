@@ -21,8 +21,8 @@
       <div class="card card-stadistis">
         <div class="card-body">
           <div class="element">
-            <a href="#user/{{=id}}/snippets" class="btn btn-primary btn-sm">Snippets: {{=snippets.count}} Check all</a>
-            <a href="#user/{{=id}}/proyects" class="btn btn-primary btn-sm">Proyects: {{=proyects.count}} Check all</a>
+            <a href="#user/{{=id}}/snippets" class="btn btn-primary btn-sm mt-2">Snippets: {{=snippets.count}}</a>
+            <a href="#user/{{=id}}/proyects" class="btn btn-primary btn-sm mt-2">Proyects: {{=proyects.count}}</a>
           </div>
           <div class="element" id="charts-region"></div>
         </div>
@@ -73,24 +73,48 @@
 
 <script type="x-template/underscore" id="sub-view-proyect">
 
-    <div class="card">
-      <div class="card-body">
-        <div class="card-header">
-          <a href="#proyects/{{=id}}">{{=name}}</a>
-          <span class="float-right">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-header">
+        <a href="#proyects/{{=id}}">{{=name}}</a>
+        <span class="float-right">
             <small>{{= jQuery.format.prettyDate(created_at) }}</small>
             <i class="fa fa-comments"></i> {{=comment_count}}
             <i class="fa fa-heart-o"></i> {{=like_count}}
           </span>
-        </div>
-        <div class="card-footer">
-          <h6>{{=description}}</h6>
-        </div>
+      </div>
+      <div class="card-footer">
+        <h6>{{=description}}</h6>
       </div>
     </div>
+  </div>
 
 </script>
 
 <script type="x-template/underscore" id="sub-view-charts">
-  <canvas class="profile-chart"></canvas>
+
+  <div class="progress">
+    <div class="progress-bar" role="progressbar"
+         aria-valuenow="0"
+         aria-valuemin="0"
+         aria-valuemax="1">
+    </div>
+  </div>
+  <div style="position: relative; height: 22vw">
+    <canvas class="profile-chart"></canvas>
+  </div>
+  <div class="btn-group float-right mt-2" role="group" aria-label="Buttons chart">
+    <button type="button" class="btn btn-secondary btn-sm" role="btn-chart-type" data-chart="languages">
+      Languages
+    </button>
+
+    <button type="button" class="btn btn-secondary btn-sm" role="btn-chart-type" data-chart="frameworks">
+      Frameworks
+    </button>
+
+    <button type="button" class="btn btn-secondary btn-sm" role="btn-chart-type" data-chart="technologys">
+      Technologys
+    </button>
+  </div>
+
 </script>

@@ -325,18 +325,18 @@ describe User do
                                 :body=>'Lorem ipsum...',
                                 :user_id=>@user.id).save
 
-          snippet_1.add_tag(Tag.first(:name=>'javascript'))
-          snippet_1.add_tag(Tag.first(:name=>'python'))
-          snippet_1.add_tag(Tag.first(:name=>'c'))
-          snippet_1.add_tag(Tag.first(:name=>'haskell'))
+          snippet_1.add_tag(Tag.first(:name=>'javascript')) # 1
+          snippet_1.add_tag(Tag.first(:name=>'python')) # 1
+          snippet_1.add_tag(Tag.first(:name=>'c')) # 1
+          snippet_1.add_tag(Tag.first(:name=>'haskell')) # 1
           snippet_1.add_tag(Tag.first(:name=>'docker')) # Should ignore this
 
           snippet_2 = Snippet.new(:filename => 'filename.js',
                                   :body=>'Lorem ipsum...',
                                   :user_id=>@user.id).save
 
-          snippet_2.add_tag(Tag.first(:name=>'javascript'))
-          snippet_2.add_tag(Tag.first(:name=>'python'))
+          snippet_2.add_tag(Tag.first(:name=>'javascript')) # 2
+          snippet_2.add_tag(Tag.first(:name=>'python')) # 2
 
           snippet_3 = Snippet.new(:filename => 'filename.js',
                                   :body=>'Lorem ipsum...',
@@ -351,13 +351,21 @@ describe User do
                                   :body=>'Lorem ipsum...',
                                   :user_id=>@user.id).save
 
+
+          snippet_4.add_tag(Tag.first(:name=>'javascript')) # 3
+          snippet_4.add_tag(Tag.first(:name=>'haskell')) # 2
+
           snippet_5 = Snippet.new(:filename => 'filename.js',
                                   :body=>'Lorem ipsum...',
                                   :user_id=>@user.id).save
 
-          snippet_4.add_tag(Tag.first(:name=>'javascript'))
-          snippet_4.add_tag(Tag.first(:name=>'haskell'))
-          snippet_5.add_tag(Tag.first(:name=>'haskell'))
+          snippet_5.add_tag(Tag.first(:name=>'haskell')) # 3
+
+          snippet_6 = Snippet.new(:filename => 'filename.js',
+                                  :body=>'Lorem ipsum...',
+                                  :user_id=>@user.id).save
+
+          snippet_6.add_tag(Tag.first(:name=>'haskell')) # 4
 
           get '/api/user/1/statistics/languages'
 

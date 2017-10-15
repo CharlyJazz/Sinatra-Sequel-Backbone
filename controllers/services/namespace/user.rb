@@ -176,8 +176,13 @@ class UserNamespace < SnippetNamespace
       {:response=>RelationShip.where(:followed_id=>followed.id).count}.to_json
     end
 
-    get '/:id/statistics/languages' do
+    get '/:id/statistics/:kind' do
+      unless %w(languages frameworks technologys).include? params[:kind]
+        halt 400, {:status=>401, :message=> 'Need path languages frameworks technologys'}.to_json
+      end
+
       user = check_if_resource_exist(User, params[:id])
+      kind_of_statistic = params[:kind].slice(0..-2) # Remove plural 's' word
 
       query = DB[:users]
           .join(:snippets, user_id: :id)
@@ -186,10 +191,11 @@ class UserNamespace < SnippetNamespace
           .where {
               Sequel.&(
                 {:user_id=>user.id},
-                {Sequel[:tags][:description]=>'language'}
+                {Sequel[:tags][:description]=>kind_of_statistic}
               )
           }
           .group_and_count(Sequel[:tags][:id])
+          .order(:count).reverse
           .select_append(Sequel[:tags][:name])
           .limit(6)
           .all

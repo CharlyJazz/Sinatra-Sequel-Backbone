@@ -1,6 +1,6 @@
 const ProyectsCollectionSubView = require('./profile_subviews/ProyectsCollectionSubView')
 const SnippetsCollectionSubView = require('./profile_subviews/SnippetsCollectionSubView')
-const ChartsSubView =require('./profile_subviews/ChartsBarSubView')
+const ChartsSubView = require('./profile_subviews/ChartsSubView')
 
 module.exports = Mn.View.extend({
   template: '#container-profile',

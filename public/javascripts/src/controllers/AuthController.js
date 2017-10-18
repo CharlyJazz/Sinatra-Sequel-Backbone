@@ -1,5 +1,6 @@
 const toastError = require('../helpers/toastConnectionError')
 const CreateSnippet = require('../views/CreateSnippet')
+const CreateProyect = require('../views/CreateProyect')
 const ConfigPage = require('../views/Config')
 
 module.exports = function(application) {
@@ -64,8 +65,9 @@ module.exports = function(application) {
         return Backbone.history.navigate('auth', {trigger: true});
       }
 
-      // var view = new app.CreateProyectsView();
-      // view.render();
+      application.showView(new CreateProyect({
+        application: application
+      }));
     },
     createSnippetPage: function() {
       /*

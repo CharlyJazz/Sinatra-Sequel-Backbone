@@ -5,7 +5,7 @@ module.exports = Backbone.Collection.extend({
   initialize: function(models, options) {
     this.user_id = options.user_id;
     this.limit = options.limit;
-    this.page = options.page || 1;
+    this.page = options.page;
   },
   url: function() {
     if (typeof(this.limit) === 'number') {

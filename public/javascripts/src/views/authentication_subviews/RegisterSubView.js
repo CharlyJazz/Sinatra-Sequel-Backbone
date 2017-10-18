@@ -75,7 +75,7 @@ module.exports = Mn.View.extend({
     }
 
     if (this.model && (data.email === this.model.get('email') ||
-      data.username === this.model.get('username'))) {
+                       data.username === this.model.get('name'))) {
       input.removeClass('invalid');
       input.addClass('valid');
     } else if (input.val().length >= min_length) {

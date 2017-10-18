@@ -1,0 +1,54 @@
+<script type="x-template/underscore" id="container-create-proyect">
+
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="col-lg-10 offset-lg-1">
+      <div class="card">
+        <div class="card-block">
+          <div class="card-header text-center">
+            <h4>Create Proyect</h4>
+          </div>
+          <form class="mt-2">
+            <div class="col-6">
+              <div class="md-form mb-3 mt-3 px-4">
+                <h6> Write the name of proyect </h6>
+                <input type="text" id="name" class="form-control" required maxlength="80">
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="md-form mb-3 mt-3 px-4">
+                <textarea class="md-textarea" id="description" cols="30" rows="10" required maxlength="120"></textarea>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="md-form mb-3 mt-3 px-4">
+                <button class="btn btn-default btn-sm" id="add-snippets" type="button">Add Snippets</button>
+                <div id="region-snippets" class="card-tag-searched mb-5 hidden-element"></div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="text-center">
+                <button class="btn btn-default" id="submit">Create</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</script>
+
+<script type="x-template/underscore" id="sub-view-proyect-snippets">
+
+  <input type="text" id="search" class="form-control" placeholder="Search your snippets" disabled>
+  <div class="row">
+    <div class="col-10">
+      <ul>
+      </ul>
+    </div>
+    <div class="col-2">
+      <i class="fa fa-2x fa-close float-right" id="ui-close-card"></i>
+    </div>
+  </div>
+
+</script>

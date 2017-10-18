@@ -2,6 +2,7 @@ const TagSearchSubView = require('./create_snippet_subview/TagSearchSubView')
 const TagCollection = require('../collections/Tags')
 const Snippet = require('../models/Snippet')
 const SnippetTag = require('../models/SnippetTag')
+const toastError = require('../helpers/toastConnectionError')
 
 module.exports = Mn.View.extend({
   template: '#container-create-snippet',
@@ -14,6 +15,18 @@ module.exports = Mn.View.extend({
     'click @ui.button_add': 'addTag',
     'click @ui.button_close_card_tag': 'closeTag'
   },
+  modelEvents: {
+    sync: function(model) {
+      this.showToastCreate();
+
+      if (!this._relationSnippetWithTags()) {
+        this.application.BasicRouter.navigate('snippets/' + model.get('id') , {trigger: true});
+      };
+    },
+    error: function () {
+      toastError();
+    }
+  },
   ui: {
     editor: '#editor',
     submit: '#submit',
@@ -25,11 +38,15 @@ module.exports = Mn.View.extend({
     button_close_card_tag: 'i#ui-close-card-tag'
   },
   initialize: function() {
-    this.application = this.getOption('application')
+    this.application = this.getOption('application');
+
+    this.model = new Snippet({});
   },
   onRender: function() {
-    let that = this;
+    var that = this;
+
     this.getUI('input_tag').materialtags();
+
     setTimeout(function() {
       that.editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
         lineNumbers: true,
@@ -39,18 +56,20 @@ module.exports = Mn.View.extend({
         lineWrapping: true
       });
     },1);
+
     this.showChildView('tags', new TagSearchSubView({
       collection: new TagCollection()
     }));
   },
-  createSnippet: function (event) {
+  createSnippet: function () {
     /*
     * Validate filename format and file body
     * and create Snipppet
     * */
     var pattern = /^[\w,\s-]+\.[A-Za-z]{1,5}$/,
         filename = this.getUI('input_filename').val(),
-        body = this.editor.getValue(), that = this;
+        body = this.editor.getValue();
+
     if (pattern.test(filename)) {
       if (body.length <= 4){
         $.toast({
@@ -62,23 +81,14 @@ module.exports = Mn.View.extend({
       }
       else {
         this.getUI('submit').prop('disabled', true);
-        let snippet = new Snippet({
+
+        this.model.set({
           'filename':filename,
           'body':body,
           'user_id': this.application.current_user.get('id')
         });
-        snippet.save({wait: true},{
-          success: function(response) {
-            that._relationSnippetWithTags(response.id);
-            $.toast({
-              heading: 'Success!',
-              text: 'Your snippet was created with success',
-              icon: 'success',
-              showHideTransition: 'slide'
-            });
-            that.application.BasicRouter.navigate('snippets/' + response.id , {trigger: true});
-          }
-        });
+
+        this.model.save();
       }
     }
     else {
@@ -90,28 +100,42 @@ module.exports = Mn.View.extend({
       });
     }
   },
-  _relationSnippetWithTags: function (id) {
+  _relationSnippetWithTags: function () {
     /*
      * Get tags and call save
      * */
-    let tags = this.getUI('input_tag').materialtags('items').toString();
+    var tags = this.getUI('input_tag').materialtags('items').toString(),
+        that = this;
 
     if (tags.length) {
-      let new_tag = new SnippetTag({"name":tags, snippet_id:id});
-      new_tag.save({wait: true});
+
+      this.tags = new SnippetTag({"name": tags, snippet_id: this.model.get('id')});
+
+      this.listenTo(this.tags, 'sync', function() {
+        that.showToastTag();
+        that.application.BasicRouter.navigate('snippets/' + that.model.get('id') , {trigger: true});
+      });
+
+      this.tags.save();
+
+      return true;
+
+    } else {
+
+      return false;
     }
   },
   searchTag: function (event) {
-    let value = event.target.value;
+    var value = event.target.value;
     if (value.trim()) {
-      let tags = this.getChildView('tags').collection.search(value), // Get collection and search tags
+      var tags = this.getChildView('tags').collection.search(value), // Get collection and search tags
           ui_list = this.getChildView('tags').getUI('list');
       if (tags.size() === 0) { return undefined; } // Prevent show empty
         $("#ul-tags").html(''); // Empty list
         this.getUI('card_tag').removeClass('hidden-element'); // Show the cart
         tags.each(function(tag, index){
         if (index >= 10) { return undefined } // Prevent shown more that 10 tags
-        let view = new Mn.View({ // Show each tag in the list
+        var view = new Mn.View({ // Show each tag in the list
           model: tag,
           template: _.template("<li><i class='fa fa-plus add-tag'></i>{{=name}}</li>")
         });
@@ -132,5 +156,21 @@ module.exports = Mn.View.extend({
   },
   closeTag: function () {
     this.getUI('card_tag').addClass('hidden-element');
+  },
+  showToastCreate: function () {
+    $.toast({
+      heading: 'Success!',
+      text: 'Your snippet was created with success',
+      icon: 'success',
+      showHideTransition: 'slide'
+    });
+  },
+  showToastTag: function () {
+    $.toast({
+      heading: 'Success!',
+      text: 'Your tags was created with success',
+      icon: 'success',
+      showHideTransition: 'slide'
+    });
   }
 });

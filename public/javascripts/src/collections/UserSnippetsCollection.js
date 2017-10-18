@@ -24,5 +24,13 @@ module.exports = Backbone.Collection.extend({
       return this.url = '/api/user/' + this.user_id + '/snippets?page=' + new_page;
     }
     throw 'The new page index should a integer'
+  },
+  search: function(letters) {
+    if(letters === '') return this;
+    let pattern = new RegExp(letters, 'gi');
+    return _(this.filter(function(data) {
+      return pattern.test(data.get('filename'));
+    }));
   }
+
 });

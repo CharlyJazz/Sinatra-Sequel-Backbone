@@ -54,16 +54,16 @@ module.exports = Mn.View.extend({
     })
   },
   searchTag: function (event) {
-    let value = event.target.value;
+    var value = event.target.value;
     if (value.trim()) {
-      let tags = this.tagCollection.search(value), // Get collection and search tags
+      var tags = this.tagCollection.search(value), // Get collection and search tags
           ui_list = this.getUI('ui_list');
       if (tags.size() === 0) { return undefined; } // Prevent show empty
       $("#ul-tags").html(''); // Empty list
       this.getUI('card_tag').removeClass('hidden-element'); // Show the cart
       tags.each(function(tag, index) {
         if (index >= 10) { return undefined } // Prevent shown more that 10 tags
-        let view = new Mn.View({ // Show each tag in the list
+        var view = new Mn.View({ // Show each tag in the list
           model: tag,
           template: _.template("<li><i class='fa fa-plus add-tag'></i>{{=name}}</li>")
         });

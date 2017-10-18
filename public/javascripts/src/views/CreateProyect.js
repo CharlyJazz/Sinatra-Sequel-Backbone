@@ -5,12 +5,23 @@ const toastError = require('../helpers/toastConnectionError')
 
 module.exports = Mn.View.extend({
   template: '#container-create-proyect',
+  _template_snippet: _.template("<li data-id={{=id}}><i class='fa fa-remove ui-snippet-selected'></i>{{=filename}}</li>"),
   regions: {
     snippets: '#region-snippets'
   },
+  ui: {
+    submit: 'button#submit',
+    button_show_snippets: 'button#add-snippets',
+    name: 'input#name',
+    description: 'textarea#description',
+    card_snippets: 'div.card-tag-searched',
+    ul_snippets_selected: 'ul#ui-ul-snippet-selected',
+    remove: '.fa-remove.ui-snippet-selected'
+  },
   events: {
     'click @ui.submit': 'createProyect',
-    'click @ui.button_show_snippets': 'showSnippets'
+    'click @ui.button_show_snippets': 'showSnippets',
+    'click @ui.remove': 'removeSnippet'
   },
   modelEvents: {
     sync: 'showToastCreate',
@@ -18,16 +29,12 @@ module.exports = Mn.View.extend({
   },
   childViewEvents: {
     'snippetWillClose': function() {
-      this.getSnippets();
+      this.renderSnippets();
       this.destroySnippetSubView();
+    },
+    'snippetWillRemove': function(view, event) {
+      this.removeSnippet(event, true);
     }
-  },
-  ui: {
-    submit: 'button#submit',
-    button_show_snippets: 'button#add-snippets',
-    name: 'input#name',
-    description: 'textarea#description',
-    card_snippets: 'div.card-tag-searched'
   },
   initialize: function() {
     this.application = this.getOption('application')
@@ -36,17 +43,15 @@ module.exports = Mn.View.extend({
       user_id: this.application.current_user.get('id')
     })
   },
-  onRender: function() {
-    /*
-     * Add snippets region
-     * */
-  },
-  createProyect: function () {
+  createProyect: function (event) {
     /*
      * Validate name and description and create Proyect
      * */
     var name = this.getUI('name').val().trim(),
-      description = this.getUI('description').val().trim();
+        description = this.getUI('description').val().trim(),
+        button = $(event.target);
+
+    button.prop('disabled', true);
 
     if (name.length >= 4 && name.length <= 80 &&
       description.length >= 4 && description.length <= 120) {
@@ -58,6 +63,11 @@ module.exports = Mn.View.extend({
       });
 
       this.model.save();
+
+      // TODO: Crear estilos para la lista de snippetse agregados de esta vista
+      // TODO: Revisar si hay snippets agregados y mandar ajax para crear relacion.
+      // TODO: Mostrar toast para el sync de los snippets relacionados con el proyecto
+      // TODO: Redireccionar hacia el proyecto
     }
   },
   showToastCreate: function () {
@@ -90,16 +100,32 @@ module.exports = Mn.View.extend({
       showView();
     }
   },
-  getSnippets: function () {
+  renderSnippets: function () {
     /*
     * Get snippets from SnippetsSubView
     * */
-    console.log('get')
+    var ul = this.getUI('ul_snippets_selected'),
+        template = this._template_snippet;
+
+    ul.empty();
+
+    _.forEach(this.collection.where({selected: true}), function(model) {
+      ul.append(template(model.toJSON()));
+    });
   },
   destroySnippetSubView: function () {
     this.getUI('card_snippets').addClass('hidden-element');
 
     var regionView = this.getChildView('snippets');
     regionView.destroy();
+  },
+  removeSnippet: function (event, remove) {
+    var button = $(event.target),
+        model = this.collection.get(button.parent('li').data('id'));
+
+    remove ? button.removeClass('fa-remove').addClass('fa-plus')
+           : button.parent('li').remove();
+
+    model.set({selected: false});
   }
 });

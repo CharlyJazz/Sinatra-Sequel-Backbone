@@ -1,5 +1,6 @@
 const Proyect = require('../models/Proyect')
 const Snippets = require('../collections/UserSnippetsCollection')
+const ProyectSnippets = require('../models/ProyectSnippet')
 const SnippetsSubView = require('./create_proyect_subview/SnippetsSubView')
 const toastError = require('../helpers/toastConnectionError')
 
@@ -16,16 +17,24 @@ module.exports = Mn.View.extend({
     description: 'textarea#description',
     card_snippets: 'div.card-tag-searched',
     ul_snippets_selected: 'ul#ui-ul-snippet-selected',
-    remove: '.fa-remove.ui-snippet-selected'
+    remove: '.fa-remove.ui-snippet-selected',
+    form: 'form'
   },
   events: {
-    'click @ui.submit': 'createProyect',
     'click @ui.button_show_snippets': 'showSnippets',
-    'click @ui.remove': 'removeSnippet'
+    'click @ui.remove': 'removeSnippet',
+    'submit @ui.form': 'createProyect'
   },
   modelEvents: {
-    sync: 'showToastCreate',
-    error: 'showToastError'
+    'sync': function() {
+      this.showToastCreate();
+      if (!this._relationProyectWithSnippets()) {
+        this.resetForm();
+        this.application.BasicRouter.navigate('proyects/' + this.model.get('id') , {trigger: true});
+      }
+    },
+    'error': 'showToastError',
+    'invalid': 'showToastInvalid'
   },
   childViewEvents: {
     'snippetWillClose': function() {
@@ -41,34 +50,67 @@ module.exports = Mn.View.extend({
     this.model = new Proyect();
     this.collection = new Snippets([], {
       user_id: this.application.current_user.get('id')
-    })
+    });
   },
-  createProyect: function (event) {
+  createProyect: function () {
     /*
      * Validate name and description and create Proyect
      * */
     var name = this.getUI('name').val().trim(),
-        description = this.getUI('description').val().trim(),
-        button = $(event.target);
+        description = this.getUI('description').val().trim();
 
-    button.prop('disabled', true);
+    this.model.set({
+      name: name,
+      description: description,
+      user_id: this.application.current_user.get('id')
+    });
 
-    if (name.length >= 4 && name.length <= 80 &&
-      description.length >= 4 && description.length <= 120) {
+    this.model.save();
 
-      this.model.set({
-        'name': name,
-        'description': description,
-        'user_id': this.application.current_user.get('id')
+    // TODO: Mostrar toast para el sync de los snippets relacionados con el proyecto
+    // TODO: Reset y poner botton que diga `ìr a proyecto creado`
+  },
+  _relationProyectWithSnippets: function () {
+    var snippets_id = _.map(this.collection.where({selected: true}), function(model) {
+      return model.get('id')
+    });
+
+    var that = this;
+
+    if (snippets_id.length) {
+
+      this.proyect_snippets = new ProyectSnippets({
+        proyect_id: this.model.get('id'),
+        snippets_id: snippets_id
       });
 
-      this.model.save();
+      this.listenTo(this.proyect_snippets, 'sync', function() {
+        that.showToastSnippets();
+        that.resetForm();
+        that.application.BasicRouter.navigate('proyects/' + that.model.get('id') , {trigger: true});
+      });
 
-      // TODO: Crear estilos para la lista de snippetse agregados de esta vista
-      // TODO: Revisar si hay snippets agregados y mandar ajax para crear relacion.
-      // TODO: Mostrar toast para el sync de los snippets relacionados con el proyecto
-      // TODO: Redireccionar hacia el proyecto
+      this.proyect_snippets.save();
+
+      return true;
+
+    } else {
+
+      return false;
     }
+  },
+  resetForm: function () {
+    /*
+    * Reset for and change snippets attr selected to false
+    * */
+
+    this.getUI('form')[0].reset();
+
+    this.getUI('ul_snippets_selected').empty();
+
+    _.forEach(this.collection.where({selected: true}), function(model) {
+      model.set({selected: false});
+    });
   },
   showToastCreate: function () {
     $.toast({
@@ -80,6 +122,25 @@ module.exports = Mn.View.extend({
   },
   showToastError: function () {
     toastError();
+  },
+  showToastSnippets: function () {
+    /*
+     * Toast when created relation between Proyect and Snippets
+     * */
+    $.toast({
+      heading: 'Success!',
+      text: 'Your snippets was added to the new Proyect!',
+      icon: 'success',
+      showHideTransition: 'slide'
+    });
+  },
+  showToastInvalid: function (model, error, options) {
+    $.toast({
+      heading: 'Error!',
+      text: error,
+      icon: 'warning',
+      showHideTransition: 'slide'
+    });
   },
   showSnippets: function () {
     var that = this,

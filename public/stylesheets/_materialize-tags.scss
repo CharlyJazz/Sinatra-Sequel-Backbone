@@ -132,6 +132,10 @@
   width: 100%;
   left: 0;
 
+  &.position-initial {
+    position: initial;
+  }
+
   ul {
     li {
       &:not(:first-child) {
@@ -142,6 +146,8 @@
       i {
         margin-right: .950em;
         cursor: pointer;
+
+
         &:hover {
           -webkit-transition: .3s ease;
           -moz-transition: .3s ease;
@@ -150,11 +156,28 @@
           transition: .3s ease;
           color: #00C851
         }
+
+        &.fa-remove {
+          &:hover {
+            color: #b14a4c
+          }
+        }
       }
     }
   }
 
   &.edit {
     position: initial
+  }
+}
+
+.box-proyect-snippets-added {
+  @extend .card-tag-searched;
+
+  position: initial;
+
+  ul {
+    padding: 0;
+    list-style-type: none;
   }
 }

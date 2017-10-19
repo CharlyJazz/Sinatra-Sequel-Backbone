@@ -109,7 +109,7 @@ module.exports = Mn.View.extend({
 
     if (tags.length) {
 
-      this.tags = new SnippetTag({"name": tags, snippet_id: this.model.get('id')});
+      this.tags = new SnippetTag({'name': tags, snippet_id: this.model.get('id')});
 
       this.listenTo(this.tags, 'sync', function() {
         that.showToastTag();

@@ -5,7 +5,8 @@ describe Proyect do
     @user = User.new(:name => 'Audrey', :email=>'Audrey@gmail.com',
                      :password=>'123456', :password_confirmation=>'123456').save
     @proyect = Proyect.new(:name=>'github',
-                           :description=>'rails web for git repositories', :user_id=>@user.id).save
+                           :description=>'rails web for git repositories',
+                           :user_id=>@user.id).save
   end
   context 'should be the literal table name' do
     it 'expect return true' do

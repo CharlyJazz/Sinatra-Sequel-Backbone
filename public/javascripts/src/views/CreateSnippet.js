@@ -3,6 +3,7 @@ const TagCollection = require('../collections/Tags')
 const Snippet = require('../models/Snippet')
 const SnippetTag = require('../models/SnippetTag')
 const toastError = require('../helpers/toastConnectionError')
+const messages = require('../../../../tmp/messages.json')
 
 module.exports = Mn.View.extend({
   template: '#container-create-snippet',
@@ -21,10 +22,14 @@ module.exports = Mn.View.extend({
 
       if (!this._relationSnippetWithTags()) {
         this.application.BasicRouter.navigate('snippets/' + model.get('id') , {trigger: true});
-      };
+      }
     },
     error: function () {
       toastError();
+    },
+    invalid: function(model, error, options) {
+      this.showToastInvalid(model, error, options);
+      this.getUI('submit').prop('disabled', false);
     }
   },
   ui: {
@@ -64,41 +69,20 @@ module.exports = Mn.View.extend({
   createSnippet: function () {
     /*
     * Validate filename format and file body
-    * and create Snipppet
+    * and create Snippet
     * */
-    var pattern = /^[\w,\s-]+\.[A-Za-z]{1,5}$/,
-        filename = this.getUI('input_filename').val(),
+    this.getUI('submit').prop('disabled', true);
+
+    var filename = this.getUI('input_filename').val(),
         body = this.editor.getValue();
 
-    if (pattern.test(filename)) {
-      if (body.length <= 4){
-        $.toast({
-          heading: 'Write more, lazy',
-          text: 'You need more than 4 characters to create the snippet',
-          icon: 'warning',
-          showHideTransition: 'slide'
-        });
-      }
-      else {
-        this.getUI('submit').prop('disabled', true);
+    this.model.set({
+      filename: filename,
+      body: body,
+      user_id: this.application.current_user.get('id')
+    });
 
-        this.model.set({
-          'filename':filename,
-          'body':body,
-          'user_id': this.application.current_user.get('id')
-        });
-
-        this.model.save();
-      }
-    }
-    else {
-      $.toast({
-        heading: 'Filename is invalid',
-        text: 'Remember to add the file extension: Filename.py',
-        icon: 'warning',
-        showHideTransition: 'slide'
-      });
-    }
+    this.model.save();
   },
   _relationSnippetWithTags: function () {
     /*
@@ -160,7 +144,7 @@ module.exports = Mn.View.extend({
   showToastCreate: function () {
     $.toast({
       heading: 'Success!',
-      text: 'Your snippet was created with success',
+      text: messages['snippet'].create,
       icon: 'success',
       showHideTransition: 'slide'
     });
@@ -168,8 +152,16 @@ module.exports = Mn.View.extend({
   showToastTag: function () {
     $.toast({
       heading: 'Success!',
-      text: 'Your tags was created with success',
+      text: messages['snippet'].tag.create,
       icon: 'success',
+      showHideTransition: 'slide'
+    });
+  },
+  showToastInvalid: function (model, error, options) {
+    $.toast({
+      heading: 'Error!',
+      text: error,
+      icon: 'error',
       showHideTransition: 'slide'
     });
   }

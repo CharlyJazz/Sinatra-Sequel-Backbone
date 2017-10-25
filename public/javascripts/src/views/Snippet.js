@@ -2,6 +2,7 @@ const CreateCommentSnippetSubView = require('./snippet_subviews/CreateCommentSni
 const CommentsCollectionSubView = require('./snippet_subviews/CommentsCollectionSubView')
 const TagsSubView = require('./snippet_subviews/TagSubView')
 const toastError = require('../helpers/toastConnectionError')
+const messages = require('../../../../tmp/messages.json')
 
 module.exports = Mn.View.extend({
   template: '#container-snippet',
@@ -147,15 +148,15 @@ module.exports = Mn.View.extend({
      *Validate file format and if the data entered is really different from the model
      * */
     this.getUI('card').removeClass('focus');
-    this.getUI('headerInformation').removeClass('hidden-element')
-    this.getUI('headerEditing').addClass('hidden-element')
+    this.getUI('headerInformation').removeClass('hidden-element');
+    this.getUI('headerEditing').addClass('hidden-element');
     this.editor.setOption('readOnly', true);
 
     var filename = this.getUI('filenameInput').val().trim(),
       body = this.editor.getValue(),
       filenameUI = this.getUI('filename'),
       timestampUI = this.getUI('timestamp');
-
+    // TODO: VALIDATION ISSUE
     if (/^[\w,\s-]+\.[A-Za-z]{1,5}$/.test(filename)) {
       if (this.model.get('filename') !== filename || this.model.get('body') !== body) {
         this.model.save({filename:filename, body: body}, {
@@ -171,8 +172,8 @@ module.exports = Mn.View.extend({
     }
     else {
       $.toast({
-        heading: 'Filename is invalid',
-        text: 'Remember to add the file extension: Filename.py',
+        heading: 'Warning',
+        text: 'Remember to add the file extension: Filename.py', // TODO: JSON
         icon: 'warning',
         showHideTransition: 'slide'
       });
@@ -182,7 +183,7 @@ module.exports = Mn.View.extend({
     this.getOption('application').BasicRouter.navigate('user/' + this.current_user.id , {trigger: true});
     $.toast({
       heading: 'Success',
-      text: 'The snippet has was deleted',
+      text: messages['snippet'].delete,
       icon: 'success',
       showHideTransition: 'slide'
     });
@@ -197,8 +198,8 @@ module.exports = Mn.View.extend({
       });
     } else {
       $.toast({
-        heading: 'Ups',
-        text: 'You need loggin for create a like',
+        heading: 'Ups...',
+        text: messages['snippet'].like-without-auth,
         icon: 'info',
         showHideTransition: 'slide'
       });

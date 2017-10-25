@@ -1,0 +1,60 @@
+{
+  "user":
+  {
+    "register": {
+      "success": "You have successfully registered!",
+      "error": "Fill all fields, the password need more that 6 characters"
+    },
+    "login": {
+      "success": "Wait while loading your profile",
+      "error": "Make sure your password and email are correct"
+    },
+    "comment": {
+      "create": "Comment created successfully",
+      "edit": "Your comment has was edited with success",
+      "delete": "The comment has was deleted",
+      "validation": {
+        "textarea": "Write more, lazy"
+      }
+    },
+    "validation": {
+      "name": "Write valid username",
+      "email": "Write valid email",
+      "password": "The password is very tiny"
+    }
+  },
+  "snippet":
+  {
+    "create": "Your snippet was created with success",
+    "edit": "Your snippet was edited with success",
+    "delete": "Your snippet has was deleted",
+    "tag": {
+      "create": "Your tags was created with success"
+    },
+    "validation": {
+      "filename": "Remember to add the file extension: 'Filename.py'",
+      "body": "You need more than 4 characters to create the snippet",
+      "user_id": "The user id need are valid integer"
+    },
+    "like-without-auth": "You need authenticate for create a like"
+  },
+  "proyect":
+  {
+    "create": "Your proyect was created with success",
+    "edit": "Your proyect was edited with success",
+    "delete": "Your proyect has was deleted",
+    "snippet": {
+      "create": "Your snippets was added to the new Proyect"
+    },
+    "validation": {
+      "name": "The length of the name not is valid",
+      "description": "The length of the description not is valid",
+      "user_id": "The user id need are valid integer"
+    },
+    "like-without-auth": "You need authenticate for create a like"
+  },
+  "server-error": {
+    "heading": "There was an error, try later",
+    "text": "Are your sure have internet?"
+  }
+}

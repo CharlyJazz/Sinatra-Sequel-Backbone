@@ -42,7 +42,7 @@ module.exports = Mn.View.extend({
     this.getUI('modal').modal('hide');
   },
   redirectToChoice: function (event) {
-    let choice = $(event.target),
+    var choice = $(event.target),
         router = this.getOption('application').AuthRouter;
     
     if (choice.attr('id') === 'choice-snippet') {

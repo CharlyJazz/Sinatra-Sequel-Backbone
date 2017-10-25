@@ -25,12 +25,12 @@ App.on('before:start', function () {
 });
 
 App.on('start', function() {
-  new ApplicationHeaderView({application: App})
+  new ApplicationHeaderView({application: App});
 
-  this.BasicRouter = new BasicRouterClass(App) // working in this
+  this.BasicRouter = new BasicRouterClass(App); // working in this
 
   if (this.options.permission_level > 0) {
-    this.AuthRouter = new AuthRouterClass(App)
+    this.AuthRouter = new AuthRouterClass(App);
   }
 
   Backbone.history.start()
@@ -44,12 +44,14 @@ Backbone.sync = function (method, model, options) {
    * Check if user is login and get the token
    * If user authenticated send in the header the token
    * */
-  let token = App.current_user.get_token();
+  var token = App.current_user.get_token();
+
   if (token) {
     options.headers = {
       'x-access-token': token
     }
   }
+
   backboneSync(method, model, options);
 };
 

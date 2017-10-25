@@ -26,8 +26,10 @@ describe User do
     end
     context 'update record successfully proccess' do
       before :each do
-        @user = User.new(:name => 'Audrey', :email=>'Audrey@gmail.com',
-                         :password=>'123456', :password_confirmation=>'123456').save
+        @user = User.new(:name => 'Audrey',
+                         :email=>'Audrey@gmail.com',
+                         :password=>'123456',
+                         :password_confirmation=>'123456').save
         @user.update(:name=>'Maxim')
       end
       it 'expect create updated_at value' do
@@ -85,19 +87,29 @@ describe User do
   end
   context 'Using the method named serialize' do
     before :each do
-      
-      @user = User.new(:name=>'charlyjazz', :email=>'charlyjazz@gmail.com',
-                       :password=>'123456', :password_confirmation=>'123456',
+
+      @user = User.new(:name=>'charlyjazz',
+                       :email=>'charlyjazz@gmail.com',
+                       :password=>'123456',
+                       :password_confirmation=>'123456',
                        :image_profile=>'imagen.png').save
-      
-      User.new(:name=>'abcabc', :email=>'abcabc@gmail.com',
-                       :password=>'123456', :password_confirmation=>'123456').save
-      User.new(:name=>'abcabcabc', :email=>'abcabcabc@gmail.com',
-                       :password=>'123456', :password_confirmation=>'123456').save
-      User.new(:name=>'dsadsa', :email=>'dsadsa@gmail.com',
-                       :password=>'123456', :password_confirmation=>'123456').save
-      User.new(:name=>'dsadsadsadsa', :email=>'dsadsadsadsa@gmail.com',
-                       :password=>'123456', :password_confirmation=>'123456').save
+
+      User.new(:name=>'abcabc',
+               :email=>'abcabc@gmail.com',
+               :password=>'123456',
+               :password_confirmation=>'123456').save
+      User.new(:name=>'abcabcabc',
+               :email=>'abcabcabc@gmail.com',
+               :password=>'123456',
+               :password_confirmation=>'123456').save
+      User.new(:name=>'dsadsa',
+               :email=>'dsadsa@gmail.com',
+               :password=>'123456',
+               :password_confirmation=>'123456').save
+      User.new(:name=>'dsadsadsadsa',
+               :email=>'dsadsadsadsa@gmail.com',
+               :password=>'123456',
+               :password_confirmation=>'123456').save
 
       RelationShip.create(:followed_id=>2, :follower_id=>@user.id)
       RelationShip.create(:followed_id=>3, :follower_id=>@user.id)
@@ -111,13 +123,13 @@ describe User do
                     :body=>'Lorem ipsum...',
                     :user_id=>@user.id).save
       }
-      
+
       3.times {
-        @proyect = Proyect.new(:name=>'github', 
+        @proyect = Proyect.new(:name=>'github',
                                :description=>'rails web for git repositories',
                                :user_id=>@user.id).save
       }
-      
+
     end
     let(:json) { JSON.parse(User.serialize @user.id) }
     it 'should the name be equal to charlyjazz' do

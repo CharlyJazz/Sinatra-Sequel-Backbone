@@ -41,8 +41,8 @@ describe Role do
     end
     context 'add role to user' do
       before :each do
-         @role = Role.new(:name=>'admin').save
-         @user = User.new(:name => 'Audrey', :email=>'Audrey@gmail.com', :password=>'123456', :password_confirmation=>'123456').save
+        @role = Role.new(:name=>'admin').save
+        @user = User.new(:name => 'Audrey', :email=>'Audrey@gmail.com', :password=>'123456', :password_confirmation=>'123456').save
       end
       it 'should create role~user relation' do
         Role.add_role_to_user(@role, @user)
@@ -52,9 +52,9 @@ describe Role do
     end
     context 'remove role to user' do
       before :each do
-         @role = Role.new(:name=>'admin').save
-         @user = User.new(:name => 'Audrey', :email=>'Audrey@gmail.com',  :password=>'123456', :password_confirmation=>'123456').save
-         @user.add_role(@role)
+        @role = Role.new(:name=>'admin').save
+        @user = User.new(:name => 'Audrey', :email=>'Audrey@gmail.com',  :password=>'123456', :password_confirmation=>'123456').save
+        @user.add_role(@role)
       end
       it 'should create role~user relation' do
         Role.remove_role_from_user(@role, @user)
@@ -65,8 +65,14 @@ describe Role do
       context 'check if user have a role' do
         before :each do
           @role = Role.new(:name=>'admin').save
-          @user_1 = User.new(:name => 'Audrey', :email=>'Audrey@gmail.com',  :password=>'123456', :password_confirmation=>'123456').save
-          @user_2 = User.new(:name => 'Fernand', :email=>'Fernand@gmail.com',  :password=>'123456', :password_confirmation=>'123456').save
+          @user_1 = User.new(:name => 'Audrey',
+                             :email=>'Audrey@gmail.com',
+                             :password=>'123456',
+                             :password_confirmation=>'123456').save
+          @user_2 = User.new(:name => 'Fernand',
+                             :email=>'Fernand@gmail.com',
+                             :password=>'123456',
+                             :password_confirmation=>'123456').save
           @user_1.add_role(@role)
         end
         it 'should return true' do

@@ -9,11 +9,16 @@ describe LikeProyect do
   context 'special methods' do
     context 'destroy and create like' do
       before(:each) do
-        @user_proyect= User.new(:name => 'Brat', :email=>'Brat@gmail.com',
-                                :password=>'123456', :password_confirmation=>'123456').save
-        @user_liked = User.new(:name => 'Audrey', :email=>'Audrey@gmail.com',
-                               :password=>'123456', :password_confirmation=>'123456').save
-        @proyect = Proyect.new(:name=>'github', :description=>'rails web for git repositories',
+        @user_proyect= User.new(:name => 'Brat',
+                                :email=>'Brat@gmail.com',
+                                :password=>'123456',
+                                :password_confirmation=>'123456').save
+        @user_liked = User.new(:name => 'Audrey',
+                               :email=>'Audrey@gmail.com',
+                               :password=>'123456',
+                               :password_confirmation=>'123456').save
+        @proyect = Proyect.new(:name=>'github',
+                               :description=>'rails web for git repositories',
                                :user_id=>@user_proyect.id).save
       end
       it 'should create like' do

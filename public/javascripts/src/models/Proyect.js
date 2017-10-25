@@ -1,16 +1,18 @@
+const messages = require('../../../../tmp/messages.json')
+
 module.exports = Backbone.Model.extend({
   urlRoot: '/api/proyect/',
   validate: function(attrs, options) {
     if (attrs.name.length < 4 || attrs.name.length > 80) {
-      return 'The length of the name not is valid';
+      return messages['proyect'].name;
     }
 
     if (attrs.description.length < 4 || attrs.description.length > 120) {
-      return 'The length of the description not is valid';
+      return messages['proyect'].description;
     }
 
     if (!_.isNumber(attrs.user_id) || !_.isNumber(parseInt(attrs.user_id))) {
-      return 'The user id need are valid integer';
+      return messages['proyect'].user_id;
     }
   }
 });

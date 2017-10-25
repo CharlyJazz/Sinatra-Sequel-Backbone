@@ -63,7 +63,7 @@ module.exports = Mn.View.extend({
   },
   submitForm: function (event) {
     event.preventDefault();
-    let values = this.getUI('form').serializeArray(),
+    var values = this.getUI('form').serializeArray(),
         dict = {};
 
     if (this.collection) {

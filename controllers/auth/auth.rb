@@ -14,7 +14,7 @@ class AuthController < CoreController
     if @user
       if @user.authenticate params[:password]
         headers = {
-            exp: Time.now.to_i + 60*30 # Expire in 30 minutes
+            exp: Time.now.to_i + 60 * 30 # Expire in 30 minutes
         }
         @token = JWT.encode({user_id: @user.id}, settings.signing_key, 'RS256', headers)
         session['access_token'] = @token

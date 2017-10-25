@@ -2,8 +2,14 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe RelationShip do
   before :each do
-    @user_1 = User.new(:name => 'Audrey', :email=>'Audrey@gmail.com', :password=>'123456', :password_confirmation=>'123456').save
-    @user_2 = User.new(:name => 'Alex', :email=>'Alex@gmail.com', :password=>'123456', :password_confirmation=>'123456').save
+    @user_1 = User.new(:name => 'Audrey',
+                       :email=>'Audrey@gmail.com',
+                       :password=>'123456',
+                       :password_confirmation=>'123456').save
+    @user_2 = User.new(:name => 'Alex',
+                       :email=>'Alex@gmail.com',
+                       :password=>'123456',
+                       :password_confirmation=>'123456').save
   end
   context 'should be the literal table name' do
     it 'expect return true' do

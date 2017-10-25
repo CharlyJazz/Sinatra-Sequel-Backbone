@@ -4,7 +4,7 @@ module CoreAppHelpers
     @token = extract_token
     # Try decode token
     begin
-      payload, header = JWT.decode(@token, settings.verify_key, true)
+      payload, header = JWT.decode(@token, settings.verify_key, true, {:algorithm => 'RS256'})
       @exp = header['exp']
       # Check to see if the exp is set (we don't accept forever tokens)
       if @exp.nil?

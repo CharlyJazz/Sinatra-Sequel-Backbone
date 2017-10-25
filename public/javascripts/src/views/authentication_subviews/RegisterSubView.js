@@ -2,6 +2,7 @@ const validateFormInputClass = require('../../helpers/validateFormInputClass')
 const toastError = require('../../helpers/toastConnectionError')
 const User = require('../../models/User')
 const CurrentUser = require('../../models/CurrentUser')
+const messages = require('../../../../../tmp/messages.json')
 
 module.exports = Mn.View.extend({
   template: '#sub-view-register',
@@ -26,7 +27,7 @@ module.exports = Mn.View.extend({
     'click button#back':       'showFieldsetInformation',
     'click button#submit':     'submitForm',
     'change input#inputFile':  'readUrl',
-    'click button#trigger-image-input': 'triggerFileUpload',
+    'click button#trigger-image-input': 'triggerFileUpload'
   },
   ui: {
     submit: '#submit',
@@ -59,7 +60,7 @@ module.exports = Mn.View.extend({
         input.attr('data-title', 'Current image');
         image_preview.attr('src', e.target.src);
         submit.attr('disabled', false);
-      }
+      };
 
       img.src = this.model.get('image_profile');
     }
@@ -148,8 +149,8 @@ module.exports = Mn.View.extend({
     }
     else {
       $.toast({
-        heading: 'Fill all fields!',
-        text: 'Remember, the password need more that 6 characters',
+        heading: 'Ups...',
+        text: 'Remember, the password need more that 6 characters', // TODO: JSON
         icon: 'info',
         showHideTransition: 'slide'
       })
@@ -181,7 +182,7 @@ module.exports = Mn.View.extend({
         }
         else {
           $.toast({
-            heading: 'Image dimensions not supported',
+            heading: 'Error',
             text: 'Your image should be ' + max_height + ' px wide and '
             + max_height + ' px and ' + max_height + ' long or smaller',
             icon: 'error',
@@ -266,10 +267,10 @@ module.exports = Mn.View.extend({
       submitButton.attr('disabled', false);
     }
   },
-  toastSuccess: function(){
+  toastSuccess: function() {
     $.toast({
-      heading: 'You have successfully registered!',
-      text: 'Now login to access your profile.',
+      heading: 'Sucess',
+      text: messages['user'].register.success,
       icon: 'success',
       showHideTransition: 'slide'
     });

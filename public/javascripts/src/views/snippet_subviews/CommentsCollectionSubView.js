@@ -18,7 +18,7 @@ module.exports = Mn.CollectionView.extend({
     this.parent = options.parent;
     this.modal = undefined;
 
-    let current_user = this.parent.getOption('application').current_user;
+    var current_user = this.parent.getOption('application').current_user;
 
     this.childView = Mn.View.extend({
       template: "#sub-view-comments",
@@ -37,7 +37,7 @@ module.exports = Mn.CollectionView.extend({
     this.collection.fetch();
   },
   toggleModal: function (event) {
-    let id = $(event.currentTarget).data('id'),
+    var id = $(event.currentTarget).data('id'),
         item = this.collection.get(id);
 
     this.parent.showChildView('editModalRegion', new EditModal({

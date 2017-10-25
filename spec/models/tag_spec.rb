@@ -10,7 +10,7 @@ describe 'YAML File' do
   end
 end
 
-context Tag do
+describe Tag do
   it 'should return true' do
     expect(Tag.simple_table).to eq('`tags`')
   end
@@ -20,10 +20,13 @@ context Tag do
   context 'Crud tag' do
     before :each do
       Tag.create(:name=>'javascript', :description=>'language').save
-      @user = User.new(:name => 'Audrey', :email=>'Audrey@gmail.com',
-                       :password=>'123456', :password_confirmation=>'123456').save
+      @user = User.new(:name => 'Audrey',
+                       :email=>'Audrey@gmail.com',
+                       :password=>'123456',
+                       :password_confirmation=>'123456').save
       @snippet = Snippet.new(:filename => 'backbone.js',
-                             :body=>'Lorem ipsum...', :user_id=>@user.id).save
+                             :body=>'Lorem ipsum...',
+                             :user_id=>@user.id).save
     end
     it 'should have tags' do
       expect(Tag.all.count).to be > 0

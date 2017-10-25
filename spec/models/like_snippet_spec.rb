@@ -2,13 +2,20 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe LikeSnippet do
   before :each do
-    @user_have_snippet = User.new(:name => 'SnippetMan', :email=>'SnippetMan@gmail.com',
-                                  :password=>'123456', :password_confirmation=>'123456').save
-    @user_like_1 = User.new(:name => 'Audrey', :email=>'Audrey@gmail.com', :password=>'123456',
+    @user_have_snippet = User.new(:name => 'SnippetMan',
+                                  :email=>'SnippetMan@gmail.com',
+                                  :password=>'123456',
+                                  :password_confirmation=>'123456').save
+    @user_like_1 = User.new(:name => 'Audrey',
+                            :email=>'Audrey@gmail.com',
+                            :password=>'123456',
                             :password_confirmation=>'123456').save
-    @user_like_2 = User.new(:name => 'Alex', :email=>'Alex@gmail.com', :password=>'123456',
+    @user_like_2 = User.new(:name => 'Alex',
+                            :email=>'Alex@gmail.com',
+                            :password=>'123456',
                             :password_confirmation=>'123456').save
-    @snippet = Snippet.new(:filename => 'backbone.js', :body=>'Lorem ipsum...',
+    @snippet = Snippet.new(:filename => 'backbone.js',
+                           :body=>'Lorem ipsum...',
                            :user_id=>@user_have_snippet.id).save
   end
   context 'should be the literal table name' do

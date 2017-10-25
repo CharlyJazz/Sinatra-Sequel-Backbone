@@ -1,7 +1,9 @@
+const messages = require('../../../../tmp/messages.json');
+
 module.exports = function () {
   $.toast({
-    heading: 'There was an error, try later',
-    text: 'Are your sure have internet?',
+    heading: messages['server-error'].heading,
+    text: messages['server-error'].text,
     icon: 'warning',
     showHideTransition: 'slide'
   });

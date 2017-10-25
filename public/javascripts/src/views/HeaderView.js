@@ -31,7 +31,7 @@ module.exports = Mn.View.extend({
     }))
   },
   destroyModalChoice: function() {
-    let regionView = this.getChildView('createModalRegion');
+    var regionView = this.getChildView('createModalRegion');
     regionView.destroy();
   }
-})
+});

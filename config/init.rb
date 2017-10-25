@@ -10,18 +10,17 @@ configure :test do
   set :database, 'sqlite::memory:'
 end
 
+DB = settings.database
 
-Dir["./config/migrations/*.rb"].each{ |model|
-  require model
+DB.extension(:pagination)
+
+Dir['./config/migrations/*.rb'].each { |migration|
+  require migration
 }
 
 Sequel::Model.strict_param_setting = false
 
 
-Dir["./models/*.rb"].each{ |model|
+Dir['./models/*.rb'].each { |model|
   require model
 }
-
-DB = settings.database
-
-DB.extension(:pagination)

@@ -27,10 +27,9 @@ module.exports = Backbone.Collection.extend({
   },
   search: function(letters) {
     if(letters === '') return this;
-    let pattern = new RegExp(letters, 'gi');
+    var pattern = new RegExp(letters, 'gi');
     return _(this.filter(function(data) {
       return pattern.test(data.get('filename'));
     }));
   }
-
 });

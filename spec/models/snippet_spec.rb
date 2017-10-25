@@ -3,8 +3,10 @@ require 'yaml'
 
 describe Snippet do
   before :each do
-    @user = User.new(:name => 'Audrey', :email=>'Audrey@gmail.com',
-                     :password=>'123456', :password_confirmation=>'123456').save
+    @user = User.new(:name => 'Audrey',
+                     :email=>'Audrey@gmail.com',
+                     :password=>'123456',
+                     :password_confirmation=>'123456').save
   end
   context 'should be the literal table name' do
     it 'should return true' do
@@ -13,11 +15,13 @@ describe Snippet do
   end
   context 'create snippet'
   it 'should raise error' do
-    expect{Snippet.new(:filename => 'name', :body=>'Lorem ipsum...',
+    expect{Snippet.new(:filename => 'name',
+                       :body=>'Lorem ipsum...',
                        :user_id=>@user.id).save}.to raise_error(Sequel::ValidationFailed)
   end
   it 'should create' do
-    expect{Snippet.new(:filename => 'name.py', :body=>'Lorem ipsum...',
+    expect{Snippet.new(:filename => 'name.py',
+                       :body=>'Lorem ipsum...',
                        :user_id=>@user.id).save}.to_not raise_error(Sequel::ValidationFailed)
   end
   context 'detected language of a file' do

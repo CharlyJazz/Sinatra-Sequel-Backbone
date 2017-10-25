@@ -32,6 +32,7 @@ the app.rsa and app.rsa.pub were generated with:
 2. Run the command `webpack` for create bundle app file
 3. Create roles with the command `bundle exec rake db:role:create`
 4. Create tags with the command `bundle exec rake db:tag:create`
+4. Populate database with initial data with the command `bundle exec rake db:populate`
 5. Create 2048 bit RSA Key and export the RSA Public Key
 6. Run `bundle exec rackup -p 8000`
 

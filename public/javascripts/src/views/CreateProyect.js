@@ -3,6 +3,7 @@ const Snippets = require('../collections/UserSnippetsCollection')
 const ProyectSnippets = require('../models/ProyectSnippet')
 const SnippetsSubView = require('./create_proyect_subview/SnippetsSubView')
 const toastError = require('../helpers/toastConnectionError')
+const messages = require('../../../../tmp/messages.json')
 
 module.exports = Mn.View.extend({
   template: '#container-create-proyect',
@@ -26,15 +27,17 @@ module.exports = Mn.View.extend({
     'submit @ui.form': 'createProyect'
   },
   modelEvents: {
-    'sync': function() {
+    sync: function() {
       this.showToastCreate();
       if (!this._relationProyectWithSnippets()) {
         this.resetForm();
         this.application.BasicRouter.navigate('proyects/' + this.model.get('id') , {trigger: true});
       }
     },
-    'error': 'showToastError',
-    'invalid': 'showToastInvalid'
+    error: function () {
+      toastError();
+    },
+    invalid: 'showToastInvalid'
   },
   childViewEvents: {
     'snippetWillClose': function() {
@@ -46,7 +49,7 @@ module.exports = Mn.View.extend({
     }
   },
   initialize: function() {
-    this.application = this.getOption('application')
+    this.application = this.getOption('application');
     this.model = new Proyect();
     this.collection = new Snippets([], {
       user_id: this.application.current_user.get('id')
@@ -66,9 +69,6 @@ module.exports = Mn.View.extend({
     });
 
     this.model.save();
-
-    // TODO: Mostrar toast para el sync de los snippets relacionados con el proyecto
-    // TODO: Reset y poner botton que diga `ìr a proyecto creado`
   },
   _relationProyectWithSnippets: function () {
     var snippets_id = _.map(this.collection.where({selected: true}), function(model) {
@@ -115,13 +115,10 @@ module.exports = Mn.View.extend({
   showToastCreate: function () {
     $.toast({
       heading: 'Success!',
-      text: 'Your proyect was created with success',
+      text: messages['proyect'].create,
       icon: 'success',
       showHideTransition: 'slide'
     });
-  },
-  showToastError: function () {
-    toastError();
   },
   showToastSnippets: function () {
     /*
@@ -129,7 +126,7 @@ module.exports = Mn.View.extend({
      * */
     $.toast({
       heading: 'Success!',
-      text: 'Your snippets was added to the new Proyect!',
+      text: messages['proyect'].snippet.create,
       icon: 'success',
       showHideTransition: 'slide'
     });
@@ -138,7 +135,7 @@ module.exports = Mn.View.extend({
     $.toast({
       heading: 'Error!',
       text: error,
-      icon: 'warning',
+      icon: 'error',
       showHideTransition: 'slide'
     });
   },

@@ -3,11 +3,14 @@ const AuthenticationView = require('../views/Authentication')
 const ProfileView = require('../views/Profile')
 const SnippetView = require('../views/Snippet')
 const SnippetsView = require('../views/Snippets')
+const ProyectView = require('../views/Proyect')
 const ProyectsView = require('../views/Proyects')
 const User = require('../models/User')
 const Snippet = require('../models/Snippet')
+const Proyect = require('../models/Proyect')
 const Snippets = require('../collections/Snippets')
 const UserSnippets = require('../collections/UserSnippetsCollection')
+const Proyects = require('../collections/Proyects')
 
 module.exports = function(application) {
   return {
@@ -80,8 +83,40 @@ module.exports = function(application) {
         });
       }
     },
+    userProyectsPage: function(id) {
+
+    },
     proyectsPage: function(id) {
-      application.showView(new ProyectsView());
+      if (typeof(id) === 'object') {
+        application.showView(
+          new ProyectsView({
+            collection: new Proyects([],{
+              page:1
+            })
+          })
+        );
+      }
+      else if (!isNaN(id)) {
+        var proyectModel = new Proyect({id:id});
+        var myView = new ProyectView({
+          model: proyectModel,
+          application: application
+        });
+        proyectModel.on('sync', function() {
+          application.showView(myView);
+        });
+        proyectModel.fetch({
+          error: function () {
+            $.toast({
+              heading: 'Wow!',
+              text: 'This page does not exist',
+              icon: 'error',
+              showHideTransition: 'slide'
+            });
+            Backbone.history.navigate('proyects', {trigger: true});
+          }
+        });
+      }
     }
   }
 };

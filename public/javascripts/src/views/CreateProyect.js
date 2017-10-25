@@ -50,7 +50,7 @@ module.exports = Mn.View.extend({
   },
   initialize: function() {
     this.application = this.getOption('application');
-    this.model = new Proyect();
+    this.model = new Proyect({});
     this.collection = new Snippets([], {
       user_id: this.application.current_user.get('id')
     });

@@ -289,7 +289,7 @@ li.L9 { background: none !important }
   }
 }
 
-.block__snippet {
+.block__snippet, .block__proyect {
   .card {
     transition: box-shadow .3s ease;
 
@@ -383,4 +383,12 @@ li.L9 { background: none !important }
 
 .box_snippet_preview {
   min-height: 32vh;
+}
+
+.block__proyect {
+  text-align: center;
+  
+  > p {
+    text-align: justify;
+  }
 }

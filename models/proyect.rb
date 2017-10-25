@@ -38,7 +38,7 @@ class Proyect < Sequel::Model(:proyects)
     super
     validates_presence [:name, :description]
     validates_max_length 80, :name
-    validates_max_length 120, :description
+    validates_max_length 450, :description
   end
 
   many_to_one :users

@@ -1,7 +1,7 @@
 class LikeSnippet < Sequel::Model(:like_snippets)
   plugin :timestamps
   plugin :json_serializer
-  
+
   def self.destroy_or_create(snippet, user)
     # Return array with boolean and the total the likes of the snippets
     if (@this_like = first(:user_id=>user.id, :snippet_id=>snippet.id)) and @this_like.kind_of? LikeSnippet

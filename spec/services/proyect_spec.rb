@@ -3,9 +3,12 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe Proyect do
   before :each do
     # Create users
-    @user = User.new(:name => 'SnippetMan', :email=>'SnippetMan@gmail.com',
-                     :password=>'123456', :password_confirmation=>'123456').save
-    @proyect = Proyect.new(:name=>'github', :description=>'rails web for git repositories',
+    @user = User.new(:name => 'SnippetMan',
+                     :email=>'SnippetMan@gmail.com',
+                     :password=>'123456',
+                     :password_confirmation=>'123456').save
+    @proyect = Proyect.new(:name=>'github',
+                           :description=>'rails web for git repositories',
                            :user_id=>@user.id).save
   end
   context 'get all proyects' do
@@ -84,9 +87,15 @@ describe Proyect do
   describe 'Snippet functionality' do
     context 'add and remove snippet to proyect' do
       before(:each) do
-        @snippet_1 = Snippet.new(:filename => 'filename1.js', :body=>'Lorem ipsum...', :user_id=>@user.id).save
-        @snippet_2 = Snippet.new(:filename => 'filename2.js', :body=>'Lorem ipsum...', :user_id=>@user.id).save
-        @snippet_3 = Snippet.new(:filename => 'filename3.js', :body=>'Lorem ipsum...', :user_id=>@user.id).save
+        @snippet_1 = Snippet.new(:filename => 'filename1.js',
+                                 :body=>'Lorem ipsum...',
+                                 :user_id=>@user.id).save
+        @snippet_2 = Snippet.new(:filename => 'filename2.js',
+                                 :body=>'Lorem ipsum...',
+                                 :user_id=>@user.id).save
+        @snippet_3 = Snippet.new(:filename => 'filename3.js',
+                                 :body=>'Lorem ipsum...',
+                                 :user_id=>@user.id).save
 
         Proyect.add_snippets(@proyect, [@snippet_1, @snippet_2, @snippet_3])
       end
@@ -117,11 +126,11 @@ describe Proyect do
           expect(JSON.parse(last_response.body)['response']).to eq 'Resources removed: 3'
         end
         context 'delete snippet that does not exist'
-          it 'should ' do
-            delete '/api/proyect/1/snippet/4'
-            expect(JSON.parse(last_response.body)['response']).to eq 'Resource no found'
-          end
+        it 'should ' do
+          delete '/api/proyect/1/snippet/4'
+          expect(JSON.parse(last_response.body)['response']).to eq 'Resource no found'
         end
+      end
       context 'add snippet' do
         before :each do
           3.times { Snippet.new(:filename => 'filename1.js',
@@ -202,6 +211,60 @@ describe Proyect do
         expect(CommentProyect.all.count).to eq 0
         expect(JSON.parse(last_response.body)['response']).to eq('Resources deleted: 3')
       end
+    end
+  end
+  context 'get all likes count of the proyect' do
+    before :each do
+      @user_like_1 = User.new(:name => 'Name1',
+                              :email=>'Name1@gmail.com',
+                              :password=>'123456', :password_confirmation=>'123456').save
+      @user_like_2 = User.new(:name => 'Name2',
+                              :email=>'Name2@gmail.com',
+                              :password=>'123456',
+                              :password_confirmation=>'123456').save
+      @user_like_3 = User.new(:name => 'Name3',
+                              :email=>'Name3@gmail.com',
+                              :password=>'123456', :password_confirmation=>'123456').save
+    end
+    it 'should return 3 likes' do
+      LikeProyect.destroy_or_create(@proyect, @user_like_1)
+      LikeProyect.destroy_or_create(@proyect, @user_like_2)
+      LikeProyect.destroy_or_create(@proyect, @user_like_3)
+
+      get '/api/proyect/1/like'
+
+      expect(JSON.parse(last_response.body)['response']).to eq 'likes count'
+      expect(JSON.parse(last_response.body)['likes']).to eq 3
+      expect(last_response.status).to eq 200
+    end
+
+    it 'should return 0 likes' do
+      get '/api/proyect/1/like'
+
+      expect(JSON.parse(last_response.body)['response']).to eq 'likes count'
+      expect(JSON.parse(last_response.body)['likes']).to eq 0
+      expect(last_response.status).to eq 200
+    end
+  end
+  context 'like and unlike the snippet' do
+    before :each do
+      @user_like = User.new(:name => 'Audrey',
+                            :email=>'Audrey@gmail.com',
+                            :password=>'123456',
+                            :password_confirmation=>'123456').save
+    end
+    it 'should create like and delete like' do
+      post '/api/proyect/1/like/2'
+
+      expect(JSON.parse(last_response.body)['response']).to eq 'like'
+      expect(JSON.parse(last_response.body)['likes']).to eq 1
+      expect(LikeProyect.where(:proyect_id=>@proyect.id, :user_id=>@user_like.id).count).to eq(1)
+
+      post '/api/proyect/1/like/2'
+
+      expect(JSON.parse(last_response.body)['response']).to eq 'unlike'
+      expect(JSON.parse(last_response.body)['likes']).to eq 0
+      expect(LikeProyect.where(:proyect_id=>@proyect.id, :user_id=>@user_like.id).count).to eq(0)
     end
   end
 end

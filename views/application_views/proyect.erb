@@ -1,0 +1,45 @@
+<script type="x-template/underscore" id="container-proyect">
+	<div class="row h-100 justify-content-center align-items-center">
+	
+		<div class="col-lg-8 offset-lg-2 block__proyect">
+
+			<button role="like" type="submit" class="btn-floating green accent-3 my-1 btn-li waves-effect waves-light" id="ui-like-action">
+				<i class="fa fa-star-o"></i>
+			</button>
+
+			<h1>{{=name}}</h1>
+			<hr>
+			<p>{{=description}}</p>
+
+			<span class="float-right snippet_timestamp">
+			{{ if (updated_at.length) { }}
+			{{= jQuery.format.prettyDate(updated_at) }}
+			{{ } else { }}
+			{{= jQuery.format.prettyDate(created_at) }}
+			{{ } }}
+		</span>
+
+		</div>
+
+		{{ if (user_authenticated_is_the_owner(user_id)) { }}
+		
+		{{ } }}
+
+		<div class="col-lg-8 offset-lg-2 mt-2">
+      <button type="button" class="btn btn-li waves-effect waves-light btn-success animate" id="ui-button-toggleForm">
+        <i class="fa fa-pencil right"></i>
+        Write a comment
+      </button>
+      <div class="z-depth-3 mt-2" id="createComment-region"></div>
+		</div>
+
+		<div class="col-lg-8 offset-lg-2 mt-2">
+			<h4>Comments <i class="fa fa-comments"></i></h4>
+			<section id="comments-region"></section>
+		</div>
+
+	</div>
+	
+	<section id="modalEdit-region"></section>
+
+</script>

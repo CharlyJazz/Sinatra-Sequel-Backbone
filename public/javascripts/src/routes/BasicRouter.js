@@ -16,7 +16,11 @@ module.exports = function(application) {
 
       'snippets/:id': 'snippetsPage',
 
-      'proyects': 'proyectsPage'
+      'user/:id/proyects': 'userProyectsPage',
+
+      'proyects': 'proyectsPage',
+
+      'proyects/:id': 'proyectsPage'
     }
   })
 }

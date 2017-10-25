@@ -115,6 +115,21 @@ class ProyectNamespace < TagNamespace
       {:response=>"Resources removed: #{c}"}.to_json
     end
 
+    get '/:id/like' do
+      # Count all likes of proyect
+      proyect = check_if_resource_exist(Proyect, params['id'])
+      likes = LikeProyect.where(:proyect_id=>proyect.id).count
+      {:response=>'likes count', :likes=>likes}.to_json
+    end
+
+    post '/:id/like/:user_id' do
+      # Create or Delete like
+      proyect = check_if_resource_exist(Proyect, params['id'])
+      user = check_if_resource_exist(User, params['user_id'])
+      like = LikeProyect.destroy_or_create(proyect, user)
+      {:response=> like[0] ? 'like' : 'unlike', :likes=>like[1]}.to_json
+    end
+
   end
 
 end

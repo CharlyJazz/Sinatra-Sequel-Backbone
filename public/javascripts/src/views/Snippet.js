@@ -33,7 +33,12 @@ module.exports = Mn.View.extend({
     'click @ui.likeButton': 'toggleLike'
   },
   modelEvents: {
-    'destroy': 'redirectToProfile'
+    'destroy': 'redirectToProfile',
+    'invalid': function(model, error, options) {
+      this.showToastInvalid(model, error, options);
+      this.editor.setValue(model.get('body'));
+      this.getUI('filenameInput').val(model.get('filename'));
+    }
   },
   childViewEvents: {
     'modalIsClose': 'destroyModelView',
@@ -145,7 +150,8 @@ module.exports = Mn.View.extend({
   },
   submitEditSnippet: function () {
     /*
-     *Validate file format and if the data entered is really different from the model
+     * Validate file format and if the 
+     * data entered is really different from the model
      * */
     this.getUI('card').removeClass('focus');
     this.getUI('headerInformation').removeClass('hidden-element');
@@ -153,29 +159,16 @@ module.exports = Mn.View.extend({
     this.editor.setOption('readOnly', true);
 
     var filename = this.getUI('filenameInput').val().trim(),
-      body = this.editor.getValue(),
-      filenameUI = this.getUI('filename'),
-      timestampUI = this.getUI('timestamp');
-    // TODO: VALIDATION ISSUE
-    if (/^[\w,\s-]+\.[A-Za-z]{1,5}$/.test(filename)) {
+        body = this.editor.getValue(),
+        filenameUI = this.getUI('filename'),
+        timestampUI = this.getUI('timestamp');
+
       if (this.model.get('filename') !== filename || this.model.get('body') !== body) {
         this.model.save({filename:filename, body: body}, {
           success: function (model) {
             filenameUI.text(model.get('filename'));
             timestampUI.text(jQuery.format.prettyDate(model.get('updated_at')));
-          },
-          error: function () {
-            toastError();
           }
-        });
-      }
-    }
-    else {
-      $.toast({
-        heading: 'Warning',
-        text: 'Remember to add the file extension: Filename.py', // TODO: JSON
-        icon: 'warning',
-        showHideTransition: 'slide'
       });
     }
   },
@@ -204,5 +197,13 @@ module.exports = Mn.View.extend({
         showHideTransition: 'slide'
       });
     }
+  },
+  showToastInvalid: function (model, error, options) {
+    $.toast({
+      heading: 'Error!',
+      text: error,
+      icon: 'error',
+      showHideTransition: 'slide'
+    });
   }
 });

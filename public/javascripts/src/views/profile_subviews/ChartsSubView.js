@@ -1,10 +1,11 @@
 const Languages = require('../../collections/StatisticLanguages')
 const Frameworks = require('../../collections/StatisticFrameworks')
 const Technologys = require('../../collections/StatisticTechnologys')
+const template = require('../../../../../views/application_sub_views/profile_charts.erb');
 
 module.exports = Mn.View.extend({
   className: 'box-canvas-profile',
-  template: '#sub-view-charts',
+  template: template,
   ui: {
     'progress-bar': '.progress-bar',
     'button-switch-chart': "button[role='btn-chart-type']",

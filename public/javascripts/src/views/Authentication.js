@@ -1,8 +1,9 @@
-const LoginSubView = require('./authentication_subviews/LoginSubView')
-const RegisterSubView = require('./authentication_subviews/RegisterSubView')
+const LoginSubView = require('./authentication_subviews/LoginSubView');
+const RegisterSubView = require('./authentication_subviews/RegisterSubView');
+const template = require('../../../../views/application_views/auth.erb');
 
 module.exports = Mn.View.extend({
-  template: '#container-authentication',
+  template: template,
   regions: {
     form: '#form-region'
   },

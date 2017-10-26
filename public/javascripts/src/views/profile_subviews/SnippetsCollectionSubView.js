@@ -1,4 +1,5 @@
 const Collection = require('../../collections/UserSnippetsCollection')
+const template = require('../../../../../views/application_sub_views/snippet_preview.erb')
 
 module.exports = Mn.CollectionView.extend({
   className: 'row mt-3',
@@ -8,7 +9,7 @@ module.exports = Mn.CollectionView.extend({
   initialize: function() {
     this.user_id = this.options.user_id;
     this.childView = Mn.View.extend({
-      template: '#sub-view-snippet',
+      template: template,
       className: 'col-lg-6'
     });
     this.collection = new Collection([], {

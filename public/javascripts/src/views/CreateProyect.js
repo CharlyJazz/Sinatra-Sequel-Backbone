@@ -4,9 +4,10 @@ const ProyectSnippets = require('../models/ProyectSnippet')
 const SnippetsSubView = require('./create_proyect_subview/SnippetsSubView')
 const toastError = require('../helpers/toastConnectionError')
 const messages = require('../../../../tmp/messages.json')
+const template = require('../../../../views/application_views/create_proyect.erb');
 
 module.exports = Mn.View.extend({
-  template: '#container-create-proyect',
+  template: template,
   _template_snippet: _.template("<li data-id={{=id}}><i class='fa fa-remove ui-snippet-selected'></i>{{=filename}}</li>"),
   regions: {
     snippets: '#region-snippets'

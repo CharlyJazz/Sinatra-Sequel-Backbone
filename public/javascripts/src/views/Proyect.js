@@ -1,5 +1,7 @@
+const template = require('../../../../views/application_views/proyect.erb');
+
 module.exports = Mn.View.extend({
-  template: '#container-proyect',
+  template: template,
   regions: {
     commentsRegion: '#comments-region',
     createCommentRegion: '#createComment-region',

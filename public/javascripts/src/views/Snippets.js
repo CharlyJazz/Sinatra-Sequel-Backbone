@@ -1,7 +1,8 @@
 const Collection = require('./snippets_subviews/SnippetCollectionSubView')
+const template = require('../../../../views/application_views/snippets.erb')
 
 module.exports = Mn.View.extend({
-  template: '#container-snippets',
+  template: template,
   regions: {
     snippetsRegion: '#snippets'
   },

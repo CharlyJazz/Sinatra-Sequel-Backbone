@@ -1,5 +1,3 @@
-<script type="x-template/underscore" id="container-profile">
-
   <div class="row pb-5">
     <div class="col-lg-4">
       <div class="card card-profile-information">
@@ -51,70 +49,3 @@
       <a href="#user/{{=id}}/proyects" id="anchor-popular-proyects">See all</a>
     </div>
   </div>
-
-</script>
-
-<script type="x-template/underscore" id="sub-view-snippet">
-
-  <h4>
-    <span>
-      <a href="#snippets/{{=id}}">{{=filename}}</a>
-      <i class="fa fa-file"></i>
-      <small>{{=jQuery.format.prettyDate(created_at)}}</small>
-    </span>
-    <span class="float-right">
-      <i class="fa fa-comments"></i> {{=comment_count}}
-      <i class="fa fa-heart-o"></i> {{=like_count}}
-    </span>
-  </h4>
-  <pre class="prettyprint linenums height-pretty"><code>{{= _.escape(body)}}</code></pre>
-</script>
-
-
-<script type="x-template/underscore" id="sub-view-proyect">
-
-  <div class="card">
-    <div class="card-body">
-      <div class="card-header">
-        <a href="#proyects/{{=id}}">{{=name}}</a>
-        <span class="float-right">
-            <small>{{= jQuery.format.prettyDate(created_at) }}</small>
-            <i class="fa fa-comments"></i> {{=comment_count}}
-            <i class="fa fa-heart-o"></i> {{=like_count}}
-          </span>
-      </div>
-      <div class="card-footer">
-        <h6>{{=description}}</h6>
-      </div>
-    </div>
-  </div>
-
-</script>
-
-<script type="x-template/underscore" id="sub-view-charts">
-
-  <div class="progress">
-    <div class="progress-bar" role="progressbar"
-         aria-valuenow="0"
-         aria-valuemin="0"
-         aria-valuemax="1">
-    </div>
-  </div>
-  <div style="position: relative; height: 22vw">
-    <canvas class="profile-chart"></canvas>
-  </div>
-  <div class="btn-group float-right mt-2" role="group" aria-label="Buttons chart">
-    <button type="button" class="btn btn-secondary btn-sm" role="btn-chart-type" data-chart="languages">
-      Languages
-    </button>
-
-    <button type="button" class="btn btn-secondary btn-sm" role="btn-chart-type" data-chart="frameworks">
-      Frameworks
-    </button>
-
-    <button type="button" class="btn btn-secondary btn-sm" role="btn-chart-type" data-chart="technologys">
-      Technologys
-    </button>
-  </div>
-
-</script>

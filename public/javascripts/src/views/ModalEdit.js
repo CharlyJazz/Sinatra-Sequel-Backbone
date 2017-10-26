@@ -1,3 +1,5 @@
+const template = require('../../../../views/application_modals/edit_modal.erb');
+
 module.exports = Mn.View.extend({
   /*
    * This modal if a multi use view
@@ -16,7 +18,7 @@ module.exports = Mn.View.extend({
    *   - type: Input type
    *   - value: Value of input
    * */
-  template: '#modal-edit',
+  template: template,
   ui: {
     modal: '.modal',
     form: 'form#ui-form'

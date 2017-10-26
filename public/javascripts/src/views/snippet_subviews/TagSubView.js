@@ -1,8 +1,9 @@
 const Collection = require('../../collections/SnippetsTags')
 const TagCollection = require('../../collections/Tags')
+const template = require('../../../../../views/application_sub_views/tags_snippet.erb');
 
 module.exports = Mn.View.extend({
-  template: '#sub-view-tags-snippet',
+  template: template,
   className: 'mt-2 block__tags__snippet',
   ui: {
     input: 'input#tags',

@@ -6,6 +6,8 @@
 *tmp/tag.backup.yml
 
 .idea/*
+node_modules/*
+package-lock.json
 
 
 Gemfile.lock

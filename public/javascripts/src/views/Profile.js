@@ -1,9 +1,10 @@
 const ProyectsCollectionSubView = require('./profile_subviews/ProyectsCollectionSubView')
 const SnippetsCollectionSubView = require('./profile_subviews/SnippetsCollectionSubView')
 const ChartsSubView = require('./profile_subviews/ChartsSubView')
+const template = require('../../../../views/application_views/profile.erb');
 
 module.exports = Mn.View.extend({
-  template: '#container-profile',
+  template: template,
   regions: {
     snippetsRegion: '#snippets-region',
     proyectsRegion: '#proyects-region',

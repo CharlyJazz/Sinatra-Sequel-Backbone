@@ -1,5 +1,7 @@
+const template = require('../../../../views/application_modals/create_modal.erb');
+
 module.exports = Mn.View.extend({
-  template: '#modal-create',
+  template: template,
   events:{
     'mouseover @ui.choice_snippet': 'switchDescription',
     'mouseover @ui.choice_proyect': 'switchDescription',

@@ -1,8 +1,9 @@
-const AuthRouterClass = require('../../routes/AuthRouter')
-const messages = require('../../../../../tmp/messages.json')
+const AuthRouterClass = require('../../routes/AuthRouter');
+const messages = require('../../../../../tmp/messages.json');
+const template = require('../../../../../views/application_sub_views/login.erb');
 
 module.exports = Mn.View.extend({
-  template: '#sub-view-login',
+  template: template,
   className: 'col-lg-6 offset-lg-3',
   regions: {
     login: '#login-region'

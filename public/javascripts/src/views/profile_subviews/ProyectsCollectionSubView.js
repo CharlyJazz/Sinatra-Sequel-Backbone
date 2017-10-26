@@ -1,4 +1,5 @@
 const Collection = require('../../collections/UserProyectsCollection')
+const template = require('../../../../../views/application_sub_views/proyect_preview.erb')
 
 module.exports = Mn.CollectionView.extend({
   className: 'row mt-3',
@@ -8,7 +9,7 @@ module.exports = Mn.CollectionView.extend({
   initialize: function() {
     this.user_id = this.options.user_id;
     this.childView = Mn.View.extend({
-      template: '#sub-view-proyect',
+      template: template,
       className: 'col-lg-4 mb-3'
     });
     this.collection = new Collection([], {

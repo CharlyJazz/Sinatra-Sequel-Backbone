@@ -1,5 +1,6 @@
 const Collection = require('../../collections/CommentsSnippet')
 const EditModal = require('../ModalEdit')
+const template = require('../../../../../views/application_sub_views/comment.erb');
 
 module.exports = Mn.CollectionView.extend({
   className: 'row mt-3',
@@ -21,7 +22,7 @@ module.exports = Mn.CollectionView.extend({
     var current_user = this.parent.getOption('application').current_user;
 
     this.childView = Mn.View.extend({
-      template: "#sub-view-comments",
+      template: template,
       className: 'col-lg-12',
       templateContext: function() {
         return {

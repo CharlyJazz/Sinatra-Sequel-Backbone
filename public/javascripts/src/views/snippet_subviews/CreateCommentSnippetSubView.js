@@ -1,7 +1,8 @@
 const messages = require('../../../../../tmp/messages.json')
+const template = require('../../../../../views/application_sub_views/comment_form.erb');
 
 module.exports = Mn.View.extend({
-  template: '#sub-view-create-comment',
+  template: template,
   className: 'row',
   ui: {
     submit: '#submit',

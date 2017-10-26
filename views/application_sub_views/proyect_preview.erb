@@ -1,0 +1,15 @@
+<div class="card">
+<div class="card-body">
+  <div class="card-header">
+    <a href="#proyects/{{=id}}">{{=name}}</a>
+    <span class="float-right">
+        <small>{{= jQuery.format.prettyDate(created_at) }}</small>
+        <i class="fa fa-comments"></i> {{=comment_count}}
+        <i class="fa fa-heart-o"></i> {{=like_count}}
+      </span>
+  </div>
+  <div class="card-footer">
+    <h6>{{=description}}</h6>
+  </div>
+</div>
+</div>

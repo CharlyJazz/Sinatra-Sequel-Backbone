@@ -1,0 +1,25 @@
+{
+  "name": "sinatra-sequel-backbone",
+  "version": "1.0.0",
+  "description": "**Sinatra + Sequel + Backbone = :heart:**",
+  "main": "webpack.config.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "underscore-template-loader": "^0.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CharlyJazz/Sinatra-Sequel-Backbone.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CharlyJazz/Sinatra-Sequel-Backbone/issues"
+  },
+  "homepage": "https://github.com/CharlyJazz/Sinatra-Sequel-Backbone#readme"
+}

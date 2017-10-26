@@ -1,11 +1,12 @@
-const validateFormInputClass = require('../../helpers/validateFormInputClass')
-const toastError = require('../../helpers/toastConnectionError')
-const User = require('../../models/User')
-const CurrentUser = require('../../models/CurrentUser')
-const messages = require('../../../../../tmp/messages.json')
+const validateFormInputClass = require('../../helpers/validateFormInputClass');
+const toastError = require('../../helpers/toastConnectionError');
+const User = require('../../models/User');
+const CurrentUser = require('../../models/CurrentUser');
+const messages = require('../../../../../tmp/messages.json');
+const template = require('../../../../../views/application_sub_views/register.erb');
 
 module.exports = Mn.View.extend({
-  template: '#sub-view-register',
+  template: template,
   className: 'col-lg-6 offset-lg-3',
   _username_preview: _.template('Username: <strong>{{= username }}</strong>'),
   _email_preview: _.template('Email: <strong>{{= email }}</strong>'),

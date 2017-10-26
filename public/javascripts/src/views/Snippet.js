@@ -3,9 +3,10 @@ const CommentsCollectionSubView = require('./snippet_subviews/CommentsCollection
 const TagsSubView = require('./snippet_subviews/TagSubView')
 const toastError = require('../helpers/toastConnectionError')
 const messages = require('../../../../tmp/messages.json')
+const template = require('../../../../views/application_views/snippet.erb')
 
 module.exports = Mn.View.extend({
-  template: '#container-snippet',
+  template: template,
   regions: {
     commentsRegion: '#comments-region',
     createCommentRegion: '#createComment-region',

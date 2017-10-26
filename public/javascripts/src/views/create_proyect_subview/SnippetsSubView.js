@@ -1,3 +1,5 @@
+const template = require('../../../../../views/application_sub_views/search_snippets.erb');
+
 module.exports = Mn.View.extend({
   /*
   * Sub View for search and add snippets to proyect
@@ -6,7 +8,7 @@ module.exports = Mn.View.extend({
   *   when no added: fa-plus
   *   when added: fa-remove
   * */
-  template: '#sub-view-proyect-snippets',
+  template: template,
   _template_snippet: _.template("<li data-id={{=id}}><i class='fa fa-{{=icon}}'></i>{{=filename}}</li>"),
   ui: {
     search: 'input#search',

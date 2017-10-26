@@ -1,0 +1,30 @@
+{{ if (permission_level === 0) { }}
+<div class="col-lg-12 p-2">
+  <div class="text-center">
+    <a class="btn btn-primary waves-effect waves-light" href="#auth">You need login for comment</a>
+  </div>
+</div>
+{{ } else { }}
+<div class="col-lg-2">
+  <img class="img-fluid ml-1 mt-3" src="{{=image_profile}}" width="300">
+</div>
+<div class="col-lg-10">
+  <form>
+    <div class="md-form mt-2 mb-2">
+      <input type="number" id="line-number" class="w-25" min="1">
+      <i class="fa fa-times-circle" id="ui-button-hide-line-number"></i>
+      <label for="line-number">Line number</label>
+    </div>
+    <div class="md-form mt-2 mb-2 ">
+      <input type="text" id="title-comment" class="w-75" maxlength="24">
+      <i class="fa fa-times-circle" id="ui-button-hide-title"></i>
+      <label for="title-comment">Comment header</label>
+    </div>
+    <div class="md-form mt-2">
+      <textarea type="text" id="textarea-comment" class="md-textarea w-75" maxlength="120"></textarea>
+      <label for="textarea-comment">Your comment</label>
+    </div>
+    <button class="btn btn-primary waves-effect waves-light" id="submit" type="submit">Submit</button>
+  </form>
+</div>
+{{ } }}

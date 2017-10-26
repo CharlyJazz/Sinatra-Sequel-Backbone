@@ -1,0 +1,26 @@
+<div class="media mb-1 block__comment">
+<a class="media-left waves-light comment_picture">
+  <img class="rounded-circle" src="{{=user_picture}}">
+</a>
+<div class="media-body comment_content">
+  <h4 class="media-heading comment_username"><a href="#user/{{=user_id}}">{{=user_name}}</a></h4>
+  <h2 class="comment_title">{{=title}}
+    <small class="comment_created_at"><i class="fa fa-clock-o"></i>
+      {{= jQuery.format.prettyDate(created_at) }}
+    </small>
+  </h2>
+  <p class="comment_body">
+
+    {{ if (line_code) { }}
+    <button class="get_line_code">{{=line_code}}</button>
+    {{ } }}
+
+    {{=body}}
+  </p>
+
+  {{ if (user_authenticated_is_the_owner(user_id)) { }}
+  <button class="ui-edit-comment" data-id="{{= id }}"><i class="fa fa-edit"></i></button>
+  <button class="ui-delete" data-id="{{= id }}"><i class="fa fa-trash-o"></i></button>
+  {{ } }}
+</div>
+</div>

@@ -44,6 +44,16 @@ class Proyect < Sequel::Model(:proyects)
   many_to_one :users
   one_to_many :proyect_has_snippet
   one_to_many :like_proyects
-  one_to_many :comment_proyects
-  
+  one_to_many :comment_proyects,
+              dataset: proc{CommentProyect.where({:proyect_id=>self.pk}).
+                  join(:users, id: :user_id).select(
+                      Sequel[:users][:name].as(:user_name),
+                      Sequel[:users][:image_profile].as(:user_picture),
+                      Sequel[:users][:id].as(:user_id),
+                      Sequel[:comment_proyects][:id],
+                      Sequel[:comment_proyects][:created_at],
+                      Sequel[:comment_proyects][:updated_at],
+                      :body
+                  )
+              }
 end

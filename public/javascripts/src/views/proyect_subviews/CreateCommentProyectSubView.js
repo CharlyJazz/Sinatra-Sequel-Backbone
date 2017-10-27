@@ -9,13 +9,9 @@ module.exports = Mn.View.extend({
     form: 'form',
     buttonHideTitleInput: '#ui-button-hide-title',
     buttonHideLineNumberInput: '#ui-button-hide-line-number',
-    numberInput: '#line-number',
-    titleInput: '#title-comment',
     textarea: '#textarea-comment'
   },
   events: {
-    'click @ui.buttonHideTitleInput': 'toggleDisabledInput',
-    'click @ui.buttonHideLineNumberInput': 'toggleDisabledInput',
     'click @ui.submit': 'createComment'
   },
   templateContext: function() {
@@ -27,16 +23,8 @@ module.exports = Mn.View.extend({
     return {
       image_profile: this.current_user.get('image_profile'),
       permission_level: this.current_user.get('permission_level'),
-      comment_type: 'snippet'
+      comment_type: 'proyect'
     }
-  },
-  onRender: function () {
-    /*
-     * Add value to max attr of line number input
-     * */
-    this.getUI('numberInput').attr('max',
-      this.getOption('editor_line_count')
-    );
   },
   initialize: function () {
     this.current_user = this.getOption('current_user');
@@ -44,12 +32,9 @@ module.exports = Mn.View.extend({
   },
   createComment: function () {
     /*
-     * Check if the title or number input are disable
      * Validate comment, save and add to Collection View
      * */
     var text_area_value = this.getUI('textarea').val(),
-        titleInput = this.getUI('titleInput'),
-        numberInput = this.getUI('numberInput'),
         submit = this.getUI('submit'),
         dict = {};
     submit.attr('disabled', true);
@@ -65,14 +50,6 @@ module.exports = Mn.View.extend({
       dict.user_id = this.current_user.get('id');
       dict.user_name = this.current_user.get('name');
       dict.user_picture = this.current_user.get('image_profile');
-      if (!titleInput.parent('div').hasClass('input-parent-visibility-hidden')
-        && !$.trim(titleInput.val()) === false) {
-        dict.title = titleInput.val();
-      }
-      if (!numberInput.parent('div').hasClass('input-parent-visibility-hidden')
-        && !$.trim(numberInput.val()) === false) {
-        dict.line_code = numberInput.val();
-      }
       /**
        * Prevent Bug with wait true
        * https://stackoverflow.com/questions/11659012/how-to-get-the-id-when-i-create-a-save-a-new-model
@@ -99,17 +76,5 @@ module.exports = Mn.View.extend({
       icon: 'success',
       showHideTransition: 'slide'
     });
-  },
-  toggleDisabledInput: function (event) {
-    // Toggle show / hidden input parent node except the button
-    var target = $(event.target),
-        targetParentNode = $(event.target.previousSibling.parentNode);
-    if (target.hasClass('fa-plus-circle')) {
-      $(targetParentNode).removeClass('input-parent-visibility-hidden');
-      target.removeClass('fa-plus-circle').addClass('fa-times-circle')
-    } else {
-      $(targetParentNode).addClass('input-parent-visibility-hidden');
-      target.addClass('fa-plus-circle').removeClass('fa-times-circle')
-    }
   }
 });

@@ -79,7 +79,6 @@ module.exports = Mn.View.extend({
   },
   renderComments: function () {
     this.showChildView('commentsRegion', new CommentsCollectionSubView({
-      modelParent: 'snippet',
       idParent: this.snippet_id,
       parent: this
     }));

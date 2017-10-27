@@ -1,9 +1,9 @@
-const Model = require('../models/CommentSnippet')
+const Model = require('../models/CommentProyect')
 
 module.exports = Backbone.Collection.extend({
   model: Model,
   url: function() {
-    return  '/api/snippet/' + this.idParent + '/comment'
+    return  '/api/proyect/' + this.idParent + '/comment'
   },
   initialize: function (models, options) {
     this.idParent = options.idParent;

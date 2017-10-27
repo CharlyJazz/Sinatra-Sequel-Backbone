@@ -1,4 +1,8 @@
-const template = require('../../../../views/application_views/proyect.erb');
+const CreateCommentProyectSubView = require('./proyect_subviews/CreateCommentProyectSubView')
+const CommentsCollectionSubView = require('./proyect_subviews/CommentsCollectionSubView')
+const toastError = require('../helpers/toastConnectionError')
+const messages = require('../../../../tmp/messages.json')
+const template = require('../../../../views/application_views/proyect.erb')
 
 module.exports = Mn.View.extend({
   template: template,
@@ -9,10 +13,12 @@ module.exports = Mn.View.extend({
     snippetsRegion: '#snippets-region'
   },
   ui: {
-    likeButton: '#ui-like-action'
+    likeButton: '#ui-like-action',
+    buttonWriteComment: '#ui-button-toggleForm',
   },
   events: {
-    'click @ui.likeButton': 'toggleLike'
+    'click @ui.likeButton': 'toggleLike',
+    'click @ui.buttonWriteComment': 'toggleRenderFormComment'    
   },
   modelEvents: {
     'destroy': 'redirectToProfile',
@@ -38,9 +44,26 @@ module.exports = Mn.View.extend({
   },
   onRender: function () {
     this.renderLikes();
+    this.renderSnippets();
+    this.renderComments();
+  },
+  destroyCommentView: function () {
+    this.getUI('buttonWriteComment')
+      .addClass('right')
+      .removeClass('left btn-warning')
+      .html('<i class="fa fa-pencil"></i> Write a comment');
+
+    var regionView = this.getChildView('createCommentRegion');
+    regionView.destroy();
+  },
+  renderComments: function () {
+    this.showChildView('commentsRegion', new CommentsCollectionSubView({
+      idParent: this.proyect_id,
+      parent: this
+    }));
   },
   renderSnippets: function () {
-
+    return false;
   },
   renderLikes: function () {
     var button = this.getUI('likeButton');
@@ -72,6 +95,35 @@ module.exports = Mn.View.extend({
         icon: 'info',
         showHideTransition: 'slide'
       });
+    }
+  },
+  toggleRenderFormComment: function () {
+    var regionView = this.getChildView('createCommentRegion');
+
+    if (regionView) {
+
+      this.getUI('buttonWriteComment')
+        .addClass('right')
+        .removeClass('left btn-warning')
+        .html('<i class="fa fa-pencil"></i> Write a comment');
+
+      regionView.destroy();
+
+    } else {
+
+      this.getUI('buttonWriteComment')
+        .addClass('left btn-warning')
+        .removeClass('right')
+        .html('<i class="fa fa-window-close"></i> Cancel');
+
+      this.showChildView('createCommentRegion',
+        new CreateCommentProyectSubView({
+          proyect_id: this.model.get('id'),
+          collection_comment: this.getChildView('commentsRegion').collection,
+          current_user: this.current_user
+        })
+      );
+
     }
   },
   showToastInvalid: function (model, error, options) {

@@ -1,4 +1,4 @@
-const Collection = require('../../collections/CommentsSnippet')
+const Collection = require('../../collections/CommentsProyect')
 const EditModal = require('../ModalEdit')
 const template = require('../../../../../views/application_sub_views/comment.erb');
 
@@ -29,7 +29,7 @@ module.exports = Mn.CollectionView.extend({
           user_authenticated_is_the_owner: function(id_user) {
             return current_user.is_authenticated() && current_user.get('id') == id_user
           },
-          comment_type: 'snippet'
+          comment_type: 'proyect'
         }
       }
     });
@@ -48,28 +48,12 @@ module.exports = Mn.CollectionView.extend({
       title: 'Edit your comment',
       fields: [
         {
-          name: 'title',
-          label: 'The title',
-          value: item.get('title'),
-          type: 'text',
-          max: 120,
-          required: false
-        },
-        {
           name:'body',
           label: 'The text body',
           value: item.get('body'),
           type: 'textarea',
-          max: 24,
+          max: 450,
           required: true
-        },
-        {
-          name: 'line_code',
-          label: 'The line in the code editor',
-          value: item.get('line_code'),
-          type: 'number',
-          max: this.parent.editor.lineCount(),
-          required: false
         }
       ]
     }));

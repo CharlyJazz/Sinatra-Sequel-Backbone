@@ -27,6 +27,14 @@ describe CommentProyect do
     it 'should create' do
       expect(CommentProyect.where(:proyect_id=>@proyect.id).count).to eq(1)
     end
+    context 'get name of creator of the comment' do
+      it 'should name equal to Audrey' do
+        expect(Proyect[@proyect.id].comment_proyects.count).to eq 1
+        expect(Proyect[@proyect.id].comment_proyects[0].values).to include(:user_name)
+        expect(Proyect[@proyect.id].comment_proyects[0].values).to include(:user_picture)
+        expect(Proyect[@proyect.id].comment_proyects[0].values).to include(:user_id)
+      end
+    end
     context 'delete comment' do
       let(:comment) {CommentProyect.first(:body=>'Sad coding lorem ipsum',
                                           :proyect_id=>@proyect.id)}

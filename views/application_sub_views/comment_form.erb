@@ -10,6 +10,7 @@
 </div>
 <div class="col-lg-10">
   <form>
+    {{ if (comment_type == 'snippet') { }}
     <div class="md-form mt-2 mb-2">
       <input type="number" id="line-number" class="w-25" min="1">
       <i class="fa fa-times-circle" id="ui-button-hide-line-number"></i>
@@ -20,6 +21,7 @@
       <i class="fa fa-times-circle" id="ui-button-hide-title"></i>
       <label for="title-comment">Comment header</label>
     </div>
+    {{ } }}
     <div class="md-form mt-2">
       <textarea type="text" id="textarea-comment" class="md-textarea w-75" maxlength="120"></textarea>
       <label for="textarea-comment">Your comment</label>

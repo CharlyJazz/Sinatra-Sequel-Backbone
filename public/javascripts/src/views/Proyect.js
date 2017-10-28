@@ -1,5 +1,6 @@
 const CreateCommentProyectSubView = require('./proyect_subviews/CreateCommentProyectSubView')
 const CommentsCollectionSubView = require('./proyect_subviews/CommentsCollectionSubView')
+const SnippetsCollectionSubView = require('./proyect_subviews/SnippetsCollectionSubView')
 const toastError = require('../helpers/toastConnectionError')
 const messages = require('../../../../tmp/messages.json')
 const template = require('../../../../views/application_views/proyect.erb')
@@ -14,7 +15,7 @@ module.exports = Mn.View.extend({
   },
   ui: {
     likeButton: '#ui-like-action',
-    buttonWriteComment: '#ui-button-toggleForm',
+    buttonWriteComment: '#ui-button-toggleForm'
   },
   events: {
     'click @ui.likeButton': 'toggleLike',
@@ -63,7 +64,10 @@ module.exports = Mn.View.extend({
     }));
   },
   renderSnippets: function () {
-    return false;
+    this.showChildView('snippetsRegion', new SnippetsCollectionSubView({
+      idParent: this.proyect_id,
+      parent: this
+    }));
   },
   renderLikes: function () {
     var button = this.getUI('likeButton');
@@ -91,7 +95,7 @@ module.exports = Mn.View.extend({
     } else {
       $.toast({
         heading: 'Ups...',
-        text: messages['proyect'].like-without-auth,
+        text: messages['proyect']['like-without-auth'],
         icon: 'info',
         showHideTransition: 'slide'
       });

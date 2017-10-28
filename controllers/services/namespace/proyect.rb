@@ -5,10 +5,16 @@ class ProyectNamespace < TagNamespace
   helpers ServicesHelpers
 
   namespace '/proyect' do
-  
+
     get '/' do
       # Read all proyect
-      Proyect.all.to_json
+      DB.fetch("SELECT proyects.*,
+          (SELECT COUNT(comment_proyects.id)
+           FROM comment_proyects WHERE comment_proyects.proyect_id = proyects.id) AS comment_count,
+          (SELECT COUNT(like_proyects.id)
+           FROM like_proyects WHERE like_proyects.proyect_id = proyects.id) AS like_count
+        FROM proyects
+          ORDER BY comment_count DESC").all.to_json
     end
 
     get '/:id' do
@@ -43,7 +49,7 @@ class ProyectNamespace < TagNamespace
     end
 
     get '/:id/comment' do
-      # Read Comments of snippet
+      # Read Comments of proyect
       check_if_resource_exist(Proyect, params[:id]).comment_proyects.to_json
     end
 

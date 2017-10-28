@@ -192,7 +192,7 @@ module.exports = Mn.View.extend({
     } else {
       $.toast({
         heading: 'Ups...',
-        text: messages['snippet'].like-without-auth,
+        text: messages['snippet']['like-without-auth'],
         icon: 'info',
         showHideTransition: 'slide'
       });

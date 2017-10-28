@@ -8,14 +8,12 @@ class SnippetNamespace < ProyectNamespace
 
     get '/' do
       # Read all snippets
-      if params[:page] && !params[:page].empty? && !params[:page].nil?
-        unless /\A\d+\z/.match(params[:page])
-          halt 422, {:response=>'The page parameter is invalid'}.to_json
-        end
-        page = Snippet.dataset.paginate(params[:page].to_i, 4)
-        page.count == 0 ? halt(404) : halt(200, page.to_json)
-      end
-      Snippet.all.to_json
+      DB.fetch("SELECT snippets.*,
+        (SELECT COUNT(comment_snippets.id)
+          FROM comment_snippets WHERE comment_snippets.snippet_id = snippets.id) AS comment_count,
+        (SELECT COUNT(like_snippets.id)
+          FROM like_snippets WHERE like_snippets.snippet_id = snippets.id) AS like_count
+      FROM snippets ORDER BY comment_count DESC").all.to_json
     end
 
     get '/:id' do

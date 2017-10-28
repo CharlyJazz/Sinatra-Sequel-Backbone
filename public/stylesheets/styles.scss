@@ -401,6 +401,10 @@ li.L9 { background: none !important }
   position: relative
 }
 
+ul.collection {
+  padding: 0;
+}
+
 .collection .collection-item {
   display: block;
   -webkit-transition: .25s;
@@ -480,4 +484,10 @@ span.badge {
   float: right;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+
+  .fa-remove {
+    color: #AF2018;
+    cursor: pointer;
+  }
 }
+

@@ -86,15 +86,6 @@ class UserNamespace < SnippetNamespace
 
       user  = check_if_resource_exist(User, params[:id])
 
-      # Check if pagination is required
-      if params[:page] && !params[:page].empty? && !params[:page].nil?
-        unless /\A\d+\z/.match(params[:page])
-          halt 422, {:response=>'The page parameter is invalid'}.to_json
-        end
-        page = Snippet.where(:user_id=>user.id).paginate(params[:page].to_i, 4)
-        page.count == 0 ? halt(404) : halt(200, page.to_json)
-      end
-
       DB.fetch("SELECT snippets.*,
           (SELECT COUNT(comment_snippets.id)
             FROM comment_snippets WHERE comment_snippets.snippet_id = snippets.id) AS comment_count,

@@ -9,12 +9,11 @@ class ProyectNamespace < TagNamespace
     get '/' do
       # Read all proyect
       DB.fetch("SELECT proyects.*,
-          (SELECT COUNT(comment_proyects.id)
-           FROM comment_proyects WHERE comment_proyects.proyect_id = proyects.id) AS comment_count,
-          (SELECT COUNT(like_proyects.id)
-           FROM like_proyects WHERE like_proyects.proyect_id = proyects.id) AS like_count
-        FROM proyects
-          ORDER BY comment_count DESC").all.to_json
+        (SELECT COUNT(comment_proyects.id)
+          FROM comment_proyects WHERE comment_proyects.proyect_id = proyects.id) AS comment_count,
+        (SELECT COUNT(like_proyects.id)
+          FROM like_proyects WHERE like_proyects.proyect_id = proyects.id) AS like_count
+        FROM proyects ORDER BY comment_count DESC").all.to_json
     end
 
     get '/:id' do
@@ -85,8 +84,20 @@ class ProyectNamespace < TagNamespace
     end
 
     get '/:id/snippet' do
-      # All snippet of proyect
-      Proyect.get_snippets(check_if_resource_exist(Proyect, params[:id])).to_json
+      # All snippets of proyect proyect_has_snippet
+
+      proyect = check_if_resource_exist(Proyect, params[:id])
+
+      DB.fetch("SELECT snippets.*,
+          (SELECT COUNT(comment_snippets.id)
+            FROM comment_snippets WHERE comment_snippets.snippet_id = snippets.id) AS comment_count,
+          (SELECT COUNT(like_snippets.id)
+            FROM like_snippets WHERE like_snippets.snippet_id = snippets.id) AS like_count
+          FROM snippets, proyect_has_snippet, proyects
+            WHERE snippets.id = proyect_has_snippet.snippet_id
+              AND proyect_has_snippet.proyect_id = #{proyect.id}
+              AND proyects.id = #{proyect.id}
+            ORDER BY comment_count DESC").all.to_json
     end
 
     post '/:id/snippet/:id_snippet' do

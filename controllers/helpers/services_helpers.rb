@@ -55,7 +55,7 @@ module ServicesHelpers
     params['$limit'] && /\A\d+\z/.match(params['$limit'])
   end
   def get_sql_limit(params)
-      return '' unless param_is_number(params)
-      "LIMIT #{params['$limit']}"
+    return '' unless param_is_number(params)
+    "LIMIT #{params['$limit']}"
   end
 end

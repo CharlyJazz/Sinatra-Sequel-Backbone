@@ -1,7 +1,8 @@
-const Languages = require('../../collections/StatisticLanguages')
-const Frameworks = require('../../collections/StatisticFrameworks')
-const Technologys = require('../../collections/StatisticTechnologys')
+const StatisticCollection = require('../../collections/StatisticTags')
 const template = require('../../../../../views/application_sub_views/profile_charts.erb');
+const Languages = StatisticCollection('languages')
+const Frameworks = StatisticCollection('frameworks')
+const Technologys = StatisticCollection('technologys')
 
 module.exports = Mn.View.extend({
   className: 'box-canvas-profile',

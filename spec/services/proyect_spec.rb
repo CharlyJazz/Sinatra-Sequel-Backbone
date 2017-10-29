@@ -151,6 +151,33 @@ describe Proyect do
 
           expect(JSON.parse(last_response.body).count).to eq 3
         end
+        context 'Check correct count of comments and likes of the snippets' do
+          before :each do
+            @user_comment = User.new(:name => 'Audrey',
+                                     :email=>'Audrey@gmail.com',
+                                     :image_profile=>'img.png',
+                                     :password=>'123456',
+                                     :password_confirmation=>'123456').save
+            @user_like = User.new(:name => 'Charly',
+                                  :email=>'Charly@gmail.com',
+                                  :image_profile=>'img.png',
+                                  :password=>'123456',
+                                  :password_confirmation=>'123456').save
+          end
+          it 'the first snippet have two comments and 2 likes' do
+            2.times {
+              @user_like.add_like_snippet(:snippet_id=>@snippet_1.id)
+              @user_comment.add_comment_snippet(:title=>'The sad code',
+                                                :body=>'Sad', :line_code=>2,
+                                                :snippet_id=>@snippet_1.id)
+            }
+
+            get '/api/proyect/1/snippet'
+
+            expect(JSON.parse(last_response.body)[0]['comment_count']).to eq 2
+            expect(JSON.parse(last_response.body)[0]['like_count']).to eq 2
+          end
+        end
       end
       context 'Pass route with id false' do
         it 'should return 404' do

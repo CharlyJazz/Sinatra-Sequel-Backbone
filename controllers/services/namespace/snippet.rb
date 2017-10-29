@@ -13,7 +13,7 @@ class SnippetNamespace < ProyectNamespace
           FROM comment_snippets WHERE comment_snippets.snippet_id = snippets.id) AS comment_count,
         (SELECT COUNT(like_snippets.id)
           FROM like_snippets WHERE like_snippets.snippet_id = snippets.id) AS like_count
-      FROM snippets ORDER BY comment_count DESC").all.to_json
+        FROM snippets ORDER BY comment_count DESC").all.to_json
     end
 
     get '/:id' do

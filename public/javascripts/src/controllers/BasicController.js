@@ -11,6 +11,7 @@ const Proyect = require('../models/Proyect')
 const Snippets = require('../collections/Snippets')
 const UserSnippets = require('../collections/UserSnippetsCollection')
 const Proyects = require('../collections/Proyects')
+const UserProyects = require('../collections/UserProyectsCollection')
 
 module.exports = function(application) {
   return {
@@ -55,9 +56,7 @@ module.exports = function(application) {
       if (typeof(id) === 'object') {
         application.showView(
           new SnippetsView({
-            collection: new Snippets([],{
-              page:1
-            })
+            collection: new Snippets([], {})
           })
         );
       }
@@ -84,15 +83,21 @@ module.exports = function(application) {
       }
     },
     userProyectsPage: function(id) {
-
+      if (!isNaN(id)) {
+        application.showView(
+          new ProyectsView({
+            collection: new UserProyects([],{
+              user_id: id
+            })
+          })
+        );
+      }
     },
     proyectsPage: function(id) {
       if (typeof(id) === 'object') {
         application.showView(
           new ProyectsView({
-            collection: new Proyects([],{
-              page:1
-            })
+            collection: new Proyects([], {})
           })
         );
       }

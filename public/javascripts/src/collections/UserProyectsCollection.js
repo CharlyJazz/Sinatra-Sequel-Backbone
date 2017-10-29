@@ -10,6 +10,9 @@ module.exports = Backbone.Collection.extend({
     if (typeof(this.limit) === "number") {
       return '/api/user/' + this.user_id + '/proyects?$limit=' + this.limit;
     }
+    else if (typeof(this.page) === 'number') {
+      return '/api/user/' + this.user_id + '/proyects?page=' + this.page;
+    }
     return '/api/user/' + this.user_id + '/proyects';
   }
 });

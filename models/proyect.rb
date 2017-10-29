@@ -5,26 +5,22 @@ class Proyect < Sequel::Model(:proyects)
 
   def self.add_snippets(proyect, snippets={})
     count = 0
-    while count<=snippets.length-1
+    while count <= snippets.length - 1
       if snippets[count].user_id == proyect.user_id
         ProyectHasSnippet.create(:proyect_id=>proyect.id, :snippet_id=>snippets[count].id)
       end
-      count=count+1
+      count += 1
     end
   end
 
   def self.remove_snippets(proyect, snippets={})
     count = 0
-    while count<=snippets.length-1
+    while count <= snippets.length - 1
       if snippets[count].user_id == proyect.user_id
         ProyectHasSnippet.first(:proyect_id=>proyect.id, :snippet_id=>snippets[count].id).delete
       end
-      count=count+1
+      count += 1
     end
-  end
-
-  def self.get_snippets(proyect)
-    Snippet.where(:id=>ProyectHasSnippet.where(:proyect_id=>proyect.id).select(:snippet_id))
   end
 
   def self.proyect_have_snippet? proyect_id, snippet_id

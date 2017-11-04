@@ -1,19 +1,19 @@
-  <a href="#/snippets/{{=id}}">
-    {{=filename}}
-  </a>
+<a href="#/snippets/{{=id}}">
+  {{=filename}}
+</a>
 
-  {{ if (user_authenticated_is_the_owner(user_id)) { }}
+{{ if (user_authenticated_is_the_owner(user_id)) { }}
 
-  <span class="badge">
+<span class="badge">
     <i class="fa fa-remove hm-orange-light"></i>
-  </span>
+</span>
 
-  {{ } }}
+{{ } }}
 
-  <span class="badge">
+<span class="badge">
     <i class="fa fa-star"></i> {{=like_count}}
-  </span>
+</span>
 
-  <span class="badge">
+<span class="badge">
     <i class="fa fa-comment"></i> {{=comment_count}}
-  </span>
+</span>

@@ -1,51 +1,51 @@
-  <div class="row pb-5">
-    <div class="col-lg-4">
-      <div class="card card-profile-information">
-        <img class="img-fluid" src="{{=image_profile}}" alt="user image">
-        <div class="card-body">
-          <h4 class="card-title">
-            {{=name}} - <small> {{=email}} </small>
-          </h4>
-          <p class="card-text"></p>
-          <a href="" class="btn btn-primary btn-sm">Follow</a>
-          <div class="card-footer">
-            <span>Following: {{=relationships.following}}</span>
-            <span class="float-sm-right">Followers: {{=relationships.followers}}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-8">
-      <div class="card card-stadistis">
-        <div class="card-body">
-          <div class="element">
-            <a href="#user/{{=id}}/snippets" class="btn btn-primary btn-sm mt-2">Snippets: {{=snippets.count}}</a>
-            <a href="#user/{{=id}}/proyects" class="btn btn-primary btn-sm mt-2">Proyects: {{=proyects.count}}</a>
-          </div>
-          <div class="element" id="charts-region"></div>
+<div class="row pb-5">
+  <div class="col-lg-4">
+    <div class="card card-profile-information">
+      <img class="img-fluid" src="{{=image_profile}}" alt="user image">
+      <div class="card-body">
+        <h4 class="card-title">
+          {{=name}} - <small> {{=email}} </small>
+        </h4>
+        <p class="card-text"></p>
+        <a href="" class="btn btn-primary btn-sm">Follow</a>
+        <div class="card-footer">
+          <span>Following: {{=relationships.following}}</span>
+          <span class="float-sm-right">Followers: {{=relationships.followers}}</span>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="col-lg-12 text-center pt-5 pb-5">
-    <h1 id="title-popular-snippets">The most popular snippets</h1>
-  </div>
-
-  <div class="col-lg-12">
-    <div id="snippets-region"></div>
-    <div class="col-lg-12 text-right see-all">
-      <a href="#user/{{=id}}/snippets" id="anchor-popular-snippets">See all</a>
+  <div class="col-lg-8">
+    <div class="card card-stadistis">
+      <div class="card-body">
+        <div class="element">
+          <a href="#user/{{=id}}/snippets" class="btn btn-primary btn-sm mt-2">Snippets: {{=snippets.count}}</a>
+          <a href="#user/{{=id}}/proyects" class="btn btn-primary btn-sm mt-2">Proyects: {{=proyects.count}}</a>
+        </div>
+        <div class="element" id="charts-region"></div>
+      </div>
     </div>
   </div>
+</div>
 
-  <div class="col-lg-12 text-center pt-5 pb-5">
-    <h1 id="title-popular-proyects">The most popular proyects</h1>
-  </div>
+<div class="col-lg-12 text-center pt-5 pb-5">
+  <h1 id="title-popular-snippets">The most popular snippets</h1>
+</div>
 
-  <div class="col-lg-12">
-    <div id="proyects-region"></div>
-    <div class="col-lg-12 text-right see-all">
-      <a href="#user/{{=id}}/proyects" id="anchor-popular-proyects">See all</a>
-    </div>
+<div class="col-lg-12">
+  <div id="snippets-region"></div>
+  <div class="col-lg-12 text-right see-all">
+    <a href="#user/{{=id}}/snippets" id="anchor-popular-snippets">See all</a>
   </div>
+</div>
+
+<div class="col-lg-12 text-center pt-5 pb-5">
+  <h1 id="title-popular-proyects">The most popular proyects</h1>
+</div>
+
+<div class="col-lg-12">
+  <div id="proyects-region"></div>
+  <div class="col-lg-12 text-right see-all">
+    <a href="#user/{{=id}}/proyects" id="anchor-popular-proyects">See all</a>
+  </div>
+</div>

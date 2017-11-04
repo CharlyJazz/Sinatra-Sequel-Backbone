@@ -1,53 +1,53 @@
 
-  <div class="row h-100 justify-content-center align-items-center">
-    <div class="col-lg-8 offset-lg-2 block__snippet">
-      <div class="card">
-        <div class="card-header snippet_information">
-          <span class="snippet_filename">{{= filename}}</span>
-          {{ if (user_authenticated_is_the_owner(user_id)) { }}
-          <button class="ui-edit btn btn-success waves-effect btn-sm"><i class="fa fa-edit"></i></button>
-          <button class="ui-delete btn btn-danger waves-effect btn-sm"><i class="fa fa-trash-o"></i></button>
-          {{ } }}
-          <span class="float-right snippet_timestamp">
+<div class="row h-100 justify-content-center align-items-center">
+  <div class="col-lg-8 offset-lg-2 block__snippet">
+    <div class="card">
+      <div class="card-header snippet_information">
+        <span class="snippet_filename">{{= filename}}</span>
+        {{ if (user_authenticated_is_the_owner(user_id)) { }}
+        <button class="ui-edit btn btn-success waves-effect btn-sm"><i class="fa fa-edit"></i></button>
+        <button class="ui-delete btn btn-danger waves-effect btn-sm"><i class="fa fa-trash-o"></i></button>
+        {{ } }}
+        <span class="float-right snippet_timestamp">
             {{ if (updated_at.length) { }}
             {{= jQuery.format.prettyDate(updated_at) }}
             {{ } else { }}
             {{= jQuery.format.prettyDate(created_at) }}
             {{ } }}
           </span>
-        </div>
-        {{ if (user_authenticated_is_the_owner(user_id)) { }}
-        <div class="card-header snippet_editing hidden-element">
-          <input type="text" id="filename" class="w-25" maxlength="60" value="{{= filename}}">
-          <button class="ui-submit-edit btn btn-success waves-effect btn-sm"><i class="fa fa-check"></i></button>
-        </div>
-        {{ } }}
-        <button role="like" type="submit" class="btn-floating green accent-3 my-1 btn-li waves-effect waves-light" id="ui-like-action">
-          <i class="fa fa-star-o"></i>
-        </button>
-        <div class="card-body">
-          <textarea id="editor" class="editor"></textarea>
-        </div>
       </div>
-
-      <section id="tags-region"></section>
-
-    </div>
-
-    <div class="col-lg-8 offset-lg-2 mt-2">
-      <button type="button" class="btn btn-li waves-effect waves-light btn-success animate" id="ui-button-toggleForm">
-        <i class="fa fa-pencil right"></i>
-        Write a comment
+      {{ if (user_authenticated_is_the_owner(user_id)) { }}
+      <div class="card-header snippet_editing hidden-element">
+        <input type="text" id="filename" class="w-25" maxlength="60" value="{{= filename}}">
+        <button class="ui-submit-edit btn btn-success waves-effect btn-sm"><i class="fa fa-check"></i></button>
+      </div>
+      {{ } }}
+      <button role="like" type="submit" class="btn-floating green accent-3 my-1 btn-li waves-effect waves-light" id="ui-like-action">
+        <i class="fa fa-star-o"></i>
       </button>
-      <div class="z-depth-3 mt-2" id="createComment-region"></div>
+      <div class="card-body">
+        <textarea id="editor" class="editor"></textarea>
+      </div>
     </div>
 
-    <div class="col-lg-8 offset-lg-2 mt-2">
-      <h4>Comments <i class="fa fa-comments"></i></h4>
-      <section id="comments-region"></section>
-    </div>
+    <section id="tags-region"></section>
+
   </div>
 
-  <section id="modalEdit-region"></section>
+  <div class="col-lg-8 offset-lg-2 mt-2">
+    <button type="button" class="btn btn-li waves-effect waves-light btn-success animate" id="ui-button-toggleForm">
+      <i class="fa fa-pencil right"></i>
+      Write a comment
+    </button>
+    <div class="z-depth-3 mt-2" id="createComment-region"></div>
+  </div>
+
+  <div class="col-lg-8 offset-lg-2 mt-2">
+    <h4>Comments <i class="fa fa-comments"></i></h4>
+    <section id="comments-region"></section>
+  </div>
+</div>
+
+<section id="modalEdit-region"></section>
 
 

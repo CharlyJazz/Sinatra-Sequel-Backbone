@@ -65,18 +65,19 @@ module.exports = Mn.View.extend({
   },
   submitForm: function (event) {
     event.preventDefault();
+
     var values = this.getUI('form').serializeArray(),
         dict = {};
 
+    _.each(values, function(value) {
+      dict[value['name']] = value['value'];
+    });
+    
     if (this.collection) {
-      _.each(values, function(value) {
-        dict[value['name']] = value['value'];
-      });
-
       this.collection.get(this.getOption('id')).set(dict).save();
     }
     else if (this.model) {
-      this.model.set(dict).save()
+      this.model.set(dict).save();
     }
 
     this.getUI('modal').modal('hide');

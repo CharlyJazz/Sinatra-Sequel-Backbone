@@ -1,69 +1,68 @@
+<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalEdit" aria-hidden="true">
 
-  <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalEdit" aria-hidden="true">
+  <div class="modal-dialog cascading-modal" role="document">
 
-    <div class="modal-dialog cascading-modal" role="document">
+    <div class="modal-content">
 
-      <div class="modal-content">
+      <div class="modal-header light-blue darken-3 white-text">
+        <h4 class="title"><i class="fa fa-pencil"></i> {{= title }}</h4>
+      </div>
 
-        <div class="modal-header light-blue darken-3 white-text">
-          <h4 class="title"><i class="fa fa-pencil"></i> {{= title }}</h4>
-        </div>
+      <form id="ui-form">
 
-        <form id="ui-form">
+        <div class="modal-body">
+          {{ _.each(fields, function(field) { }}
+          {{ if ( _.contains( ['password', 'number', 'text', 'email', 'textarea'] , field.type ) ) { }}
 
-          <div class="modal-body">
-            {{ _.each(fields, function(field) { }}
-            {{ if ( _.contains( ['password', 'number', 'text', 'email', 'textarea'] , field.type ) ) { }}
-
-            <div class="md-form form-sm">
-              {{ if (field.type === 'textarea') { }}
-              <textarea type="text"
-                        id="{{=field.name}}"
-                        name="{{=field.name}}"
-                        class="md-textarea mb-0"
-                        {{ if (field.required) { }} required {{ } }}>{{=field.value}}
+          <div class="md-form form-sm">
+            {{ if (field.type === 'textarea') { }}
+            <textarea type="text"
+                      id="{{=field.name}}"
+                      name="{{=field.name}}"
+                      class="md-textarea mb-0"
+                      {{ if (field.required) { }} required {{ } }}>{{=field.value}}
               </textarea>
-              {{ } else if (field.type === 'password' || field.type === 'text' || field.type === 'email') { }}
-              <input type="{{=field.type}}"
-                     id="{{=field.name}}"
-                     name="{{=field.name}}"
-                     pattern=".{{= '{'+ (field.min || 1)+','+field.max+'}' }}"
-                     title="{{= (field.min || 1) + ' characters minimun and ' + field.max +  ' maximun'}}"
-                     class="form-control"
-                     value="{{=field.value}}"
-                     {{ if (field.required) { }} required {{ } }}>
-              {{ } else if (field.type === 'number') { }}
-              <input type="{{=field.type}}"
-                     id="{{=field.name}}"
-                     name="{{=field.name}}"
-                     max="{{=field.max}}"
-                     min="{{=field.min}}"
-                     class="form-control"
-                     value="{{=field.value}}"
-                     {{ if (field.required) { }} required {{ } }}>
-              {{ } }}
-              <label for="{{=field.name}}">{{=field.label}}</label>
-            </div>
-
-
+            {{ } else if (field.type === 'password' || field.type === 'text' || field.type === 'email') { }}
+            <input type="{{=field.type}}"
+                   id="{{=field.name}}"
+                   name="{{=field.name}}"
+                   pattern=".{{= '{'+ (field.min || 1)+','+field.max+'}' }}"
+                   title="{{= (field.min || 1) + ' characters minimun and ' + field.max +  ' maximun'}}"
+                   class="form-control"
+                   value="{{=field.value}}"
+                   {{ if (field.required) { }} required {{ } }}>
+            {{ } else if (field.type === 'number') { }}
+            <input type="{{=field.type}}"
+                   id="{{=field.name}}"
+                   name="{{=field.name}}"
+                   max="{{=field.max}}"
+                   min="{{=field.min}}"
+                   class="form-control"
+                   value="{{=field.value}}"
+                   {{ if (field.required) { }} required {{ } }}>
             {{ } }}
-            {{ }) }}
+            <label for="{{=field.name}}">{{=field.label}}</label>
           </div>
 
-          <div class="text-center mt-2">
-            <input class="btn btn-info" id="ui-submit" type="submit" value="Edit!">
-          </div>
 
-        </form>
-
-        <div class="modal-footer">
-
-          <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close</button>
-
+          {{ } }}
+          {{ }) }}
         </div>
+
+        <div class="text-center mt-2">
+          <input class="btn btn-info" id="ui-submit" type="submit" value="Edit!">
+        </div>
+
+      </form>
+
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close</button>
 
       </div>
 
     </div>
 
   </div>
+
+</div>

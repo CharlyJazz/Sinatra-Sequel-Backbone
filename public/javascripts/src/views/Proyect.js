@@ -1,6 +1,7 @@
 const CreateCommentProyectSubView = require('./proyect_subviews/CreateCommentProyectSubView')
 const CommentsCollectionSubView = require('./proyect_subviews/CommentsCollectionSubView')
 const SnippetsCollectionSubView = require('./proyect_subviews/SnippetsCollectionSubView')
+const EditModal = require('./ModalEdit')
 const toastError = require('../helpers/toastConnectionError')
 const messages = require('../../../../tmp/messages.json')
 const template = require('../../../../views/application_views/proyect.erb')
@@ -15,11 +16,15 @@ module.exports = Mn.View.extend({
   },
   ui: {
     likeButton: '#ui-like-action',
+    EditButton: '#ui-button-edit',
+    DeleteButton: '#ui-button-delete',
     buttonWriteComment: '#ui-button-toggleForm'
   },
   events: {
     'click @ui.likeButton': 'toggleLike',
-    'click @ui.buttonWriteComment': 'toggleRenderFormComment'    
+    'click @ui.buttonWriteComment': 'toggleRenderFormComment',
+    'click @ui.EditButton': 'showModalEdit',
+    'click @ui.DeleteButton': 'deleteProyect',
   },
   modelEvents: {
     'destroy': 'redirectToProfile',
@@ -47,6 +52,15 @@ module.exports = Mn.View.extend({
     this.renderLikes();
     this.renderSnippets();
     this.renderComments();
+
+    this.listenTo(this.model, 'change', this.updateProyect);
+  },
+  updateProyect: function (model) {
+    $('#name').text(model.get('name'));
+    $('#description').text(model.get('description'));
+  },
+  deleteProyect: function () {
+    this.model.destroy();
   },
   destroyCommentView: function () {
     this.getUI('buttonWriteComment')
@@ -100,6 +114,30 @@ module.exports = Mn.View.extend({
         showHideTransition: 'slide'
       });
     }
+  },
+  showModalEdit: function () {
+    this.showChildView('editModalRegion', new EditModal({
+      model: this.model,
+      title: 'Edit your proyect',
+      fields: [
+        {
+          name: 'name',
+          label: 'name of proyect',
+          value: this.model.get('name'),
+          type: 'text',
+          max: 80,
+          required: true
+        },
+        {
+          name: 'description',
+          label: 'Description of proyect',
+          value: this.model.get('description'),
+          type: 'textarea',
+          max: 450,
+          required: true
+        }
+      ]
+    }));
   },
   toggleRenderFormComment: function () {
     var regionView = this.getChildView('createCommentRegion');

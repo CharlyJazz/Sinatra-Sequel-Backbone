@@ -6,17 +6,7 @@
 			<i class="fa fa-star-o"></i>
 		</button>
 
-		<h1 id="name">{{=name}}</h1>
-		<hr>
-		<p id="description">{{=description}}</p>
-
-		<span class="float-right snippet_timestamp">
-			{{ if (updated_at.length) { }}
-				{{= jQuery.format.prettyDate(updated_at) }}
-			{{ } else { }}
-				{{= jQuery.format.prettyDate(created_at) }}
-			{{ } }}
-		</span>
+		<div id="userInfo-region"></div>
 
 		{{ if (user_authenticated_is_the_owner(user_id)) { }}
 		<button type="button" class="float-left btn waves-effect btn-sm waves-light btn-success animate" id="ui-button-edit">

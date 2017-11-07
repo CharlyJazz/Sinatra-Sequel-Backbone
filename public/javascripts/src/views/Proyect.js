@@ -1,6 +1,7 @@
 const CreateCommentProyectSubView = require('./proyect_subviews/CreateCommentProyectSubView')
 const CommentsCollectionSubView = require('./proyect_subviews/CommentsCollectionSubView')
 const SnippetsCollectionSubView = require('./proyect_subviews/SnippetsCollectionSubView')
+const ProyectInfoSubView = require('./proyect_subviews/ProyectInfo')
 const EditModal = require('./ModalEdit')
 const toastError = require('../helpers/toastConnectionError')
 const messages = require('../../../../tmp/messages.json')
@@ -9,6 +10,7 @@ const template = require('../../../../views/application_views/proyect.erb')
 module.exports = Mn.View.extend({
   template: template,
   regions: {
+    userInfoRegion: '#userInfo-region',
     commentsRegion: '#comments-region',
     createCommentRegion: '#createComment-region',
     editModalRegion: '#modalEdit-region',
@@ -24,7 +26,7 @@ module.exports = Mn.View.extend({
     'click @ui.likeButton': 'toggleLike',
     'click @ui.buttonWriteComment': 'toggleRenderFormComment',
     'click @ui.EditButton': 'showModalEdit',
-    'click @ui.DeleteButton': 'deleteProyect',
+    'click @ui.DeleteButton': 'deleteProyect'
   },
   modelEvents: {
     'destroy': 'redirectToProfile',
@@ -52,12 +54,7 @@ module.exports = Mn.View.extend({
     this.renderLikes();
     this.renderSnippets();
     this.renderComments();
-
-    this.listenTo(this.model, 'change', this.updateProyect);
-  },
-  updateProyect: function (model) {
-    $('#name').text(model.get('name'));
-    $('#description').text(model.get('description'));
+    this.renderProyectInfo();
   },
   deleteProyect: function () {
     this.model.destroy();
@@ -70,6 +67,11 @@ module.exports = Mn.View.extend({
 
     var regionView = this.getChildView('createCommentRegion');
     regionView.destroy();
+  },
+  renderProyectInfo: function () {
+    this.showChildView('userInfoRegion', new ProyectInfoSubView({
+      model: this.model
+    }));
   },
   renderComments: function () {
     this.showChildView('commentsRegion', new CommentsCollectionSubView({

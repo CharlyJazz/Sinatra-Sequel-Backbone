@@ -1,0 +1,11 @@
+<h1 id="name">{{=name}}</h1>
+<hr>
+<p id="description">{{=description}}</p>
+
+<span class="float-right snippet_timestamp">
+{{ if (updated_at.length) { }}
+{{= jQuery.format.prettyDate(updated_at) }}
+{{ } else { }}
+{{= jQuery.format.prettyDate(created_at) }}
+{{ } }}
+</span>

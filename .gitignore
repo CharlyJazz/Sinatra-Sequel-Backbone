@@ -10,7 +10,7 @@ node_modules/*
 package-lock.json
 
 
-Gemfile.lock
+
 /public/bower_components/
 /app.rsa
 /app.rsa.pub

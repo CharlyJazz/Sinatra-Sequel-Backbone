@@ -25,10 +25,7 @@ module.exports = User.extend({
     * Check if user is authenticated and return the
     * token else false
     * */
-    if (this.is_authenticated()) {
-      return window.localStorage.getItem('token');
-    }
-    return false;
+    return window.localStorage.getItem('token');
   },
   remove_token: function () {
     /*
@@ -45,6 +42,26 @@ module.exports = User.extend({
     /*
      * Return ajax for create Promise
      * */
-    return $.ajax({type: 'POST', url: '/auth/logout'});
+
+    var token = this.get_token();
+    
+    return $.ajax({
+      type: 'POST',
+      url: '/auth/logout',
+      beforeSend: function(request) {
+        request.setRequestHeader('Authorization', 'Bearer '.concat(token))
+      }
+    });
+  },
+  recovery: function() {
+    var token = this.get_token();
+
+    return $.ajax({
+      type: 'POST',
+      url: '/auth/recovery',
+      beforeSend: function(request) {
+        request.setRequestHeader('Authorization', 'Bearer '.concat(token))
+      }
+    });
   }
 });

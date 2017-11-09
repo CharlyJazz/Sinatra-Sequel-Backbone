@@ -9,10 +9,13 @@ File.open(verify_key_path) do |file|
   verify_key = OpenSSL::PKey.read(file)
 end
 
-describe 'Login and Logout' do
+describe 'Login, Logout and Recovery' do
   before :each do
-    @user = User.new(:name => 'SnippetMan', :email=>'SnippetMan@gmail.com',
-                     :password=>'123456', :password_confirmation=>'123456').save
+    @user = User.new(:name => 'SnippetMan',
+                     :email=>'SnippetMan@gmail.com',
+                     :password=>'123456',
+                     :image_profile=> 'file.png',
+                     :password_confirmation=>'123456').save
   end
   context 'Trying to user without password parameter' do
     it "should return 'Any parameter are empty or nule' " do
@@ -41,6 +44,7 @@ describe 'Login and Logout' do
   context 'Trying to log user correctly' do
     before :each do
       %w[admin user].each { |role| Role.new(:name=>role).save }
+      @user.add_role Role.first(:name=>'user')
     end
     it "should return 'User Logged successfully'" do
       post '/auth/login?email=SnippetMan@gmail.com&password=123456'
@@ -66,13 +70,35 @@ describe 'Login and Logout' do
   end
   context 'Trying to logout user correctly' do
     before :each do
-      %w[admin user].each { | role | Role.new(:name=>role).save }
-      post '/auth/login?email=SnippetMan@gmail.com&password=123456'
+      %w[admin user].each { |role| Role.new(:name=>role).save }
+      @user.add_role Role.first(:name=>'user')
     end
     it "should return 'User Logout successfully'" do
-      post '/auth/logout'
+      post '/auth/login?email=SnippetMan@gmail.com&password=123456'
+      token = JSON.parse(last_response.body)['token']
+      header 'Authorization', 'Bearer ' + token       
 
+      post '/auth/logout'
+      
       expect(JSON.parse(last_response.body)['response']).to eq 'User Logout successfully'
+      expect(last_response.status).to eq 200
+    end
+  end
+  context 'Recovery user information' do
+    before :each do
+      %w[admin user].each { |role| Role.new(:name=>role).save }
+      @user.add_role Role.first(:name=>'user')
+    end
+    it 'should return user information' do
+      post '/auth/login?email=SnippetMan@gmail.com&password=123456'
+      token = JSON.parse(last_response.body)['token']
+      header 'Authorization', 'Bearer ' + token    
+
+      post '/auth/recovery'
+  
+      expect(JSON.parse(last_response.body)['id']).to eq @user.id
+      expect(JSON.parse(last_response.body)['username']).to eq @user.name
+      expect(JSON.parse(last_response.body)['email']).to eq @user.email
       expect(last_response.status).to eq 200
     end
   end

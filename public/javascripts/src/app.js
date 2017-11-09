@@ -21,19 +21,32 @@ App.on('before:start', function () {
     id: this.options.id,
     permission_level: this.options.permission_level,
     image_profile: this.options.image_profile
-  })
+  });
 });
 
 App.on('start', function() {
+  var that = this;
+
   new ApplicationHeaderView({application: App});
 
   this.BasicRouter = new BasicRouterClass(App); // working in this
+  
+  Backbone.history.start();
 
-  if (this.options.permission_level > 0) {
-    this.AuthRouter = new AuthRouterClass(App);
+  if (this.current_user.get_token()) {
+    $.toast({
+      heading: 'Loading...',
+      text: 'Load user information. . .',
+      icon: 'info',
+      showHideTransition: 'slide',
+      hideAfter: 3000
+    });
+
+    $.when(this.current_user.recovery()).done(function(response){
+        that.current_user.set(response)
+        that.AuthRouter = new AuthRouterClass(App);
+    });
   }
-
-  Backbone.history.start()
 });
 
 var backboneSync = Backbone.sync;
@@ -47,8 +60,8 @@ Backbone.sync = function (method, model, options) {
   var token = App.current_user.get_token();
 
   if (token) {
-    options.headers = {
-      'x-access-token': token
+    options.beforeSend = function (xhr) {
+      xhr.setRequestHeader('Authorization', 'Bearer '.concat(token))
     }
   }
 

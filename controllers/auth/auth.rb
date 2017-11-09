@@ -13,23 +13,13 @@ class AuthController < CoreController
     @user = User.first(:email=>params[:email])
     if @user
       if @user.authenticate params[:password]
-        headers = {
-            exp: Time.now.to_i + 60 * 30 # Expire in 30 minutes
-        }
-        @token = JWT.encode({user_id: @user.id}, settings.signing_key, 'RS256', headers)
-        session['access_token'] = @token
-        if RoleUser.user_have_role? @user.id, 'admin' # Check user permission level
-          level = 2
-        else
-          level = 1
-        end
         { :response=>'User Logged successfully',
-          :token=>@token,
+          :token=>JWT.encode({user_id: @user.id}, settings.signing_key, 'RS256', {exp: Time.now.to_i + 60 * 30}),
           :id=>@user.id,
           :username=>@user.name,
           :email=>@user.email,
           :image_profile=>@user.image_profile,
-          :permission_level=>level
+          :permission_level=> if RoleUser.user_have_role? @user.id, 'admin' then 2 else 1 end
         }.to_json
       else
         halt 403, {:response=>'Authentication failed'}.to_json
@@ -40,11 +30,22 @@ class AuthController < CoreController
   end
 
   post '/logout' do
-    until session['access_token']
+    unless @current_user.is_authenticated
       halt 401, {:response=>'Not authorized'}.to_json
     end
-    session['access_token'] = nil
     halt 200, {:response=>'User Logout successfully'}.to_json
+  end
+  
+  post '/recovery' do
+    unless @current_user.is_authenticated
+      halt 401, {:response=>'Not authorized'}.to_json
+    end
+    { :id=>@current_user.id,
+      :username=>@current_user.username,
+      :email=>@current_user.email,
+      :image_profile=>@current_user.image_profile,
+      :permission_level=>@current_user.permission_level
+    }.to_json
   end
 
 end

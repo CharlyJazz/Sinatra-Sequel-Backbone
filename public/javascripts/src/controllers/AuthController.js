@@ -28,17 +28,16 @@ module.exports = function(application) {
           showHideTransition: 'slide',
           hideAfter: 1600
         });
+        
         application.current_user.set({
           username: false,
           email: false,
           id: false,
           permission_level: 0
         });
-        // Remove current_user token
+
         application.current_user.remove_token();
-        // Remove image profile
-        window.localStorage.removeItem('image_profile');
-        // Show toast
+
         Backbone.history.navigate('auth', {trigger: true});
       }).fail(function() {
         toastError(); // Show the toast error

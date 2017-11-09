@@ -1,5 +1,7 @@
 source :rubygems
 
+ruby "2.4.2"
+
 gem 'jwt'
 gem 'rack'
 gem 'sinatra'
@@ -17,6 +19,7 @@ gem 'sprockets'
 gem 'sass'
 gem 'coffee-script'
 gem 'multi_json'
+gem 'redis'
 
 group :test, :development do #  bundle install --with test development
   gem 'sqlite3'

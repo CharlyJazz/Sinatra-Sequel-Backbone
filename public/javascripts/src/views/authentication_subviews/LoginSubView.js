@@ -57,6 +57,7 @@ module.exports = Mn.View.extend({
           });
 
           // Update current_user attributes
+
           that.application.current_user.set({
             name: response.username,
             email: response.email,
@@ -69,9 +70,9 @@ module.exports = Mn.View.extend({
           that.application.current_user.add_token(response.token);
 
           // Active User Auth Routes and redirect to the profile
-          const AuthRouter = AuthRouterClass(that.application);  // Get the object
+          var AuthRouter = AuthRouterClass(that.application);  // Get the object
+          
           that.application.AuthRouter = new AuthRouter();
-
         },
         error: function() {
           $.toast({

@@ -47,7 +47,6 @@ module.exports = Mn.View.extend({
         dataType: 'json',
         success: function (response) {
 
-          // Show toast
           $.toast({
             heading: 'Welcome ' + response.username,
             text: messages['user'].login.success,
@@ -55,8 +54,6 @@ module.exports = Mn.View.extend({
             showHideTransition: 'slide',
             hideAfter: 1600
           });
-
-          // Update current_user attributes
 
           that.application.current_user.set({
             name: response.username,
@@ -66,13 +63,9 @@ module.exports = Mn.View.extend({
             image_profile: response.image_profile
           });
 
-          // Update current_user token
           that.application.current_user.add_token(response.token);
 
-          // Active User Auth Routes and redirect to the profile
-          var AuthRouter = AuthRouterClass(that.application);  // Get the object
-          
-          that.application.AuthRouter = new AuthRouter();
+          that.application.AuthRouter = new AuthRouterClass(that.application);
         },
         error: function() {
           $.toast({

@@ -15,7 +15,7 @@ module CoreAppHelpers
       # Make sure the token hasn't expired
       if Time.now > @exp
         puts 'Access token expired.'
-        return GuestUser.new
+        return GuestUser.new(:expired=>true)
       end
       @user_id = payload['user_id']
     rescue JWT::DecodeError => e
@@ -52,6 +52,11 @@ module CoreAppHelpers
 end
 
 class GuestUser
+  attr_accessor :expired
+  def initialize(params = {})
+    @expired = params.fetch(:expired, false)
+  end
+
   def permission_level
     0
   end

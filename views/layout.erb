@@ -3,10 +3,11 @@
 <head>
 
   <meta charset="UTF-8">
+  <meta name="theme-color" content="#4285F4">  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  <title>Document</title>
+  <title>Snippet App</title>
 
   <link rel="stylesheet" href="<%= asset_path('dist/css/bootstrap.min.css') %>">
   <link rel="stylesheet" href="<%= asset_path('css/mdb.min.css') %>">
@@ -36,20 +37,6 @@
   <script type="text/javascript" src="<%= asset_path('lib/codemirror.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('dist/Chart.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('src/prettify.js') %>"></script>
-
-  <!-- B a c k b o n e  A p p-->
-
-
-  <script id="config" type="text/json">
-    {
-      "is_authenticated": <%= @current_user.is_authenticated %>,
-      "name": <%= @current_user.username.to_json %>,
-      "email": <%= @current_user.email.to_json  %>,
-      "id": <%= @current_user.id %>,
-      "permission_level": <%= @current_user.permission_level %>,
-      "image_profile": <%= @current_user.picture.to_json %>
-    }
-   </script>
 
   <script type="text/javascript" src="<%= asset_path('bin/app.bundle.js') %>"></script>
 

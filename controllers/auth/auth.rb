@@ -29,17 +29,15 @@ class AuthController < CoreController
     end
   end
 
-  post '/logout' do
-    unless @current_user.is_authenticated
-      halt 401, {:response=>'Not authorized'}.to_json
-    end
+  post '/logout' do    
+    halt 401, {:response=>'Not authorized'}.to_json unless @current_user.is_authenticated
+    
     halt 200, {:response=>'User Logout successfully'}.to_json
   end
   
   post '/recovery' do
-    unless @current_user.is_authenticated
-      halt 401, {:response=>'Not authorized'}.to_json
-    end
+    halt 401, {:response=>'Not authorized'}.to_json if @current_user.expired
+
     { :id=>@current_user.id,
       :username=>@current_user.username,
       :email=>@current_user.email,

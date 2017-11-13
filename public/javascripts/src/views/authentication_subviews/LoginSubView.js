@@ -64,8 +64,10 @@ module.exports = Mn.View.extend({
           });
 
           that.application.current_user.add_token(response.token);
+          
+          var AuthRouter = AuthRouterClass(that.application) // Get the object
 
-          that.application.AuthRouter = new AuthRouterClass(that.application);
+          that.application.AuthRouter = new AuthRouter();
         },
         error: function() {
           $.toast({

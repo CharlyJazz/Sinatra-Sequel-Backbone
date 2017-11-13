@@ -1,0 +1,29 @@
+<style>
+  pre.prettyprint {
+      padding: .150em !important;
+      border: none !important;
+      background-color: white !important;
+  }
+
+  pre.prettyprint ol.linenums li {
+    border-left: 1px solid #99999994;
+    padding-left: 1em;
+  }
+</style>
+
+<main class="container">
+  <div class="ml-1 pt-3">
+    <h4><%= @snippet.filename %> <span class="float-right"><%= @language %></span></h4>
+  </div>
+  
+  <hr>
+  <pre class="prettyprint linenums"><code><%= escape_html @snippet.body %></code></pre>
+</div>
+
+</main>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    prettyPrint();
+  });
+</script>

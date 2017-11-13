@@ -38,7 +38,9 @@
   <script type="text/javascript" src="<%= asset_path('dist/Chart.js') %>"></script>
   <script type="text/javascript" src="<%= asset_path('src/prettify.js') %>"></script>
 
-  <script type="text/javascript" src="<%= asset_path('bin/app.bundle.js') %>"></script>
+  <% unless @pdf %>
+    <script type="text/javascript" src="<%= asset_path('bin/app.bundle.js') %>"></script>
+  <% end %>
 
 </body>
 </html>

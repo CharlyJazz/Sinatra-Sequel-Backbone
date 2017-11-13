@@ -33,6 +33,15 @@ describe Snippet do
       expect(Snippet.detect_lang(@snippet)).to eq('JavaScript')
     end
   end
+  context 'detected unknown language of a file' do
+    before :each do
+      @snippet_unknown = Snippet.new(:filename => 'backbone.jshh', :body=>'Lorem ipsum...',
+                             :user_id=>@user.id).save
+    end
+    it 'should create' do
+      expect(Snippet.detect_lang(@snippet_unknown)).to eq('unknown')
+    end
+  end
   context 'delete snippet that does relations with any table' do
     before :each do
       @snippet = Snippet.new(:filename => 'backbone.js',

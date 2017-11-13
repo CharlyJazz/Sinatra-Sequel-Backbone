@@ -7,7 +7,11 @@ class Snippet < Sequel::Model(:snippets)
   plugin :json_serializer
 
   def self.detect_lang(snippet)
-    LanguageSniffer.detect(snippet.filename).language.name
+    begin
+      LanguageSniffer.detect(snippet.filename).language.name
+    rescue
+      'unknown'
+    end
   end
 
   def validate

@@ -8,6 +8,7 @@
         <button class="ui-edit btn btn-success waves-effect btn-sm"><i class="fa fa-edit"></i></button>
         <button class="ui-delete btn btn-danger waves-effect btn-sm"><i class="fa fa-trash-o"></i></button>
         {{ } }}
+        <a class="btn btn-info waves-effect btn-sm" target="_blank" href="/pdf/{{= id}}.pdf"><i class="fa fa-file-pdf-o"></i></a>
         <span class="float-right snippet_timestamp">
             {{ if (updated_at.length) { }}
             {{= jQuery.format.prettyDate(updated_at) }}

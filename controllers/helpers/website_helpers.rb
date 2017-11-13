@@ -9,4 +9,8 @@ module WebsiteHelpers
     ERB.new(File.read("views/#{directory}/#{template}.erb"), nil, nil, '_sub01').result(binding)
   end
 
+  def escape_html(text)
+    Rack::Utils.escape_html(text)
+  end
+
 end

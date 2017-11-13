@@ -20,6 +20,8 @@ gem 'sass'
 gem 'coffee-script'
 gem 'multi_json'
 gem 'redis'
+gem 'wkhtmltopdf-heroku'
+gem 'pdfkit'
 
 group :test, :development do #  bundle install --with test development
   gem 'sqlite3'

@@ -68,6 +68,10 @@ module.exports = Mn.View.extend({
           var AuthRouter = AuthRouterClass(that.application) // Get the object
 
           that.application.AuthRouter = new AuthRouter();
+
+          Backbone.history.navigate(
+            'user/' + that.application.current_user.get('id'), {trigger: true}
+          );
         },
         error: function() {
           $.toast({

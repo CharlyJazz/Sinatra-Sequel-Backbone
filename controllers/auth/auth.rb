@@ -41,7 +41,7 @@ class AuthController < CoreController
     { :id=>@current_user.id,
       :username=>@current_user.username,
       :email=>@current_user.email,
-      :image_profile=>@current_user.image_profile,
+      :image_profile=>@current_user.picture,
       :permission_level=>@current_user.permission_level
     }.to_json
   end

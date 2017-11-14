@@ -491,3 +491,15 @@ span.badge {
   }
 }
 
+.progress.custom {
+  border-radius: 0;
+  height: 3rem;
+  box-shadow: 0 0 4px 0px black;
+  background-color: #4285F4;
+
+  .progress-bar {
+    height: 3rem;
+    -webkit-transition: none !important;
+    transition: none !important;
+  }
+}

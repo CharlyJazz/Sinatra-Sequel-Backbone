@@ -11,12 +11,6 @@ module.exports = function(application) {
       'create/snippet': 'createSnippetPage',
 
       'create/proyect': 'createProyectPage'
-    },
-    initialize: function () {
-      // Redirect to the profile of user logged
-      Backbone.history.navigate(
-        'user/' + application.current_user.get('id'), {trigger: true}
-      );
     }
   })
 }

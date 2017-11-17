@@ -27,7 +27,7 @@ App.on('start', function() {
 
       Backbone.history.start();
     });
-  }
+  };
   
   this.current_user = new CurrentUser(); // Create unique CurrentUser instance
 

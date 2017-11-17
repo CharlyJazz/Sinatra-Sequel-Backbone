@@ -19,7 +19,6 @@ gem 'sprockets'
 gem 'sass'
 gem 'coffee-script'
 gem 'multi_json'
-gem 'redis'
 gem 'wkhtmltopdf-heroku'
 gem 'pdfkit'
 

@@ -7,7 +7,7 @@ module.exports = Backbone.Model.extend({
     this.urlRootLikes = this.urlRoot + this.id + '/like'
   },
   validate: function(attrs, options) {
-    var pattern = /^[\w,\s-]+\.[A-Za-z]{1,5}$/;
+    var pattern = /^[\w,\s-]+\.[A-Za-z]{1,6}$/;
 
     if (!pattern.test(attrs.filename)) {
       return messages['snippet'].validation.filename;

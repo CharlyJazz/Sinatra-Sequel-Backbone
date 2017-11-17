@@ -1,4 +1,3 @@
-const validateFormInputClass = require('../../helpers/validateFormInputClass');
 const toastError = require('../../helpers/toastConnectionError');
 const User = require('../../models/User');
 const CurrentUser = require('../../models/CurrentUser');
@@ -12,6 +11,7 @@ module.exports = Mn.View.extend({
   _email_preview: _.template('Email: <strong>{{= email }}</strong>'),
   _inputs: ['#username', '#email', '#password', '#repeat'],
   _image_dimension: {'height':300, 'width':300},
+  _length: {'username': 6, 'email': 3},
   regions: {
     login: '#register-region'
   },
@@ -19,8 +19,16 @@ module.exports = Mn.View.extend({
     'click a.switch': 'switch_login'
   },
   events: {
-    'focusout input#username': 'checkAlReadyUse',
-    'focusout input#email':    'checkAlReadyUse',
+    'focusout input#username': function(event) {
+	    if (this.checkLength(event, 'username')) {
+	      this.checkAlReadyUse(event);
+      }
+    },
+    'focusout input#email': function(event) {
+	    if (this.checkLength(event, 'email')) {
+		    this.checkAlReadyUse(event);
+	    }
+    },
     'focusout input#password': 'checkSecurityLevel',
     'focusout input#repeat':   'checkPasswordMatches',
     'keypress input#password': 'checkSecurityLevel',
@@ -48,7 +56,7 @@ module.exports = Mn.View.extend({
     }
   },
   onRender: function () {
-    if (this.model) {
+    if (this.model) { // If the mode if edit profile
       var input = this.getUI('inputImage'),
           image_preview = this.getUI('image_preview'),
           submit = this.getUI('submit'),
@@ -66,10 +74,28 @@ module.exports = Mn.View.extend({
       img.src = this.model.get('image_profile');
     }
   },
+  checkLength: function(event, type) {
+    /* Check if the length if minor than 6 letters
+     * */
+    var input = $(event.currentTarget);
+    
+    if (input.val().trim().length <= this._length[type]) {
+	    $.toast({
+		    heading: 'Warning',
+		    text: 'This field need more than ' + this._length[type] + ' characters',
+		    icon: 'warning',
+		    showHideTransition: 'slide'
+	    });
+	    input.removeClass('valid');
+      return false;
+    }
+    return true
+  },
   checkAlReadyUse: function (event) {
     // Check if the email or username is already use
-    var input = $(event.currentTarget), data,
-        min_length = 6;
+    var input = $(event.currentTarget),
+        data;
+    
     if (input.is('#email')) {
       data = {email: input.val().trim()}
     } else if (input.is('#username')) {
@@ -77,10 +103,10 @@ module.exports = Mn.View.extend({
     }
 
     if (this.model && (data.email === this.model.get('email') ||
-                       data.username === this.model.get('name'))) {
-      input.removeClass('invalid');
-      input.addClass('valid');
-    } else if (input.val().length >= min_length) {
+                       data.username === this.model.get('name') ||
+		                   data.username === this.model.get('username'))) {
+      input.removeClass('invalid').addClass('valid');
+    } else {
       $.ajax({
         url: '/api/validation',
         type: 'GET',
@@ -88,18 +114,13 @@ module.exports = Mn.View.extend({
         data: data,
         success: function(response) {
           if (response.status === 'success') {
-            input.removeClass('invalid');
-            input.addClass('valid');
+            input.removeClass('invalid').addClass('valid');
           }
           else if (response.status === 'fail') {
-            input.removeClass('valid');
-            input.addClass('invalid');
+            input.removeClass('valid').addClass('invalid');
           }
         }
       });
-    }
-    else {
-      input.removeClass('valid invalid');
     }
   },
   checkSecurityLevel: function(event) {
@@ -122,39 +143,41 @@ module.exports = Mn.View.extend({
   checkPasswordMatches: function(event) {
     // Check matches between password and password repeat
     var input = $(event.currentTarget),
-      password = $('input#password').val();
-    if (input.val() === password) {
+        password_input = $('input#password');
+    if (input.val() === password_input.val()) {
       input.removeClass('invalid').addClass('valid');
+	    password_input.removeClass('invalid').addClass('valid')
     } else {
       input.removeClass('valid').addClass('invalid')
     }
   },
   showFieldsetImage: function () {
     /*
+     * Chech if all values are valid
      * Add username and email preview data and
      * Show fieldset image or show toast if not have image profile
      * */
-    if (validateFormInputClass(this._inputs)) { // TODO: Quitar esta mierda y validar bien
+	  var isValid = true;
+	  
+	  this._inputs.forEach(function (inputId) {
+		  if (!$('input' + inputId).hasClass('valid')) {
+			  isValid = false;
+			  return
+		  }
+	  });
+	
+	  if (isValid) {
       $('#preview-username').html(
-        this._username_preview({
-          username:$('input#username').val()
-        })
+        this._username_preview({username:$('input#username').val()})
       );
+      
       $('#preview-email').html(
-        this._email_preview({
-          email:$('input#email').val()
-        })
+        this._email_preview({email:$('input#email').val()})
       );
+      
       this.getUI('fieldset_information').addClass('hidden-element');
+
       this.getUI('fieldset_image').removeClass('hidden-element');
-    }
-    else {
-      $.toast({
-        heading: 'Ups...',
-        text: 'Remember, the password need more that 6 characters', // TODO: JSON
-        icon: 'info',
-        showHideTransition: 'slide'
-      })
     }
   },
   showFieldsetInformation: function () {
@@ -246,13 +269,14 @@ module.exports = Mn.View.extend({
         email: $('input#email').val().trim(),
         password: $('input#password').val().trim(),
         password_confirmation: $('input#repeat').val().trim(),
-        image_profile: user.get('image_profile'),
+        image_profile: user.get('image_profile')
       }, {
         wait: true,
         success: function () {
           that.toastSuccess();
           user.unset('password');
           user.unset('password_confirmation');
+	        Backbone.history.navigate('user/' + user.get('id'), {trigger: true});
         },
         error: function () {
           submitButton.attr('disabled', false);
@@ -262,15 +286,13 @@ module.exports = Mn.View.extend({
     }
 
     else {
-      /*
-       * If guest user try register without image profile
-       * */
+      // If guest user try register without image profile
       submitButton.attr('disabled', false);
     }
   },
   toastSuccess: function() {
     $.toast({
-      heading: 'Sucess',
+      heading: 'Success',
       text: messages['user'].register.success,
       icon: 'success',
       showHideTransition: 'slide'

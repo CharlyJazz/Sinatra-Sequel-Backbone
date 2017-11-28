@@ -1,10 +1,12 @@
 require './controllers/core'
 require './controllers/helpers/services_helpers'
 require './controllers/services/namespace/user'
+require './lib/middleware_jwt'
 
 class RestInterface < UserNamespace
 
   helpers ServicesHelpers
+  use AuthenticatorJWT
 
   before do
     content_type 'application/json'

@@ -6,7 +6,7 @@ class AuthController < CoreController
 
   before do
     content_type 'application/json'
-    set_current_user
+    # set_current_user
   end
 
   post '/login', :validate => %i(email password) do
@@ -29,13 +29,13 @@ class AuthController < CoreController
     end
   end
 
-  post '/logout' do    
+  post '/logout' do # TODO: FIXME
     halt 401, {:response=>'Not authorized'}.to_json unless @current_user.is_authenticated
-    
+
     halt 200, {:response=>'User Logout successfully'}.to_json
   end
-  
-  post '/recovery' do
+
+  post '/recovery' do # TODO: FIXME
     halt 401, {:response=>'Not authorized'}.to_json if @current_user.expired
 
     { :id=>@current_user.id,

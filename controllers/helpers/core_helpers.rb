@@ -1,29 +1,11 @@
 module CoreAppHelpers
 
   def current_user
-    @token = bearer_token
-    # Try decode token
-    begin
-      payload, header = JWT.decode(@token, settings.verify_key, true, {:algorithm => 'RS256'})
-      @exp = header['exp']
-      # Check to see if the exp is set (we don't accept forever tokens)
-      if @exp.nil?
-        puts 'Access token doesn\'t have exp set.'
-        return GuestUser.new
-      end
-      @exp = Time.at(@exp.to_i)
-      # Make sure the token hasn't expired
-      if Time.now > @exp
-        puts 'Access token expired.'
-        return GuestUser.new(:expired=>true)
-      end
-      @user_id = payload['user_id']
-    rescue JWT::DecodeError => e
-      puts 'Decode Error.'
-      return GuestUser.new
-    end
+    id = request.env['X-ID-USER']
 
-    user = User[@user_id] # Use the payload id_user for search the user
+    return GuestUser.new if id.nil?
+
+    user = User[id]
 
     if RoleUser.user_have_role? user.id, 'user'
       puts 'Current user should be a AuthUser.'

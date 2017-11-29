@@ -24,15 +24,11 @@ class AuthenticatorJWT
         return Rack::Response.new([], 401, {}).finish if Time.now > @exp
 
       rescue JWT::DecodeError => error
-        puts "Entro en que error de decodificacion y deberia dar 401"
         return Rack::Response.new([], 401, {}).finish
       end
     elsif !Rack::Request.new(env).get?
-      puts "Entro en que no es get y no tiene token deberia dar 401"
       return Rack::Response.new([], 401, {}).finish
     end
-
-    puts "No entro en nada y siguio relajado, debio agregar el ID al header"
 
     Rack::Request.new(env).add_header('X-ID-USER', payload['user_id']) unless payload.nil?
 

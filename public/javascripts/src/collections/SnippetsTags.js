@@ -1,5 +1,4 @@
 module.exports = Backbone.Collection.extend({
-  // Collection of all snippets with pagination
   model: Backbone.Model,
   initialize: function (options) {
     this.snippet_id = options.snippet_id
@@ -7,24 +6,30 @@ module.exports = Backbone.Collection.extend({
   url: function() {
     return '/api/snippet/' + this.snippet_id + '/tag';
   },
-  removeTags: function(array_tags_name) {
+  removeTags: function(array_tags_name, token) {
     /*
     * Passing array with the names
     * */
     return $.ajax({
       type: 'DELETE',
       url: this.url(),
-      data: {name: array_tags_name.toString()}
+      data: {name: array_tags_name.toString()},
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('Authorization', 'Bearer '.concat(token))
+      }
     });
   },
-  addTags: function(array_tags_name) {
+  addTags: function(array_tags_name, token) {
     /*
      * Passing array with the names
      * */
     return $.ajax({
       type: 'POST',
       url: this.url(),
-      data: {name: array_tags_name.toString()}
+      data: {name: array_tags_name.toString()},
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('Authorization', 'Bearer '.concat(token))
+      }
     });
   }
 });

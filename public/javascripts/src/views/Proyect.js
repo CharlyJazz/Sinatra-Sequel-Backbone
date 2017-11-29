@@ -102,10 +102,11 @@ module.exports = Mn.View.extend({
   },
   toggleLike: function () {
     var button = this.getUI('likeButton'),
-        id_user = this.current_user.get('id');
+        id_user = this.current_user.get('id'),
+        token = this.current_user.get_token();
 
     if (id_user) {
-      $.when(this.model.createOrDeleteLike(id_user)).then(function(data) {
+      $.when(this.model.createOrDeleteLike(id_user, token)).then(function(data) {
         button.attr('data-likes', data.likes);
       });
     } else {

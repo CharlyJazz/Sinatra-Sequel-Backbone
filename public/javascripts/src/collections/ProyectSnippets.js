@@ -8,13 +8,16 @@ module.exports = Backbone.Collection.extend({
   initialize: function (models, options) {
     this.idParent = options.idParent;
   },
-  removeSnippet: function (id) {
+  removeSnippet: function (id, token) {
     /*
     * Remove snippet from the proyect
     * */
     return $.ajax({
       type: 'DELETE',
-      url: this.url() + '/' + id
+      url: this.url() + '/' + id,
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('Authorization', 'Bearer '.concat(token))
+      }
     });
   }
 });

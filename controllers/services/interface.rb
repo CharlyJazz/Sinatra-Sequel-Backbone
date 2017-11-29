@@ -1,6 +1,6 @@
 require './controllers/core'
-require './controllers/helpers/services_helpers'
 require './controllers/services/namespace/user'
+require './helpers/services_helpers'
 require './lib/middleware_jwt'
 
 class RestInterface < UserNamespace
@@ -10,7 +10,7 @@ class RestInterface < UserNamespace
 
   before do
     content_type 'application/json'
-    set_current_user
+    set_current_user false # Dont decode token
   end
 
   get '/validation' do

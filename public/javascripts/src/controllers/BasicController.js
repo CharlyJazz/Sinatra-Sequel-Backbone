@@ -2,9 +2,10 @@ const HomeView = require('../views/Home')
 const AuthenticationView = require('../views/Authentication')
 const ProfileView = require('../views/Profile')
 const SnippetView = require('../views/Snippet')
-const SnippetsView = require('../views/Snippets')
 const ProyectView = require('../views/Proyect')
-const ProyectsView = require('../views/Proyects')
+const PaginationView = require('../views/PaginationView')
+const SnippetCollectionView = require('../views/snippets_subviews/SnippetCollectionSubView')
+const ProyectCollectionView = require('../views/proyects_subviews/ProyectCollectionSubView')
 const User = require('../models/User')
 const Snippet = require('../models/Snippet')
 const Proyect = require('../models/Proyect')
@@ -44,10 +45,10 @@ module.exports = function(application) {
     userSnippetsPage: function (id) {
       if (!isNaN(id)) {
         application.showView(
-          new SnippetsView({
-            collection: new UserSnippets([],{
-              user_id: id
-            })
+          new PaginationView({
+            collection_view: SnippetCollectionView,
+            collection: new UserSnippets([],{user_id: id}),
+            description: 'Snippets of any user'
           })
         );
       }
@@ -55,8 +56,10 @@ module.exports = function(application) {
     snippetsPage: function(id) {
       if (typeof(id) === 'object') {
         application.showView(
-          new SnippetsView({
-            collection: new Snippets([], {})
+          new PaginationView({
+            collection_view: SnippetCollectionView,
+            collection: new Snippets([], {}),
+            description: 'Snippets !'
           })
         );
       }
@@ -85,10 +88,10 @@ module.exports = function(application) {
     userProyectsPage: function(id) {
       if (!isNaN(id)) {
         application.showView(
-          new ProyectsView({
-            collection: new UserProyects([],{
-              user_id: id
-            })
+          new PaginationView({
+            collection_view: ProyectCollectionView,
+            collection: new UserProyects([],{user_id: id}),
+            description: 'Proyects of any user'
           })
         );
       }
@@ -96,8 +99,10 @@ module.exports = function(application) {
     proyectsPage: function(id) {
       if (typeof(id) === 'object') {
         application.showView(
-          new ProyectsView({
-            collection: new Proyects([], {})
+          new PaginationView({
+            collection_view: ProyectCollectionView,
+            collection: new Proyects([], {}),
+            description: 'Proyects !'
           })
         );
       }

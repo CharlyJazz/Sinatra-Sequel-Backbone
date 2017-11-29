@@ -1,8 +1,7 @@
 Bundler.require
 
 require './config/init'
-require './controllers/helpers/core_helpers'
-
+require './helpers/core_helpers'
 require './lib/json_params'
 
 

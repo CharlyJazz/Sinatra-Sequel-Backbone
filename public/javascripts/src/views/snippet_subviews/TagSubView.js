@@ -141,15 +141,16 @@ module.exports = Mn.View.extend({
 
     var deferreds = [],
         that = this,
-        cardTag = button = this.getUI('card_tag');
+        cardTag = button = this.getUI('card_tag'),
+        token = this.current_user.get_token();
 
     cardTag.addClass('hidden-element');
 
     if (this._tagsRemoved.length) {
-      deferreds.push(this.collection.removeTags(this._tagsRemoved));
+      deferreds.push(this.collection.removeTags(this._tagsRemoved, token));
     }
     if (this._tagsAdded.length) {
-      deferreds.push(this.collection.addTags(this._tagsAdded));
+      deferreds.push(this.collection.addTags(this._tagsAdded, token));
     }
 
     if (deferreds.length) {
@@ -170,7 +171,6 @@ module.exports = Mn.View.extend({
           .find('i')
           .removeClass('fa-spin fa-refresh')
           .addClass('fa-check');
-
       });
     }
   }

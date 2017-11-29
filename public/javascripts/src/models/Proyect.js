@@ -28,13 +28,16 @@ module.exports = Backbone.Model.extend({
       url: this.urlRootLikes
     });
   },
-  createOrDeleteLike: function (user_id) {
+  createOrDeleteLike: function (user_id, token) {
     /*
     * Create or Delete like
     * */
     return $.ajax({
       type: 'POST',
-      url: this.urlRootLikes + '/' + user_id
+      url: this.urlRootLikes + '/' + user_id,
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('Authorization', 'Bearer '.concat(token))
+      }
     });
   }
 });

@@ -6,7 +6,7 @@ class AuthController < CoreController
 
   before do
     content_type 'application/json'
-    # set_current_user
+    set_current_user true # Decode jwt token
   end
 
   post '/login', :validate => %i(email password) do

@@ -5,9 +5,9 @@ module.exports = Mn.CollectionView.extend({
   tagName: 'ul',
   className: 'collection',
   initialize: function(options) {
-    var that = this;
-
     this.parent = options.parent;
+
+    var that = this;
 
     var current_user = this.parent.getOption('application').current_user;
 
@@ -29,7 +29,9 @@ module.exports = Mn.CollectionView.extend({
         }
       },
       removeSnippet: function () {
-        that.collection.removeSnippet(this.model.get('id'));
+        var token = that.parent.getOption('application').current_user.get_token();
+
+        that.collection.removeSnippet(this.model.get('id') , token);
         that.collection.remove(this.model);
       }
     });

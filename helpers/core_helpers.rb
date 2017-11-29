@@ -1,9 +1,32 @@
 module CoreAppHelpers
 
-  def current_user
-    id = request.env['X-ID-USER']
+  def current_user(decode_token)
+    # If decode_token is true then decode jwt token,
+    # If not, we assume that the user id is in the header
+    # return class instance that define the type of user
+    if decode_token
+      token = bearer_token
+      begin
+        payload, header = JWT.decode(token, settings.verify_key, true, {:algorithm => 'RS256'})
 
-    return GuestUser.new if id.nil?
+        exp = header['exp']
+
+        return GuestUser.new if exp.nil?
+
+        exp = Time.at(exp.to_i)
+
+        return GuestUser.new(:expired=>true) if Time.now > exp
+
+        id = payload['user_id']
+
+      rescue JWT::DecodeError
+        return GuestUser.new
+      end
+    else
+      id = request.env['X-ID-USER']
+
+      return GuestUser.new if id.nil?
+    end
 
     user = User[id]
 
@@ -18,17 +41,20 @@ module CoreAppHelpers
   end
 
   def bearer_token
+    # Get token from the header
     pattern = /^Bearer /
-    header  = request.env['HTTP_AUTHORIZATION'] # <= env
+    header  = request.env['HTTP_AUTHORIZATION']
     header.gsub(pattern, '') if header && header.match(pattern)
   end
 
-  def set_current_user
-    @current_user = current_user
+  def set_current_user(decode_token)
+    # Set current user
+    @current_user = current_user decode_token
   end
 
   def is_admin?
-    set_current_user.permission_level == 2 or halt 401
+    # Check if current user is admin
+    set_current_user.permission_level == 2 || halt(401)
   end
 
 end

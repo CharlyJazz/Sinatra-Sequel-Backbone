@@ -1,4 +1,5 @@
 require './controllers/core'
+require './helpers/services_helpers'
 
 class TagNamespace < CoreController
 

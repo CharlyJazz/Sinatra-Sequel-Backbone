@@ -24,20 +24,6 @@
 
   <%= yield %>
 
-  <script type="text/javascript" src="<%= asset_path('dist/jquery.min.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('dist/jquery-dateFormat.min.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('dist/jquery.toast.min.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('dist/umd/popper.min.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('dist/js/bootstrap.min.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('js/mdb.min.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('underscore-min.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('backbone-min.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('build/backbone.radio.min.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('lib/backbone.marionette.min.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('lib/codemirror.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('dist/Chart.js') %>"></script>
-  <script type="text/javascript" src="<%= asset_path('src/prettify.js') %>"></script>
-
   <% unless @pdf %>
     <script type="text/javascript" src="<%= asset_path('bin/app.bundle.js') %>"></script>
   <% end %>

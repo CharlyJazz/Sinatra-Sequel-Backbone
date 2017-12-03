@@ -4,7 +4,8 @@ const Snippet = require('../models/Snippet')
 const SnippetTag = require('../models/SnippetTag')
 const toastError = require('../helpers/toastConnectionError')
 const messages = require('../../../../tmp/messages.json')
-const template = require('../../../../views/application_views/create_snippet.erb');
+const template = require('../../../../views/application_views/create_snippet.erb')
+const CodeMirror = require('codemirror')
 
 module.exports = Mn.View.extend({
   template: template,

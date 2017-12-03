@@ -1,5 +1,10 @@
+require('bootstrap');
+require('jquery-toast-plugin')
+require('jquery-dateformat/dist/jquery-dateFormat')
+require('code-prettify/loader/prettify')
+
 require('./helpers/changeInterpolation')
-require('./helpers/InputTag')
+require('./helpers/jquery-material-inputTag')
 
 const Application = require('./application/AppExtend')
 const CurrentUser = require('./models/CurrentUser')

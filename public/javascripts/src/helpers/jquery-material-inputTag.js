@@ -3,7 +3,6 @@
 * https://github.com/henrychavez/materialize-tags
 * */
 
-(function ($) {
   "use strict";
   /**
    * Default Configuration
@@ -640,4 +639,3 @@
   $(function () {
     $("input[data-role=materialtags]").materialtags();
   });
-})(window.jQuery);

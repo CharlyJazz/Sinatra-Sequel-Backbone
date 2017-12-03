@@ -1,5 +1,7 @@
 const StatisticCollection = require('../../collections/StatisticTags')
 const template = require('../../../../../views/application_sub_views/profile_charts.erb');
+const Chart = require('chart.js')
+
 const Languages = StatisticCollection('languages')
 const Frameworks = StatisticCollection('frameworks')
 const Technologys = StatisticCollection('technologys')

@@ -1,7 +1,6 @@
 const path = require('path');
 const Webpack = require('webpack');
 
-
 module.exports = {
   entry: path.resolve(__dirname, 'public/javascripts/src/app.js'),
   output: {
@@ -20,7 +19,19 @@ module.exports = {
       },
       {
         test: /\.s?css$/i,
-        loaders: ['style', 'css']
+        use: [{
+            loader: "style-loader"
+        }, {
+            loader: "css-loader"
+        }, {
+            loader: 'sass-loader',
+        }]
+      },
+      {
+        test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/,
+        use: [{
+            loader: "file-loader"
+        }]
       }
     ]
   },
@@ -34,12 +45,10 @@ module.exports = {
       Marionette: 'backbone.marionette',
       Mn: 'backbone.marionette'
     }),
-    /* TODO: Uncomment when the App are completed
     new Webpack.optimize.UglifyJsPlugin({
       compress: {
           warnings: false
       }
     })
-    */
   ]
 };

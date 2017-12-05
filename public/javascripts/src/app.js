@@ -1,10 +1,29 @@
+// Load javascripts dependencys
+
 require('bootstrap');
 require('jquery-toast-plugin')
 require('jquery-dateformat/dist/jquery-dateFormat')
 require('code-prettify/loader/prettify')
 
+// Load App helpers
+
 require('./helpers/changeInterpolation')
 require('./helpers/jquery-material-inputTag')
+
+// Load CSS dependencys
+
+require('bootstrap/dist/css/bootstrap.min.css')
+require('codemirror/lib/codemirror.css')
+require('codemirror/theme/ttcn.css')
+require('jquery-toast-plugin/dist/jquery.toast.min.css')
+require('code-prettify/src/prettify.css')
+
+// Load SASS main file
+
+require('../../stylesheets/sass/main.scss')
+
+
+// Application
 
 const Application = require('./application/AppExtend')
 const CurrentUser = require('./models/CurrentUser')

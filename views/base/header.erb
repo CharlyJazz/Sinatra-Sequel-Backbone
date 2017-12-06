@@ -1,72 +1,81 @@
-<nav class="mb-1 navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="#"><strong>Snippet App</strong></a>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-application-menu" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Snippet App</a>
+    </div>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-application-menu" aria-controls="navbar-application-menu" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <div class="collapse navbar-collapse" id="navbar-application-menu">
 
-  <div class="collapse navbar-collapse" id="navbar-application-menu">
-    <script type="x-template/underscore" id="ul-navbar-application-menu">
+      <script type="x-template/underscore" id="ul-navbar-application-menu">
 
-      {{ if (permission_level === 0) { }}
+        {{ if (permission_level === 0) { }}
 
-      <ul class="mr-auto navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#proyects">Proyect</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#snippets">Snippet</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#auth">Auth</a>
-        </li>
-      </ul>
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="#">Home</a>
+          </li>
+          <li>
+            <a href="#proyects">Proyect</a>
+          </li>
+          <li>
+            <a href="#snippets">Snippet</a>
+          </li>
+          <li>
+            <a href="#auth">Auth</a>
+          </li>
+        </ul>
 
-      {{ } else { }}
+        <form class="navbar-form navbar-right">
+          <div class="form-group">
+            <input class="form-control" type="text" placeholder="Snippet, proyect, or tag">
+          </div>
+        </form>
 
-      <ul class="mr-auto navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#proyects">Proyect</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#snippets">Snippet</a>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li class="nav-item">
-          <a class="nav-link waves-effect waves-light" id="button-create"><i class="fa fa-plus"></i></a>
-        </li>
-      </ul>
-      <li class="nav-item dropdown btn-group">
-        <a class="nav-link dropdown-toggle white-text" id="dropdownMenu" data-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">
-          {{= name || username }}
-        </a>
-        <div class="dropdown-menu dropdown" aria-labelledby="dropdownMenu">
-          <a class="dropdown-item" href="#user/{{= id }}">Profile</a>
-          <a class="dropdown-item" href="#config">Config</a>
-          <a class="dropdown-item" href="#logout">Logout</a>
+        {{ } else { }}
+
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="#">Home</a>
+          </li>
+          <li>
+            <a href="#proyects">Proyect</a>
+          </li>
+          <li>
+            <a href="#snippets">Snippet</a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{= name || username }} <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#user/{{= id }}">Profile</a></li>
+              <li><a href="#config">Config</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#logout">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <form class="navbar-form navbar-right">
+            <div class="form-group">
+              <input class="form-control" type="text" placeholder="Snippet, proyect, or tag">
+            </div>
+          </form>
+          <li><a id="button-create"><i class="fa fa-plus"></i></a></li>
+        </ul>
+
+        {{ } }}
+
+        <div id="modalCreate-region">
+          <!--App modals-->
         </div>
-      </li>
 
-      {{ } }}
-
-      <form class="form-inline waves-effect waves-light">
-        <input class="form-control" type="text" placeholder="Snippet, proyect, or tag">
-      </form>
-
-      <div id="modalCreate-region">
-        <!--App modals-->
-      </div>
-
-    </script>
-
+      </script>
+    </div>
   </div>
-
 </nav>

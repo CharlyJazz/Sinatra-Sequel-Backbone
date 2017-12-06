@@ -46,21 +46,9 @@ class CoreController < Sinatra::Base
   set :signing_key, signing_key
   set :verify_key, verify_key
 
-  bower_components = %w[backbone bootstrap codemirror chart.js
-                        components-font-awesome jquery popper.js
-                        jquery-dateFormat MDBootstrap google-code-prettify
-                        tether underscore backbone.marionette
-                        backbone.radio jquery-toast-plugin]
 
   set :sprockets, Sprockets::Environment.new(root) { |env|
-
-    bower_components.each { | library |
-      env.append_path(root.join(public_folder, 'bower_components', library))
-    }
-
-    %w[stylesheets javascripts].each {|n| env.append_path(root.join(public_folder, n))}
-
-    env.css_compressor = :scss
+    env.append_path(root.join(public_folder, 'javascripts'))
   }
 
   set(:auth) do |*roles|

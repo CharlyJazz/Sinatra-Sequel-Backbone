@@ -2,18 +2,30 @@
 
 ## Feature
 
-Simple web app for create snippets and comments with de power of **Backbone** and **Sinatra** rare style architecture.
+Simple web app for create snippets and comments with de power of **Backbone** and **Sinatra** modular style architecture.
 
 Status: **building** :construction:
 
+## Dependencies
+
+1. Ruby
+2. Node
+
 ## Install
 
-1.  Clone the repo.
-2.  Install the gems with the command `bundle install`.
+1. Clone the repo.
+2. Install the gems with the command `bundle install --with test development`.
+3. Install front-end dependencies with the command `npm install`
+4. Run the command `npm run watch` for create bundle app file
+5. Create roles with the command `bundle exec rake db:role:create`
+6. Create tags with the command `bundle exec rake db:tag:create`
+7. Populate database with initial data with the command `bundle exec rake db:populate`
+8. Create 2048 bit RSA Key and export the RSA Public Key [Read](#openssl)
+9. Run `bundle exec rackup -p 8000`
 
 ## Test
 
-You can test the app with the command `bundle exec rspec path/to/test/file`.
+You can test the app with the command `bundle exec rspec spec/`.
 
 ## OpenSSL
 
@@ -24,17 +36,6 @@ the app.rsa and app.rsa.pub were generated with:
 `openssl genrsa -out app.rsa 2048`
 
 `openssl rsa -in app.rsa -pubout > app.rsa.pub`
-
-## Run
-
-
-1. Install Front-end dependencies with the command `bower install`
-2. Run the command `webpack` for create bundle app file
-3. Create roles with the command `bundle exec rake db:role:create`
-4. Create tags with the command `bundle exec rake db:tag:create`
-4. Populate database with initial data with the command `bundle exec rake db:populate`
-5. Create 2048 bit RSA Key and export the RSA Public Key
-6. Run `bundle exec rackup -p 8000`
 
 ## Resources
 

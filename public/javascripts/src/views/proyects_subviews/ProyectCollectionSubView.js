@@ -1,6 +1,7 @@
 const template = require('../../../../../views/application_sub_views/proyect_preview.erb');
+const CollectionView = require('../CollectionViewBase');
 
-module.exports = Mn.CollectionView.extend({
+module.exports = CollectionView.extend({
   className: 'row mt-3',
   initialize: function() {
     this.childView = Mn.View.extend({

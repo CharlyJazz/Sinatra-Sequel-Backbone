@@ -1,8 +1,10 @@
 const Collection = require('../../collections/CommentsProyect')
 const EditModal = require('../ModalEdit')
+const CollectionView = require('../CollectionViewBase');
 const template = require('../../../../../views/application_sub_views/comment.erb');
 
-module.exports = Mn.CollectionView.extend({
+
+module.exports = CollectionView.extend({
   className: 'row mt-3',
   ui: {
     editButton: '.ui-edit-comment',

@@ -1,7 +1,8 @@
 const Collection = require('../../collections/ProyectSnippets')
 const template = require('../../../../../views/application_sub_views/proyect_snippet.erb');
+const CollectionView = require('../CollectionViewBase');
 
-module.exports = Mn.CollectionView.extend({
+module.exports = CollectionView.extend({
   tagName: 'ul',
   className: 'collection',
   initialize: function(options) {

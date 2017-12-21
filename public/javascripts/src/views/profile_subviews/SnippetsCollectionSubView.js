@@ -1,7 +1,8 @@
 const Collection = require('../../collections/UserSnippetsCollection')
 const template = require('../../../../../views/application_sub_views/snippet_preview.erb')
+const CollectionView = require('../CollectionViewBase');
 
-module.exports = Mn.CollectionView.extend({
+module.exports = CollectionView.extend({
   className: 'row mt-3',
   collectionEvents: {
     'sync': 'CheckIfEmpty'

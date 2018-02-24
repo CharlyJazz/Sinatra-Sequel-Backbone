@@ -2,9 +2,9 @@
 
 ## Feature
 
-Simple web app for create snippets and comments with de power of **Backbone** and **Sinatra** modular style architecture.
+Simple web app for create snippets and comment it with de power of **Backbone & Marionette** and **Sinatra** modular style architecture.
 
-Status: **building** :construction:
+[![Build Status](https://travis-ci.org/CharlyJazz/Sinatra-Sequel-Backbone.svg?branch=master)](https://travis-ci.org/CharlyJazz/Sinatra-Sequel-Backbone)
 
 ## Dependencies
 
@@ -15,7 +15,7 @@ Status: **building** :construction:
 
 1. Clone the repo.
 2. Install the gems with the command `bundle install --with test development`.
-3. Install front-end dependencies with the command `npm install`
+3. Install front-end dependencies with the command `npm install` or `yarn install`
 4. Run the command `npm run watch` for create bundle app file
 5. Create roles with the command `bundle exec rake db:role:create`
 6. Create tags with the command `bundle exec rake db:tag:create`

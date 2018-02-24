@@ -44,11 +44,11 @@ module.exports = {
       Bb: 'backbone',
       Marionette: 'backbone.marionette',
       Mn: 'backbone.marionette'
-    }),
+    })/*,
     new Webpack.optimize.UglifyJsPlugin({
       compress: {
           warnings: false
       }
-    })
+    })*/
   ]
 };
